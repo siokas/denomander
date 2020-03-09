@@ -27,7 +27,7 @@ test(function app_required_option() {
       "-a --address",
       "Define address"
     ).parse(args_without_required_option);
-  }, Error, "Error! Required option [address] not specified");
+  }, Error, "Required option [address] not specified");
 });
 
 test(function app_command() {
@@ -42,7 +42,7 @@ test(function app_command() {
   assertEquals(program.new, "myFileName");
   assertThrows(() => {
     program.command("new [filename]", "Generate a new file").parse(args2);
-  }, Error, "Error! You have to pass a parameter");
+  }, Error, "You have to pass a parameter");
 });
 
 test(function app_command_and_option_not_defined() {
@@ -52,10 +52,10 @@ test(function app_command_and_option_not_defined() {
 
   assertThrows(() => {
     program.option("-p --port", "Define port number").parse(optionArgs);
-  }, Error, "Error! Command [a] not found");
+  }, Error, "Command [a] not found");
   assertThrows(() => {
     program.command("new [filename]", "Generate a new file").parse(
       command_args
     );
-  }, Error, "Error! Command [test] not found");
+  }, Error, "Command [test] not found");
 });

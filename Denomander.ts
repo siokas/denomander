@@ -127,7 +127,7 @@ export default class Denomander extends AppDetailAccessors {
           );
           if (command && command.require_command_value) {
             if (this._args["_"].length < 2) {
-              throw new Error("Error! You have to pass a parameter");
+              throw new Error("You have to pass a parameter");
             }
             command.value = this._args["_"][1];
             if (command.word_command === this._args["_"][0]) {
@@ -135,7 +135,7 @@ export default class Denomander extends AppDetailAccessors {
             }
           } else {
             throw new Error(
-              "Error! Command [" + this._args["_"][0] + "] not found"
+              "Command [" + this._args["_"][0] + "] not found"
             );
           }
         }
@@ -154,7 +154,7 @@ export default class Denomander extends AppDetailAccessors {
           this[command.letter_command!] = value;
           this[command.word_command!] = value;
         } else {
-          throw new Error("Error! Command [" + key + "] not found");
+          throw new Error("Command [" + key + "] not found");
         }
       }
     }
@@ -171,7 +171,7 @@ export default class Denomander extends AppDetailAccessors {
           this._args.version))
         {
           throw new Error(
-            "Error! Required option [" +
+            "Required option [" +
               (command.word_command! || command.letter_command!) +
               "] not specified"
           );

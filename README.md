@@ -1,6 +1,10 @@
 <p align="center"><img src="https://github.com/siokas/siokas.github.io/blob/master/img/denomander.png" width="256"></p>
+<p align="center">
+<img alt="Travis (.com)" src="https://img.shields.io/travis/com/siokas/denomander">
+<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/siokas/denomander">
+</p>
 
-Denomander is a solution for [Deno](https://deno.land) command-line interfaces. It is inspired from [commander.js](https://github.com/tj/commander.js) by [tj](https://github.com/tj) which is the node's version.
+_Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces. It is inspired from [commander.js](https://github.com/tj/commander.js) by [tj](https://github.com/tj) which is the node's version.
 
 ## Installation
 
