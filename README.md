@@ -49,6 +49,13 @@ program
   }
 ```
 
+## ToDo
+
+- [ ] program.on() method
+- [ ] Custom option processing
+- [ ] Option to change default commands (help, version)
+- [ ] description(), action() methods
+
 ## Used
 
 * [Deno](https://deno.land)
