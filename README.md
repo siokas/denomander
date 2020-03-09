@@ -5,7 +5,7 @@ Denomander is a solution for [Deno](https://deno.land) command-line interfaces. 
 ## Installation
 
 ```javascript
-import { Denomander } from "https://raw.githubusercontent.com/siokas/denomander/master/mod.ts";
+import Denomander from "https://raw.githubusercontent.com/siokas/denomander/master/mod.ts";
 ```
 
 ## Usage example

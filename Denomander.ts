@@ -42,6 +42,7 @@ export default class Denomander extends AppDetailAccessors {
 
     if (this._args.version || this._args.V) {
       console.log("v" + this.version);
+      Deno.exit(0);
     }
 
     return this;
