@@ -125,11 +125,14 @@ export default class Denomander extends AppDetailAccessors {
             this.commands,
             this._args[key][0]
           );
-          if (command && command.require_command_value) {
-            if (this._args["_"].length < 2) {
-              throw new Error("You have to pass a parameter");
+          if (command) {
+            if(command.require_command_value){
+              if (this._args["_"].length < 2) {
+                throw new Error("You have to pass a parameter");
+              }
+              command.value = this._args["_"][1];
             }
-            command.value = this._args["_"][1];
+            
             if (command.word_command === this._args["_"][0]) {
               this[command.word_command!] = command.value;
             }
@@ -154,7 +157,9 @@ export default class Denomander extends AppDetailAccessors {
           this[command.letter_command!] = value;
           this[command.word_command!] = value;
         } else {
-          throw new Error("Command [" + key + "] not found");
+          if(!key.startsWith("allow")){
+            throw new Error("Command [" + key + "] not found");
+          }
         }
       }
     }

@@ -35,6 +35,18 @@ program
   .option("-p --port", "Define the port")
   .requiredOption("-s --server", "Server Name")
   .parse(Deno.args);
+
+  if(program.address){
+    server.name = program.server;
+  }
+
+  if(program.port){
+    s = serve({ port: program.port });
+  }
+
+  if(program.new){
+    console.log("Creating the file " + program.new);
+  }
 ```
 
 ## Used
