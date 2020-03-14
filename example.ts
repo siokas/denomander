@@ -14,35 +14,35 @@ program
   .command("serve", "Start the server")
   .requiredOption("-p --port", "Define the port")
   .option("-c --color", "Define the color of the output")
-  .parse(Deno.args);
+  .program.parse(Deno.args);
 
-  if(program.serve){
-    let port = program.port || 8080;
-    const s = serve({ port: port });
+if (program.serve) {
+  let port = program.port || 8080;
+  const s = serve({ port: port });
 
-    colored_output("http://localhost:"+port);
-  }
+  colored_output("http://localhost:" + port);
+}
 
-  function colored_output(text:string){
-    if(program.color){
-      switch (program.color) {
-        case "red":
-          console.log(red(text));
-          break;
+function colored_output(text: string) {
+  if (program.color) {
+    switch (program.color) {
+      case "red":
+        console.log(red(text));
+        break;
 
-          case "green":
-            console.log(green(text));
-          break;
+      case "green":
+        console.log(green(text));
+        break;
 
-          case "blue":
-            console.log(blue(text));
-          break;
-      
-        default:
-          console.log(text);
-          break;
-      }
-    }else{
-      console.log(text);
+      case "blue":
+        console.log(blue(text));
+        break;
+
+      default:
+        console.log(text);
+        break;
     }
+  } else {
+    console.log(text);
   }
+}

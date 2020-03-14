@@ -20,3 +20,53 @@ export function findCommandFromArgs(
     }
   });
 }
+
+export function removeCommandFromArray(
+  haystack: Array<Command>,
+  needle: string
+): Array<Command> {
+  haystack.forEach((command: Command, index: number) => {
+    if (command.word_command == needle || command.letter_command == needle) {
+      haystack.splice(index, 1);
+    }
+  });
+
+  return haystack;
+}
+
+export function isCommandInArgs(command: Command, args: any): Boolean {
+  let found = false;
+
+  for (let key in args) {
+    if (key === "length" || !args.hasOwnProperty(key)) continue;
+
+    if (key != "" &&
+      (command.letter_command === key || command.word_command === key))
+    {
+      found = true;
+    }
+  }
+
+  return found;
+}
+
+export function isCommandFromArrayInArgs(
+  commands: Array<Command>,
+  args: Array<String>
+): Boolean {
+  let found = false;
+
+  for (let key in args) {
+    if (key === "length" || !args.hasOwnProperty(key)) continue;
+
+    if (key != "_") {
+      let command: Command | undefined = findCommandFromArgs(commands, key);
+
+      if (command) {
+        found = true;
+      }
+    }
+  }
+
+  return found;
+}

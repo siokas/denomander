@@ -53,7 +53,7 @@ program
 
 - [ ] program.on() method
 - [ ] Custom option processing
-- [ ] Option to change default commands (help, version)
+- [X] ~~Option to change default commands (help, version)~~
 - [ ] description(), action() methods
 
 ## Used

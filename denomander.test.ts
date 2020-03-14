@@ -59,3 +59,16 @@ test(function app_command_and_option_not_defined() {
     );
   }, Error, "Command [test] not found");
 });
+
+test(function app_change_default_option_command() {
+  let program = new Denomander();
+  let args = ["-x"];
+
+  program.setVersion(
+    "1.0.1",
+    "-x --xversion",
+    "Display the version of the app"
+  ).parse(args);
+
+  assertEquals(program.x, "1.0.1");
+});

@@ -1,6 +1,6 @@
 import { assertEquals, test } from "./test_deps.ts";
-import { stripDashes, containsBrackets,
-  findCommandFromArgs } from "./helpers.ts";
+import { stripDashes, containsBrackets, findCommandFromArgs,
+  removeCommandFromArray } from "./helpers.ts";
 import Command from "./Command.ts";
 
 test(function strip_dashes() {
@@ -24,4 +24,20 @@ test(function find_command_from_args() {
 
   assertEquals(command!.letter_command, "h");
   assertEquals(command!.word_command, "help");
+});
+
+test(function remove_command_from_array() {
+  let commands_before: Array<Command> = [
+    new Command("-v --version", "Version of the app"),
+    new Command("-h --help", "Helper of the app")
+  ];
+
+  let commands_after: Array<Command> = [
+    new Command("-h --help", "Helper of the app")
+  ];
+
+  assertEquals(
+    removeCommandFromArray(commands_before, "version"),
+    commands_after
+  );
 });
