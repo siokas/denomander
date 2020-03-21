@@ -49,11 +49,52 @@ program
   }
 ```
 
+### Option to change default commands (help, version)
+
+In order to change the default commands (help, version) just call the corresponding method. In case of help pass the command and the description but in case of version you may also pass the actual version of the app and after that the command and the description. 
+
+```javascript
+ program.setVersion(
+    "1.8.1",
+    "-x --xversion",
+    "Display the version of the app"
+  );
+
+  program.setHelp(
+    "-c --customhelp",
+    "Custom print help"
+  );
+  
+  program.parse(args);
+```
+
+### Custom help and version
+
+To customize the commands call on() method passing the command and the callback function.
+
+> Must be before parse()
+
+```javascript
+program.on("--help", () => {
+  console.log("New Help Screen");
+  console.log("--- --- ---");
+  console.log("-p --port Define port");
+});
+
+program.on("--version", () => {
+  console.log("New version are coming next week");
+  console.log("v1.5.6");
+});
+
+// Last command
+program.parse(args);
+```
+
 ## ToDo
 
-- [ ] program.on() method
+- [X] program.on() method
 - [ ] Custom option processing
-- [X] ~~Option to change default commands (help, version)~~
+- [X] Option to change default commands (help, version)
 - [ ] description(), action() methods
 
 ## Used
@@ -66,6 +107,9 @@ program
 
 * 0.1.0
     * Initial Commit
+    * Change Command of Default Options [help, version]
+* 0.2.0
+    * Custom help and version (program.on() method)
 
 ## Meta
 

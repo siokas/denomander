@@ -65,10 +65,31 @@ test(function app_change_default_option_command() {
   let args = ["-x"];
 
   program.setVersion(
-    "1.0.1",
+    "1.8.1",
     "-x --xversion",
     "Display the version of the app"
   ).parse(args);
 
-  assertEquals(program.x, "1.0.1");
+  assertEquals(program.version, "1.8.1");
+});
+
+test(function app_on_command() {
+  let program = new Denomander();
+  let args = ["-V"];
+
+  let test = false;
+  let test2 = false;
+
+  program.on("--version", () => {
+    test = true;
+  });
+
+  program.on("-h", () => {
+    test2 = true;
+  });
+
+  program.parse(args);
+
+  assertEquals(test, true);
+  assertEquals(test2, false);
 });

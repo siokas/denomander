@@ -13,8 +13,20 @@ let program = new Denomander(
 program
   .command("serve", "Start the server")
   .requiredOption("-p --port", "Define the port")
-  .option("-c --color", "Define the color of the output")
-  .program.parse(Deno.args);
+  .option("-c --color", "Define the color of the output");
+
+program.on("--help", () => {
+  console.log("New Help Screen");
+  console.log("--- --- ---");
+  console.log("-p --port Define port");
+});
+
+program.on("--version", () => {
+  console.log("New Version are coming next week");
+  console.log("v1.5.6");
+});
+
+program.parse(Deno.args);
 
 if (program.serve) {
   let port = program.port || 8080;

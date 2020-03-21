@@ -1,7 +1,14 @@
 import { assertEquals, test } from "./test_deps.ts";
-import { stripDashes, containsBrackets, findCommandFromArgs,
-  removeCommandFromArray } from "./helpers.ts";
+import {
+  stripDashes,
+  containsBrackets,
+  findCommandFromArgs,
+  removeCommandFromArray,
+  arraysHaveMatchingCommand,
+  containCommandInOnCommandArray
+} from "./helpers.ts";
 import Command from "./Command.ts";
+import { OnCommand } from "./interfaces.ts";
 
 test(function strip_dashes() {
   assertEquals(stripDashes("--test"), "test");
@@ -40,4 +47,24 @@ test(function remove_command_from_array() {
     removeCommandFromArray(commands_before, "version"),
     commands_after
   );
+});
+
+test(function arrays_have_matching_command() {
+  let helpCommand = new Command("-h --help", "Helper of the app");
+  let versionCommand = new Command("-v --version", "Version of the app");
+
+  let array1: Array<Command> = [versionCommand, helpCommand];
+  let array2: Array<Command> = [helpCommand];
+
+  assertEquals(arraysHaveMatchingCommand(helpCommand, array1, array2), true);
+});
+
+test(function contain_command_in_on_commands_array() {
+  let helpCommand = new Command("-h --help", "Helper of the app");
+
+  let array1: Array<OnCommand> = [
+    { command: helpCommand, callback: () => {} }
+  ];
+
+  assertEquals(containCommandInOnCommandArray(helpCommand, array1), true);
 });

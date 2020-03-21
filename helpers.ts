@@ -1,4 +1,5 @@
 import Command from "./Command.ts";
+import { OnCommand } from "./interfaces.ts";
 
 export function stripDashes(text: string): string {
   return text.replace(/-/g, "");
@@ -13,9 +14,10 @@ export function findCommandFromArgs(
   arg: string
 ): Command | undefined {
   return array.find((command: Command) => {
-    if (command.word_command === stripDashes(arg) ||
-      command.letter_command === stripDashes(arg))
-    {
+    if (
+      command.word_command === stripDashes(arg) ||
+      command.letter_command === stripDashes(arg)
+    ) {
       return command;
     }
   });
@@ -40,9 +42,10 @@ export function isCommandInArgs(command: Command, args: any): Boolean {
   for (let key in args) {
     if (key === "length" || !args.hasOwnProperty(key)) continue;
 
-    if (key != "" &&
-      (command.letter_command === key || command.word_command === key))
-    {
+    if (
+      key != "" &&
+      (command.letter_command === key || command.word_command === key)
+    ) {
       found = true;
     }
   }
@@ -69,4 +72,25 @@ export function isCommandFromArrayInArgs(
   }
 
   return found;
+}
+
+export function arraysHaveMatchingCommand(
+  command: Command,
+  array1: Array<Command>,
+  array2: Array<Command>
+): Boolean {
+  let matching: Array<Command> = array1.filter((element: Command) =>
+    array2.includes(command)
+  );
+
+  return matching.length === 0 ? false : true;
+}
+
+export function containCommandInOnCommandArray(
+  command: Command,
+  array: Array<OnCommand>
+): Boolean {
+  let matching = array.filter(element => element.command === command);
+
+  return matching.length === 0 ? false : true;
 }
