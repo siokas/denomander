@@ -9,7 +9,7 @@ _Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces
 ## Installation
 
 ```javascript
-import Denomander from "https://raw.githubusercontent.com/siokas/denomander/master/mod.ts";
+import Denomander from "https://deno.land/x/denomander/mod.ts";
 ```
 
 ## Usage example
@@ -125,6 +125,6 @@ Apostolos Siokas – [@siokas_](https://twitter.com/siokas_) – apostolossiokas
 
 ## License
 
-Distributed under the [MIT License](https://github.com/siokas/stacksearch/blob/master/LICENSE). 
+Distributed under the [MIT License](https://github.com/siokas/denomander/blob/master/LICENSE). 
 
-[https://github.com/siokas/stacksearch](https://github.com/siokas/stacksearch)
+[https://github.com/siokas/denomander](https://github.com/siokas/denomander)
