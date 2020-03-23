@@ -140,11 +140,11 @@ program.parse(args);
 
 ## Release History
 
-* 0.1.0
+* [0.1.0](https://github.com/siokas/denomander/releases/tag/0.1.0)
     * Initial Commit
+* [0.2.0](https://github.com/siokas/denomander/releases/tag/0.2.0)
     * Change Command of Default Options [help, version]
     * Custom help and version (program.on() method)
-* 0.2.0
     * Add description() and action() methods for commands
     
 
