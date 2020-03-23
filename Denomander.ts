@@ -21,18 +21,19 @@ export default class Denomander extends AppDetailAccessors {
   private available_commands: Array<Command> = [];
   private available_options: Array<Command> = [];
   private available_default_options: Array<Command> = [];
+  private available_actions: Array<Command> = [];
   private available_on_commands: Array<OnCommand> = [];
   private temp_on_commands: Array<TempOnCommand> = [];
   [key: string]: any
 
-  private version_command: Command = new Command(
-    "-V --version",
-    "Print the current version"
-  );
-  private help_command: Command = new Command(
-    "-h --help",
-    "Print command line options (currently set)"
-  );
+  private version_command: Command = new Command({
+    value: "-V --version",
+    description: "Print the current version"
+  });
+  private help_command: Command = new Command({
+    value: "-h --help",
+    description: "Print command line options (currently set)"
+  });
 
   private isHelpConfigured: Boolean = false;
   private isVersionConfigured: Boolean = false;
@@ -62,24 +63,51 @@ export default class Denomander extends AppDetailAccessors {
   }
 
   option(value: string, description: string): Denomander {
-    this.commands.push(new Command(value, description));
-    this.available_options.push(new Command(value, description));
+    this.commands.push(new Command({ value, description }));
+    this.available_options.push(new Command({ value, description }));
 
     return this;
   }
 
   requiredOption(value: string, description: string): Denomander {
-    let command = new Command(value, description, true);
+    let command: Command | undefined = new Command(
+      { value, description, is_required: true }
+    );
     this.commands.push(command);
     this.available_requiredOptions.push(command);
 
     return this;
   }
 
-  command(value: string, description: string): Denomander {
-    let new_command = new Command(value, description, false, "command");
+  command(value: string, description?: string): Denomander {
+    let new_command: Command | undefined = new Command({
+      value,
+      description,
+      type: "command"
+    });
     this.commands.push(new_command);
     this.available_commands.push(new_command);
+
+    return this;
+  }
+
+  description(description: string): Denomander {
+    let command: Command | undefined = this.commands.slice(-1)[0];
+
+    if (command) {
+      command.description = description;
+    }
+
+    return this;
+  }
+
+  action(callback: Function): Denomander {
+    let command: Command | undefined = this.commands.slice(-1)[0];
+
+    if (command) {
+      command.action = callback;
+      this.available_actions.push(command);
+    }
 
     return this;
   }
@@ -91,7 +119,7 @@ export default class Denomander extends AppDetailAccessors {
   }
 
   setHelp(command: string, description: string): Denomander {
-    this.help_command = new Command(command, description);
+    this.help_command = new Command({ value: command, description });
 
     let new_available_default_options = removeCommandFromArray(
       this.commands,
@@ -111,7 +139,7 @@ export default class Denomander extends AppDetailAccessors {
     description: string
   ): Denomander {
     this.version = version;
-    this.version_command = new Command(command, description);
+    this.version_command = new Command({ value: command, description });
 
     let new_available_default_options = removeCommandFromArray(
       this.commands,
@@ -296,6 +324,18 @@ export default class Denomander extends AppDetailAccessors {
     ) {
       console.log("v" + this.version);
     }
+
+    this.available_actions.forEach((command: Command) => {
+      if (isCommandInArgs(command, this._args)) {
+        if (command.action.length == 0) {
+          command.action();
+        } else if (command.action.length == 1) {
+          command.action(this[command.word_command!]);
+        } else {
+          throw new Error("Too much parameters");
+        }
+      }
+    });
 
     return this;
   }

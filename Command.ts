@@ -1,27 +1,39 @@
 import { stripDashes, containsBrackets } from "./helpers.ts";
 
 export default class Command {
-  private _value: string;
-  private _description: string;
-  private _is_required: boolean;
   private _letter_command: string | undefined;
   private _word_command: string | undefined;
-  private _type: "command" | "option";
+  private options: {
+    value: string;
+    description: string;
+    is_required: boolean;
+    type: "command" | "option";
+    action: Function;
+  };
 
   require_command_value: boolean = false;
 
   constructor(
-    value: string,
-    description: string,
-    is_required?: boolean,
-    type?: "command" | "option"
+    options: {
+      value: string;
+      description?: string;
+      is_required?: boolean;
+      type?: "command" | "option";
+      action?: Function;
+    }
   ) {
-    this._value = value;
-    this._description = description;
-    this._is_required = is_required || false;
-    this._type = type || "option";
+    this.options = Object.assign({
+      description: "",
+      is_required: false,
+      type: "option",
+      action: () => {}
+    }, options);
 
-    if (this._type == "option") {
+    if (!this.options.value) {
+      throw new ReferenceError("You have to specify the command");
+    }
+
+    if (this.options.type == "option") {
       this.generateOption();
     } else {
       this.generateCommand();
@@ -29,7 +41,7 @@ export default class Command {
   }
 
   private generateCommand() {
-    let splitedValue = this._value.split(" ");
+    let splitedValue = this.options.value.split(" ");
 
     switch (splitedValue.length) {
       case 1:
@@ -46,7 +58,7 @@ export default class Command {
   }
 
   private generateOption() {
-    let splitedValue = this._value.split(" ");
+    let splitedValue = this.options.value.split(" ");
 
     switch (splitedValue.length) {
       case 1:
@@ -75,19 +87,19 @@ export default class Command {
   }
 
   get value(): string {
-    return this._value;
+    return this.options.value;
   }
 
   set value(value: string) {
-    this._value = value;
+    this.options.value = value;
   }
 
   get description(): string {
-    return this._description;
+    return this.options.description;
   }
 
   set description(description: string) {
-    this._description = description;
+    this.options.description = description;
   }
 
   get letter_command(): string | undefined {
@@ -106,7 +118,15 @@ export default class Command {
     this._word_command = word_command;
   }
 
+  get action(): Function {
+    return this.options.action;
+  }
+
+  set action(callback: Function) {
+    this.options.action = callback;
+  }
+
   get type(): "command" | "option" {
-    return this._type;
+    return this.options.type;
   }
 }

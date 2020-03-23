@@ -93,3 +93,18 @@ test(function app_on_command() {
   assertEquals(test, true);
   assertEquals(test2, false);
 });
+
+test(function action_command() {
+  let program = new Denomander();
+  let args = ["clone", "test"];
+
+  let result = "";
+
+  program.command("clone [foldername]").action((foldername: any) => {
+    result = foldername;
+  });
+
+  program.parse(args);
+
+  assertEquals(result, "test");
+});

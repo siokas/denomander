@@ -15,6 +15,13 @@ program
   .requiredOption("-p --port", "Define the port")
   .option("-c --color", "Define the color of the output");
 
+program
+  .command("clone [foldername]")
+  .description("clone a repo")
+  .action((test: any) => {
+    console.log("The repo is cloned into: " + test);
+  });
+
 program.on("--help", () => {
   console.log("New Help Screen");
   console.log("--- --- ---");

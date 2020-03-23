@@ -48,6 +48,11 @@ export function isCommandInArgs(command: Command, args: any): Boolean {
     ) {
       found = true;
     }
+    args["_"].forEach((arg: string) => {
+      if (command.letter_command === arg || command.word_command === arg) {
+        found = true;
+      }
+    });
   }
 
   return found;

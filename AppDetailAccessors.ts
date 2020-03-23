@@ -17,27 +17,27 @@ export default class AppDetailAccessors {
     }
   }
 
-  get name(): string {
+  get app_name(): string {
     return this._app_name;
   }
 
-  set name(name: string) {
+  set app_name(name: string) {
     this._app_name = name;
   }
 
-  get description(): string {
+  get app_description(): string {
     return this._app_description;
   }
 
-  set description(description: string) {
+  set app_description(description: string) {
     this._app_description = description;
   }
 
-  get version(): string {
+  get app_version(): string {
     return this._app_version;
   }
 
-  set version(version: string) {
+  set app_version(version: string) {
     this._app_version = version;
   }
 }
