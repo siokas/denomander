@@ -24,7 +24,12 @@ test(function find_command_from_args() {
   let arg = "--help";
 
   commands.push(
-    new Command("-h --help", "Print command line options (currently set)")
+    new Command(
+      {
+        value: "-h --help",
+        description: "Print command line options (currently set)"
+      }
+    )
   );
 
   let command = findCommandFromArgs(commands, arg);
@@ -34,14 +39,16 @@ test(function find_command_from_args() {
 });
 
 test(function remove_command_from_array() {
-  let commands_before: Array<Command> = [
-    new Command("-v --version", "Version of the app"),
-    new Command("-h --help", "Helper of the app")
-  ];
+  let helpCommand = new Command(
+    { value: "-h --help", description: "Helper of the app" }
+  );
 
-  let commands_after: Array<Command> = [
-    new Command("-h --help", "Helper of the app")
-  ];
+  let versionCommand = new Command(
+    { value: "-v --version", description: "Version of the app" }
+  );
+
+  let commands_before: Array<Command> = [helpCommand, versionCommand];
+  let commands_after: Array<Command> = [helpCommand];
 
   assertEquals(
     removeCommandFromArray(commands_before, "version"),
@@ -50,8 +57,12 @@ test(function remove_command_from_array() {
 });
 
 test(function arrays_have_matching_command() {
-  let helpCommand = new Command("-h --help", "Helper of the app");
-  let versionCommand = new Command("-v --version", "Version of the app");
+  let helpCommand = new Command(
+    { value: "-h --help", description: "Helper of the app" }
+  );
+  let versionCommand = new Command(
+    { value: "-v --version", description: "Version of the app" }
+  );
 
   let array1: Array<Command> = [versionCommand, helpCommand];
   let array2: Array<Command> = [helpCommand];
@@ -60,7 +71,9 @@ test(function arrays_have_matching_command() {
 });
 
 test(function contain_command_in_on_commands_array() {
-  let helpCommand = new Command("-h --help", "Helper of the app");
+  let helpCommand = new Command(
+    { value: "-h --help", description: "Helper of the app" }
+  );
 
   let array1: Array<OnCommand> = [
     { command: helpCommand, callback: () => {} }

@@ -2,10 +2,10 @@ import { assertEquals, test } from "./test_deps.ts";
 import Command from "./Command.ts";
 
 test(function command_option() {
-  let option = new Command(
-    "-h --help",
-    "Print command line options (currently set)"
-  );
+  let option = new Command({
+    value: "-h --help",
+    description: "Print command line options (currently set)"
+  });
 
   assertEquals(option.letter_command, "h");
   assertEquals(option.word_command, "help");
@@ -17,7 +17,13 @@ test(function command_option() {
 });
 
 test(function command_required_option() {
-  let required_option = new Command("-p --port", "Define Port Number", true);
+  let required_option = new Command(
+    {
+      value: "-p --port",
+      description: "Define Port Number",
+      is_required: true
+    }
+  );
 
   required_option.value = "8080";
 
@@ -29,12 +35,12 @@ test(function command_required_option() {
 });
 
 test(function command_command() {
-  let command = new Command(
-    "new [name]",
-    "Create a new file",
-    false,
-    "command"
-  );
+  let command = new Command({
+    value: "new [name]",
+    description: "Create a new file",
+    is_required: false,
+    type: "command"
+  });
 
   command.value = "my_filename";
 

@@ -26,27 +26,61 @@ let program = new Denomander(
 );
 ```
 
-There are three option types: __commands__, __options__ and __required options__. To set an option just call the corresponding method passing __a) the sort and the long flag__ seperated by space and __b) the description__
+There are three option types: __commands__, __options__ and __required options__.
+
+### Options
+To set an option just call the **option()** method passing __a) the sort and the long flag__ seperated by space and __b) the description__. The value can be accessed as properties.
 
 ```javascript
 program
-  .command("new [name]", "Generate a new file")
   .option("-a --address", "Define the address")
   .option("-p --port", "Define the port")
-  .requiredOption("-s --server", "Server Name")
   .parse(Deno.args);
 
   if(program.address){
-    server.name = program.server;
+    let port = program.port || "8000";
+    console.log(`Server run on ${program.address}:${port}`);
   }
+```
 
-  if(program.port){
-    s = serve({ port: program.port });
-  }
+### Required Options
+The implementation of required option is exactly same as the optional option but you have to call the **requiredOption()** method instead.
 
-  if(program.new){
-    console.log("Creating the file " + program.new);
-  }
+```javascript
+program
+  .option("-a --address", "Define the address")
+  .requiredOption("-p --port", "Define the port")
+  .parse(Deno.args);
+
+  // The port is required so it must have a value
+  let address = program.address || "localhost";
+  console.log(`Server run on ${address}:${program.port}`);
+```
+
+### Commands
+There are two ways to implement the command options. The first is to use an action handler by calling the **action()** method immediately after the command definition passing the callback function and the second is with custom one-line implementation.
+
+#### Action Handler
+```javascript
+program
+  .command("clone [foldername]")
+  .description("clone a repo")
+  .action((foldername) => {
+    console.log("The repo is cloned into: " + foldername);
+  });
+
+program.parse(Deno.args);
+```
+
+#### Custom Implementation
+```javascript
+program.command("serve", "Start the server");
+
+if(program.serve){
+  console.log("The server has started...");
+}
+
+program.parse(Deno.args);
 ```
 
 ### Option to change default commands (help, version)
@@ -95,7 +129,8 @@ program.parse(args);
 - [X] program.on() method
 - [ ] Custom option processing
 - [X] Option to change default commands (help, version)
-- [ ] description(), action() methods
+- [X] description(), action() methods
+- [ ] Multiple short flags (-abc)
 
 ## Used
 
@@ -108,8 +143,10 @@ program.parse(args);
 * 0.1.0
     * Initial Commit
     * Change Command of Default Options [help, version]
-* 0.2.0
     * Custom help and version (program.on() method)
+* 0.2.0
+    * Add description() and action() methods for commands
+    
 
 ## Meta
 
