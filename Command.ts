@@ -20,13 +20,13 @@ export default class Command {
       is_required?: boolean;
       type?: "command" | "option";
       action?: Function;
-    }
+    },
   ) {
     this.options = Object.assign({
       description: "",
       is_required: false,
       type: "option",
-      action: () => {}
+      action: () => {},
     }, options);
 
     if (!this.options.value) {

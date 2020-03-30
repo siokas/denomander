@@ -27,9 +27,9 @@ test(function find_command_from_args() {
     new Command(
       {
         value: "-h --help",
-        description: "Print command line options (currently set)"
-      }
-    )
+        description: "Print command line options (currently set)",
+      },
+    ),
   );
 
   let command = findCommandFromArgs(commands, arg);
@@ -40,11 +40,11 @@ test(function find_command_from_args() {
 
 test(function remove_command_from_array() {
   let helpCommand = new Command(
-    { value: "-h --help", description: "Helper of the app" }
+    { value: "-h --help", description: "Helper of the app" },
   );
 
   let versionCommand = new Command(
-    { value: "-v --version", description: "Version of the app" }
+    { value: "-v --version", description: "Version of the app" },
   );
 
   let commands_before: Array<Command> = [helpCommand, versionCommand];
@@ -52,16 +52,16 @@ test(function remove_command_from_array() {
 
   assertEquals(
     removeCommandFromArray(commands_before, "version"),
-    commands_after
+    commands_after,
   );
 });
 
 test(function arrays_have_matching_command() {
   let helpCommand = new Command(
-    { value: "-h --help", description: "Helper of the app" }
+    { value: "-h --help", description: "Helper of the app" },
   );
   let versionCommand = new Command(
-    { value: "-v --version", description: "Version of the app" }
+    { value: "-v --version", description: "Version of the app" },
   );
 
   let array1: Array<Command> = [versionCommand, helpCommand];
@@ -72,11 +72,11 @@ test(function arrays_have_matching_command() {
 
 test(function contain_command_in_on_commands_array() {
   let helpCommand = new Command(
-    { value: "-h --help", description: "Helper of the app" }
+    { value: "-h --help", description: "Helper of the app" },
   );
 
   let array1: Array<OnCommand> = [
-    { command: helpCommand, callback: () => {} }
+    { command: helpCommand, callback: () => {} },
   ];
 
   assertEquals(containCommandInOnCommandArray(helpCommand, array1), true);

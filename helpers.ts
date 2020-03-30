@@ -11,7 +11,7 @@ export function containsBrackets(text: string): boolean {
 
 export function findCommandFromArgs(
   array: Array<Command>,
-  arg: string
+  arg: string,
 ): Command | undefined {
   return array.find((command: Command) => {
     if (
@@ -25,7 +25,7 @@ export function findCommandFromArgs(
 
 export function removeCommandFromArray(
   haystack: Array<Command>,
-  needle: string
+  needle: string,
 ): Array<Command> {
   haystack.forEach((command: Command, index: number) => {
     if (command.word_command == needle || command.letter_command == needle) {
@@ -60,7 +60,7 @@ export function isCommandInArgs(command: Command, args: any): Boolean {
 
 export function isCommandFromArrayInArgs(
   commands: Array<Command>,
-  args: Array<String>
+  args: Array<String>,
 ): Boolean {
   let found = false;
 
@@ -82,7 +82,7 @@ export function isCommandFromArrayInArgs(
 export function arraysHaveMatchingCommand(
   command: Command,
   array1: Array<Command>,
-  array2: Array<Command>
+  array2: Array<Command>,
 ): Boolean {
   let matching: Array<Command> = array1.filter((element: Command) =>
     array2.includes(command)
@@ -93,9 +93,9 @@ export function arraysHaveMatchingCommand(
 
 export function containCommandInOnCommandArray(
   command: Command,
-  array: Array<OnCommand>
+  array: Array<OnCommand>,
 ): Boolean {
-  let matching = array.filter(element => element.command === command);
+  let matching = array.filter((element) => element.command === command);
 
   return matching.length === 0 ? false : true;
 }

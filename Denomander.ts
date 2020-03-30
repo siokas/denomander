@@ -26,11 +26,11 @@ export default class Denomander extends AppDetailAccessors {
 
   private version_command: Command = new Command({
     value: "-V --version",
-    description: "Print the current version"
+    description: "Print the current version",
   });
   private help_command: Command = new Command({
     value: "-h --help",
-    description: "Print command line options (currently set)"
+    description: "Print command line options (currently set)",
   });
 
   private isHelpConfigured: Boolean = false;
@@ -69,7 +69,7 @@ export default class Denomander extends AppDetailAccessors {
 
   requiredOption(value: string, description: string): Denomander {
     let command: Command | undefined = new Command(
-      { value, description, is_required: true }
+      { value, description, is_required: true },
     );
     this.commands.push(command);
     this.available_requiredOptions.push(command);
@@ -81,7 +81,7 @@ export default class Denomander extends AppDetailAccessors {
     let new_command: Command | undefined = new Command({
       value,
       description,
-      type: "command"
+      type: "command",
     });
     this.commands.push(new_command);
     this.available_commands.push(new_command);
@@ -121,7 +121,7 @@ export default class Denomander extends AppDetailAccessors {
 
     let new_available_default_options = removeCommandFromArray(
       this.commands,
-      "help"
+      "help",
     );
 
     new_available_default_options.push(this.help_command);
@@ -134,14 +134,14 @@ export default class Denomander extends AppDetailAccessors {
   setVersion(
     version: string,
     command: string,
-    description: string
+    description: string,
   ): Denomander {
     this.version = version;
     this.version_command = new Command({ value: command, description });
 
     let new_available_default_options = removeCommandFromArray(
       this.commands,
-      "version"
+      "version",
     );
 
     new_available_default_options.push(this.version_command);
@@ -161,20 +161,20 @@ export default class Denomander extends AppDetailAccessors {
 
     if (this.available_requiredOptions.length > 0) {
       console.log(yellow(bold("Required Options:")));
-      this.available_requiredOptions.forEach(command => {
+      this.available_requiredOptions.forEach((command) => {
         console.log(command.value + "\t" + command.description);
       });
       console.log();
     }
 
     console.log(yellow(bold("Options:")));
-    this.available_default_options.forEach(command => {
+    this.available_default_options.forEach((command) => {
       console.log(command.value + "\t" + command.description);
     });
 
     console.log();
 
-    this.available_options.forEach(command => {
+    this.available_options.forEach((command) => {
       console.log(command.value + "\t" + command.description);
     });
 
@@ -182,7 +182,7 @@ export default class Denomander extends AppDetailAccessors {
 
     if (this.available_commands.length > 0) {
       console.log(yellow(bold("Commands:")));
-      this.available_commands.forEach(command => {
+      this.available_commands.forEach((command) => {
         console.log(command.value + "\t" + command.description);
       });
       console.log();
@@ -205,12 +205,12 @@ export default class Denomander extends AppDetailAccessors {
     this.temp_on_commands.forEach((temp: TempOnCommand) => {
       let command: Command | undefined = findCommandFromArgs(
         this.commands,
-        temp.arg
+        temp.arg,
       );
 
       if (command) {
         this.available_on_commands.push(
-          { command: command, callback: temp.callback }
+          { command: command, callback: temp.callback },
         );
       } else {
         throw new Error("Command [" + temp.arg + "] not found");
@@ -234,7 +234,7 @@ export default class Denomander extends AppDetailAccessors {
         if (this._args["_"].length > 0) {
           let command: Command | undefined = findCommandFromArgs(
             this.commands,
-            this._args[key][0]
+            this._args[key][0],
           );
           if (command) {
             if (command.require_command_value) {
@@ -249,14 +249,14 @@ export default class Denomander extends AppDetailAccessors {
             }
           } else {
             throw new Error(
-              "Command [" + this._args["_"][0] + "] not found"
+              "Command [" + this._args["_"][0] + "] not found",
             );
           }
         }
       } else {
         let command: Command | undefined = findCommandFromArgs(
           this.commands,
-          key
+          key,
         );
 
         // variable name conflicts (version)
@@ -287,13 +287,13 @@ export default class Denomander extends AppDetailAccessors {
         if (
           !isCommandFromArrayInArgs(
             this.available_default_options,
-            this._args
+            this._args,
           )
         ) {
           throw new Error(
             "Required option [" +
               (command.word_command! || command.letter_command!) +
-              "] not specified"
+              "] not specified",
           );
         }
       }
@@ -307,7 +307,7 @@ export default class Denomander extends AppDetailAccessors {
       isCommandInArgs(this.help_command, this._args) &&
       !containCommandInOnCommandArray(
         this.help_command,
-        this.available_on_commands
+        this.available_on_commands,
       )
     ) {
       this.print_help();
@@ -317,7 +317,7 @@ export default class Denomander extends AppDetailAccessors {
       isCommandInArgs(this.version_command, this._args) &&
       !containCommandInOnCommandArray(
         this.version_command,
-        this.available_on_commands
+        this.available_on_commands,
       )
     ) {
       console.log("v" + this.version);

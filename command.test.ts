@@ -4,14 +4,14 @@ import Command from "./Command.ts";
 test(function command_option() {
   let option = new Command({
     value: "-h --help",
-    description: "Print command line options (currently set)"
+    description: "Print command line options (currently set)",
   });
 
   assertEquals(option.letter_command, "h");
   assertEquals(option.word_command, "help");
   assertEquals(
     option.description,
-    "Print command line options (currently set)"
+    "Print command line options (currently set)",
   );
   assertEquals(option.type, "option");
 });
@@ -21,8 +21,8 @@ test(function command_required_option() {
     {
       value: "-p --port",
       description: "Define Port Number",
-      is_required: true
-    }
+      is_required: true,
+    },
   );
 
   required_option.value = "8080";
@@ -39,7 +39,7 @@ test(function command_command() {
     value: "new [name]",
     description: "Create a new file",
     is_required: false,
-    type: "command"
+    type: "command",
   });
 
   command.value = "my_filename";

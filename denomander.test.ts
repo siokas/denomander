@@ -25,7 +25,7 @@ test(function app_required_option() {
   assertThrows(() => {
     program.option("-p --port", "Define port number").requiredOption(
       "-a --address",
-      "Define address"
+      "Define address",
     ).parse(args_without_required_option);
   }, Error, "Required option [address] not specified");
 });
@@ -55,7 +55,7 @@ test(function app_command_and_option_not_defined() {
   }, Error, "Command [a] not found");
   assertThrows(() => {
     program.command("new [filename]", "Generate a new file").parse(
-      command_args
+      command_args,
     );
   }, Error, "Command [test] not found");
 });
@@ -67,7 +67,7 @@ test(function app_change_default_option_command() {
   program.setVersion(
     "1.8.1",
     "-x --xversion",
-    "Display the version of the app"
+    "Display the version of the app",
   ).parse(args);
 
   assertEquals(program.version, "1.8.1");

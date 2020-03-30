@@ -31,7 +31,7 @@ let program = new Denomander(
 There are three option types: __commands__, __options__ and __required options__.
 
 ### Options
-To set an option just call the **option()** method passing __a) the sort and the long flag__ seperated by space and __b) the description__. The value can be accessed as properties.
+To set an option just call the __option()__ method passing __a) the sort and the long flag__ seperated by space and __b) the description__. The value can be accessed as properties.
 
 ```javascript
 program
@@ -46,7 +46,7 @@ program
 ```
 
 ### Required Options
-The implementation of required option is exactly same as the optional option but you have to call the **requiredOption()** method instead.
+The implementation of required option is exactly same as the optional option but you have to call the __requiredOption()__ method instead.
 
 ```javascript
 program
@@ -60,7 +60,7 @@ program
 ```
 
 ### Commands
-There are two ways to implement the command options. The first is to use an action handler by calling the **action()** method immediately after the command definition passing the callback function and the second is with custom one-line implementation.
+There are two ways to implement the command options. The first is to use an action handler by calling the __action()__ method immediately after the command definition passing the callback function and the second is with custom one-line implementation.
 
 #### Action Handler
 ```javascript
@@ -136,18 +136,18 @@ program.parse(args);
 
 ## Used
 
-* [Deno](https://deno.land)
-* [Deno STD Libraries](https://deno.land/std/)
-* [FlatIcon](https://www.flaticon.com/) for the logo 
+- [Deno](https://deno.land)
+- [Deno STD Libraries](https://deno.land/std/)
+- [FlatIcon](https://www.flaticon.com/) for the logo 
 
 ## Release History
 
-* [0.1.0](https://github.com/siokas/denomander/releases/tag/0.1.0)
-    * Initial Commit
-* [0.2.0](https://github.com/siokas/denomander/releases/tag/0.2.0)
-    * Change Command of Default Options [help, version]
-    * Custom help and version (program.on() method)
-    * Add description() and action() methods for commands
+- [0.1.0](https://github.com/siokas/denomander/releases/tag/0.1.0)
+    - Initial Commit
+- [0.2.0](https://github.com/siokas/denomander/releases/tag/0.2.0)
+    - Change Command of Default Options [help, version]
+    - Custom help and version (program.on() method)
+    - Add description() and action() methods for commands
     
 
 ## Meta
@@ -157,9 +157,13 @@ Apostolos Siokas – [@siokas_](https://twitter.com/siokas_) – apostolossiokas
 ## Contributing
 
 1. Fork it (<https://github.com/yourname/yourproject/fork>)
+
 2. Create your feature branch (`git checkout -b feature/fooBar`)
+
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
+
 4. Push to the branch (`git push origin feature/fooBar`)
+
 5. Create a new Pull Request
 
 ## License

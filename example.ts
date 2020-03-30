@@ -6,8 +6,8 @@ let program = new Denomander(
   {
     app_name: "My MY App",
     app_description: "My MY Description",
-    app_version: "1.0.1"
-  }
+    app_version: "1.0.1",
+  },
 );
 
 program
