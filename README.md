@@ -2,6 +2,8 @@
 <p align="center">
 <img alt="Travis (.com)" src="https://img.shields.io/travis/com/siokas/denomander">
 <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/siokas/denomander">
+<img alt="Deno Version" src="https://img.shields.io/badge/deno-v0.3.8-blue">
+<img alt="GitHub License" src="https://img.shields.io/github/license/siokas/denomander">
 </p>
 
 _Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces. It is inspired from [commander.js](https://github.com/tj/commander.js) by [tj](https://github.com/tj) which is the node's version.

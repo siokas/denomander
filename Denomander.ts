@@ -4,11 +4,9 @@ import AppDetailAccessors from "./AppDetailAccessors.ts";
 import Command from "./Command.ts";
 import {
   findCommandFromArgs,
-  stripDashes,
   removeCommandFromArray,
   isCommandInArgs,
   isCommandFromArrayInArgs,
-  arraysHaveMatchingCommand,
   containCommandInOnCommandArray
 } from "./helpers.ts";
 
