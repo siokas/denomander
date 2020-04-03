@@ -1,8 +1,6 @@
 <p align="center"><img src="https://github.com/siokas/siokas.github.io/blob/master/img/denomander.png" width="256"></p>
 <p align="center">
 <a href="https://travis-ci.com/siokas/denomander"><img alt="Travis (.com)" src="https://travis-ci.com/siokas/denomander.svg?branch=master"></a>
-<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/siokas/denomander">
-<a href="https://deno.land"><img alt="Deno Version" src="https://img.shields.io/badge/deno-v0.3.8-blue"></a>
 <a href="https://github.styleci.io/repos/245916074"><img src="https://github.styleci.io/repos/245916074/shield?branch=master" alt="StyleCI"></a>
 </p>
 
