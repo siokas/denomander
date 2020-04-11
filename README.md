@@ -56,6 +56,27 @@ program
   let address = program.address || "localhost";
   console.log(`Server run on ${address}:${program.port}`);
 ```
+**Multiple short flags is supported (example from docker exec command)**
+
+You have the option to pass more than one short flags.
+
+```javascript
+program
+  .option("-i --interactive ", "Keep STDIN open even if not attached")
+  .requiredOption("-t --tty", "Allocate a pseudo-TTY")
+  .parse(Deno.args);
+
+  if(program.interactive){
+    console.log('Interactive Mode');
+  }
+
+  if(program.tty){
+    console.log('Pseudo-TTY');
+  }
+
+  // deno run example.ts -it 
+  // The previous command passes true in both if statements therfore it prints out both console.log commands
+```           
 
 ### Commands
 There are two ways to implement the command options. The first is to use an action handler by calling the __action()__ method immediately after the command definition passing the callback function and the second is with custom one-line implementation.
@@ -130,7 +151,8 @@ program.parse(args);
 - [ ] Custom option processing
 - [X] Option to change default commands (help, version)
 - [X] description(), action() methods
-- [ ] Multiple short flags (-abc)
+- [X] Multiple short flags (-abc)
+- [ ] Long Flag alias
 
 ## Used
 
