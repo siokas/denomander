@@ -179,6 +179,9 @@ program.parse(args);
     - Change Command of Default Options [help, version]
     - Custom help and version (program.on() method)
     - Add description() and action() methods for commands
+- [0.3.0]
+    - Multiple short flags
+    - Comma and vertical bar seperated options
     
 
 ## Meta
