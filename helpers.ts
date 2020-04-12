@@ -99,3 +99,7 @@ export function containCommandInOnCommandArray(
 
   return matching.length === 0 ? false : true;
 }
+
+export function trimString(text: string): string {
+  return text.replace(/\s/g, "");
+}

@@ -1,4 +1,4 @@
-import { stripDashes, containsBrackets } from "./helpers.ts";
+import { stripDashes, containsBrackets, trimString } from "./helpers.ts";
 
 export default class Command {
   private _letter_command: string | undefined;
@@ -57,8 +57,20 @@ export default class Command {
     }
   }
 
+  private splitValue(value: string): Array<string> {
+    if (value.indexOf(",") !== -1) {
+      return value.split(",");
+    }
+
+    if (value.indexOf("|") !== -1) {
+      return value.split("|");
+    }
+
+    return value.split(" ");
+  }
+
   private generateOption() {
-    let splitedValue = this.options.value.split(" ");
+    let splitedValue: Array<string> = this.splitValue(this.options.value);
 
     switch (splitedValue.length) {
       case 1:
@@ -70,14 +82,14 @@ export default class Command {
         break;
 
       case 2:
-        if (stripDashes(splitedValue[0]).length === 1) {
-          this._letter_command = stripDashes(splitedValue[0]);
+        if (stripDashes(trimString(splitedValue[0])).length === 1) {
+          this._letter_command = stripDashes(trimString(splitedValue[0]));
 
-          if (stripDashes(splitedValue[1]).length > 1) {
-            this._word_command = stripDashes(splitedValue[1]);
+          if (stripDashes(trimString(splitedValue[1])).length > 1) {
+            this._word_command = stripDashes(trimString(splitedValue[1]));
           }
         } else {
-          this._word_command = stripDashes(splitedValue[0]);
+          this._word_command = stripDashes(trimString(splitedValue[0]));
         }
         break;
 

@@ -5,7 +5,8 @@ import {
   findCommandFromArgs,
   removeCommandFromArray,
   arraysHaveMatchingCommand,
-  containCommandInOnCommandArray
+  containCommandInOnCommandArray,
+  trimString
 } from "./helpers.ts";
 import Command from "./Command.ts";
 import { OnCommand } from "./interfaces.ts";
@@ -80,4 +81,10 @@ test(function contain_command_in_on_commands_array() {
   ];
 
   assertEquals(containCommandInOnCommandArray(helpCommand, array1), true);
+});
+
+test(function trim_string() {
+  let value = "  -- port  ";
+
+  assertEquals(trimString(value), "--port");
 });

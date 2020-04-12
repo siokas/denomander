@@ -39,8 +39,19 @@ program
 
   if(program.address){
     let port = program.port || "8000";
-    console.log(`Server run on ${program.address}:${port}`);
+    console.log(`Server is running on ${program.address}:${port}`);
   }
+```
+
+**You may define the option's short and long flags by seperating them with either with a) space, b) comma, or c) | (vertical bar or "pipe")**
+
+```javascript
+program
+  .option("-a, --address", "Define the address")
+  .option("-p | --port", "Define the port")
+  .parse(Deno.args);
+
+console.log(`Server is running on ${program.address}:${program.port}`);
 ```
 
 ### Required Options
