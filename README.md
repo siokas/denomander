@@ -181,7 +181,7 @@ program.parse(args);
     - Add description() and action() methods for commands
 - [0.3.0]
     - Multiple short flags
-    - Comma and vertical bar seperated options
+    - Comma and vertical bar separated options
     
 
 ## Meta
