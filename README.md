@@ -74,7 +74,7 @@ You have the option to pass more than one short flags.
 ```javascript
 program
   .option("-i --interactive ", "Keep STDIN open even if not attached")
-  .requiredOption("-t --tty", "Allocate a pseudo-TTY")
+  .option("-t --tty", "Allocate a pseudo-TTY")
   .parse(Deno.args);
 
   if(program.interactive){
