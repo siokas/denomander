@@ -8,6 +8,8 @@ _Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces
 
 ## Installation
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b9b7465c7a7e40b5af20edc6c9eb5cdf)](https://app.codacy.com/manual/apostolossiokas/denomander?utm_source=github.com&utm_medium=referral&utm_content=siokas/denomander&utm_campaign=Badge_Grade_Dashboard)
+
 ```javascript
 import Denomander from "https://deno.land/x/denomander/mod.ts";
 ```
