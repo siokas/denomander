@@ -1,5 +1,5 @@
-import Command from "./Command.ts";
-import Denomander from "./Denomander.ts";
+import { Command } from "./Command.ts";
+import { Denomander } from "./Denomander.ts";
 
 export interface PublicAPI {
   option(value: string, description: string): Denomander;

@@ -3,10 +3,10 @@ import { AppDetailsAccessors } from "./interfaces.ts";
 /**
  * Accessors of the app name, description and version.
  * 
- * @export default
+ * @export
  * @class AppDetailAccessors
  */
-export default class AppDetails implements AppDetailsAccessors {
+export class AppDetails implements AppDetailsAccessors {
   /**
    * The name of the app.
    * 

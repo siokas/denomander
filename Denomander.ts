@@ -5,8 +5,8 @@ import {
   Parasable,
   PublicAPI
 } from "./interfaces.ts";
-import AppDetails from "./AppDetails.ts";
-import Command from "./Command.ts";
+import { AppDetails } from "./AppDetails.ts";
+import { Command } from "./Command.ts";
 import {
   findCommandFromArgs,
   removeCommandFromArray,
@@ -14,16 +14,14 @@ import {
   isCommandFromArrayInArgs,
   containCommandInOnCommandArray
 } from "./helpers.ts";
-
 /**
  * The main class 
  * 
- * @export default
+ * @export
  * @class Denomander
  * @extends AppDetails
  */
-export default class Denomander extends AppDetails
-  implements Parasable, PublicAPI {
+export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
     * Holds all the commands
     *

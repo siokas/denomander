@@ -1,5 +1,5 @@
 import { assertEquals, test } from "./deno_deps.ts";
-import AppDetails from "./AppDetails.ts";
+import { AppDetails } from "./AppDetails.ts";
 
 test(function app_detail_accessors() {
   const program = new AppDetails();

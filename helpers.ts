@@ -1,4 +1,4 @@
-import Command from "./Command.ts";
+import { Command } from "./Command.ts";
 import { OnCommand } from "./interfaces.ts";
 
 /**
