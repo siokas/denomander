@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows, test } from "./test_deps.ts";
+import { assertEquals, assertThrows, test } from "./deno_deps.ts";
 import Denomander from "./Denomander.ts";
 
 test(function app_option() {

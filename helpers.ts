@@ -1,14 +1,34 @@
 import Command from "./Command.ts";
 import { OnCommand } from "./interfaces.ts";
 
+/**
+ * It removes dashes from a string
+ * 
+ * @param {string} text 
+ * @return {string}
+ */
 export function stripDashes(text: string): string {
   return text.replace(/-/g, "");
 }
 
+/**
+ * Detects if a strign contains brackets
+ * 
+ * @param {string} text 
+ * @returns {boolean}
+ */
 export function containsBrackets(text: string): boolean {
   return text.match(/\[(.*?)\]/) ? true : false;
 }
 
+/**
+ * It returns the command instance
+ * if founded in given arguments
+ * 
+ * @param {Array<Command>} array 
+ * @param {string} arg 
+ * @returns {Command | undefined}
+ */
 export function findCommandFromArgs(
   array: Array<Command>,
   arg: string,
@@ -23,6 +43,14 @@ export function findCommandFromArgs(
   });
 }
 
+/**
+ * It finds the command from given string
+ * and removes it from the given array.
+ * 
+ * @param {Array<Command>} haystack 
+ * @param {string} needle 
+ * @returns {Array<Command>}
+ */
 export function removeCommandFromArray(
   haystack: Array<Command>,
   needle: string,
@@ -36,6 +64,13 @@ export function removeCommandFromArray(
   return haystack;
 }
 
+/**
+ * It detects if the given command is in the arguments
+ * 
+ * @param {Command} command 
+ * @param {any} args 
+ * @returns {Boolean}
+ */
 export function isCommandInArgs(command: Command, args: any): Boolean {
   let found = false;
 
@@ -58,6 +93,14 @@ export function isCommandInArgs(command: Command, args: any): Boolean {
   return found;
 }
 
+/**
+ * It detects if on of the given args,
+ * is included in the given array of Commands.
+ * 
+ * @param {Array<Command>} commands 
+ * @param {Array<string>} args 
+ * @returns {boolean}
+ */
 export function isCommandFromArrayInArgs(
   commands: Array<Command>,
   args: Array<String>,
@@ -79,6 +122,15 @@ export function isCommandFromArrayInArgs(
   return found;
 }
 
+/**
+ * It detects if the given command is included
+ * in BOTH of the other two given arrays of Commands
+ * 
+ * @param {Command} command 
+ * @param {Array<Command>} array1 
+ * @param {Array<Command>} array2 
+ * @return {boolean}
+ */
 export function arraysHaveMatchingCommand(
   command: Command,
   array1: Array<Command>,
@@ -91,6 +143,14 @@ export function arraysHaveMatchingCommand(
   return matching.length === 0 ? false : true;
 }
 
+/**
+ * Detects if the given command is included
+ * in the given array of OnCommands
+ * 
+ * @param {Command} command 
+ * @param {Array<OnCommand>} array 
+ * @returns {boolean}
+ */
 export function containCommandInOnCommandArray(
   command: Command,
   array: Array<OnCommand>,
@@ -100,6 +160,12 @@ export function containCommandInOnCommandArray(
   return matching.length === 0 ? false : true;
 }
 
+/**
+ * It trims of the empty spaces from the given string
+ * 
+ * @param {string} text 
+ * @returns {string}
+ */
 export function trimString(text: string): string {
   return text.replace(/\s/g, "");
 }

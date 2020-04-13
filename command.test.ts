@@ -1,4 +1,4 @@
-import { assertEquals, test } from "./test_deps.ts";
+import { assertEquals, test } from "./deno_deps.ts";
 import Command from "./Command.ts";
 
 test(function command_option() {
