@@ -1,3 +1,3 @@
-import Denomander from "./Denomander.ts";
+import { Denomander } from "./Denomander.ts";
 
 export default Denomander;

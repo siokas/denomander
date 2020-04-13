@@ -4,10 +4,10 @@ import { CommandOptions } from "./interfaces.ts";
 /**
   * Command class 
   * 
-  * @export default
+  * @export
   * @class Command
  */
-export default class Command {
+export class Command {
   /**
    * If the command has a required value
    * to be passed from the user.

@@ -1,4 +1,4 @@
-import Command from "./Command.ts";
+import { Command } from "./Command.ts";
 import { OnCommand } from "./interfaces.ts";
 
 /**
@@ -74,7 +74,7 @@ export function removeCommandFromArray(
 export function isCommandInArgs(command: Command, args: any): Boolean {
   let found = false;
 
-  for (let key in args) {
+  for (const key in args) {
     if (key === "length" || !args.hasOwnProperty(key)) continue;
 
     if (
@@ -136,7 +136,7 @@ export function arraysHaveMatchingCommand(
   array1: Array<Command>,
   array2: Array<Command>,
 ): Boolean {
-  let matching: Array<Command> = array1.filter((element: Command) =>
+  const matching: Array<Command> = array1.filter((element: Command) =>
     array2.includes(command)
   );
 

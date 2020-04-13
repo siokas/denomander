@@ -5,8 +5,8 @@ import {
   Parasable,
   PublicAPI
 } from "./interfaces.ts";
-import AppDetails from "./AppDetails.ts";
-import Command from "./Command.ts";
+import { AppDetails } from "./AppDetails.ts";
+import { Command } from "./Command.ts";
 import {
   findCommandFromArgs,
   removeCommandFromArray,
@@ -14,16 +14,14 @@ import {
   isCommandFromArrayInArgs,
   containCommandInOnCommandArray
 } from "./helpers.ts";
-
 /**
  * The main class 
  * 
- * @export default
+ * @export
  * @class Denomander
  * @extends AppDetails
  */
-export default class Denomander extends AppDetails
-  implements Parasable, PublicAPI {
+export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
     * Holds all the commands
     *
@@ -490,7 +488,7 @@ export default class Denomander extends AppDetails
 
       if (key == "_") {
         if (this._args["_"].length > 0) {
-          let command: Command = findCommandFromArgs(
+          const command: Command = findCommandFromArgs(
             this.commands,
             this._args[key][0],
           )!;
@@ -512,7 +510,7 @@ export default class Denomander extends AppDetails
           }
         }
       } else {
-        let command: Command = findCommandFromArgs(
+        const command: Command = findCommandFromArgs(
           this.commands,
           key,
         )!;
