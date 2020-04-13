@@ -2,8 +2,8 @@ import { assertEquals, assertThrows, test } from "./deno_deps.ts";
 import Denomander from "./Denomander.ts";
 
 test(function app_option() {
-  let program = new Denomander();
-  let args = ["--port", "8080"];
+  const program = new Denomander();
+  const args = ["--port", "8080"];
 
   program.option("-p --port", "Define port number").parse(args);
 
@@ -11,9 +11,9 @@ test(function app_option() {
 });
 
 test(function app_required_option() {
-  let program = new Denomander();
-  let args = ["-p", "8080", "-a", "192.168.1.100"];
-  let args_without_required_option = ["-p", "8080"];
+  const program = new Denomander();
+  const args = ["-p", "8080", "-a", "192.168.1.100"];
+  const args_without_required_option = ["-p", "8080"];
 
   program
     .option("-p --port", "Define port number")
@@ -31,9 +31,9 @@ test(function app_required_option() {
 });
 
 test(function app_command() {
-  let program = new Denomander();
-  let args = ["new", "myFileName"];
-  let args2 = ["new"];
+  const program = new Denomander();
+  const args = ["new", "myFileName"];
+  const args2 = ["new"];
 
   program
     .command("new [filename]", "Generate a new file")
@@ -46,9 +46,9 @@ test(function app_command() {
 });
 
 test(function app_command_and_option_not_defined() {
-  let program = new Denomander();
-  let command_args = ["test"];
-  let optionArgs = ["-a", "127.0.0.1"];
+  const program = new Denomander();
+  const command_args = ["test"];
+  const optionArgs = ["-a", "127.0.0.1"];
 
   assertThrows(() => {
     program.option("-p --port", "Define port number").parse(optionArgs);
@@ -61,8 +61,8 @@ test(function app_command_and_option_not_defined() {
 });
 
 test(function app_change_default_option_command() {
-  let program = new Denomander();
-  let args = ["-x"];
+  const program = new Denomander();
+  const args = ["-x"];
 
   program.setVersion(
     "1.8.1",
@@ -74,8 +74,8 @@ test(function app_change_default_option_command() {
 });
 
 test(function app_on_command() {
-  let program = new Denomander();
-  let args = ["-V"];
+  const program = new Denomander();
+  const args = ["-V"];
 
   let test = false;
   let test2 = false;
@@ -95,8 +95,8 @@ test(function app_on_command() {
 });
 
 test(function action_command() {
-  let program = new Denomander();
-  let args = ["clone", "test"];
+  const program = new Denomander();
+  const args = ["clone", "test"];
 
   let result = "";
 

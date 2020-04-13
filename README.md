@@ -17,7 +17,7 @@ import Denomander from "https://deno.land/x/denomander/mod.ts";
 At first initialize the app and optionally you may pass the name, description and version of the app. If not you can change them afterwards by setting the __app_name__, __app_description__ and __app_version__ variables.
 
 ```javascript
-let program = new Denomander(
+const program = new Denomander(
   {
     app_name: "My MY App",
     app_description: "My MY Description",
@@ -38,12 +38,12 @@ program
   .parse(Deno.args);
 
   if(program.address){
-    let port = program.port || "8000";
+    const port = program.port || "8000";
     console.log(`Server is running on ${program.address}:${port}`);
   }
 ```
 
-**You may define the option's short and long flags by seperating them with either with a) space, b) comma, or c) | (vertical bar or "pipe")**
+__You may define the option's short and long flags by seperating them with either with a) space, b) comma, or c) | (vertical bar or "pipe")__
 
 ```javascript
 program
@@ -67,7 +67,7 @@ program
   let address = program.address || "localhost";
   console.log(`Server run on ${address}:${program.port}`);
 ```
-**Multiple short flags is supported (example from docker exec command)**
+#### Multiple short flags is supported (example from docker exec command)
 
 You have the option to pass more than one short flags.
 
@@ -174,14 +174,14 @@ program.parse(args);
 ## Release History
 
 - [0.1.0](https://github.com/siokas/denomander/releases/tag/0.1.0)
-    - Initial Commit
+  - Initial Commit
 - [0.2.0](https://github.com/siokas/denomander/releases/tag/0.2.0)
-    - Change Command of Default Options [help, version]
-    - Custom help and version (program.on() method)
-    - Add description() and action() methods for commands
+  - Change Command of Default Options [help, version]
+  - Custom help and version (program.on() method)
+  - Add description() and action() methods for commands
 - [0.3.0](https://github.com/siokas/denomander/releases/tag/0.3.0)
-    - Multiple short flags
-    - Comma and vertical bar separated options
+  - Multiple short flags
+  - Comma and vertical bar separated options
     
 
 ## Meta
@@ -190,15 +190,15 @@ Apostolos Siokas – [@siokas_](https://twitter.com/siokas_) – apostolossiokas
 
 ## Contributing
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
+1.  Fork it (<https://github.com/yourname/yourproject/fork>)
 
-2. Create your feature branch (`git checkout -b feature/fooBar`)
+2.  Create your feature branch (`git checkout -b feature/fooBar`)
 
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
+3.  Commit your changes (`git commit -am 'Add some fooBar'`)
 
-4. Push to the branch (`git push origin feature/fooBar`)
+4.  Push to the branch (`git push origin feature/fooBar`)
 
-5. Create a new Pull Request
+5.  Create a new Pull Request
 
 ## License
 

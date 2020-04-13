@@ -103,15 +103,15 @@ export function isCommandInArgs(command: Command, args: any): Boolean {
  */
 export function isCommandFromArrayInArgs(
   commands: Array<Command>,
-  args: Array<String>,
+  args: Array<string>,
 ): Boolean {
   let found = false;
 
-  for (let key in args) {
+  for (const key in args) {
     if (key === "length" || !args.hasOwnProperty(key)) continue;
 
     if (key != "_") {
-      let command: Command | undefined = findCommandFromArgs(commands, key);
+      const command: Command | undefined = findCommandFromArgs(commands, key);
 
       if (command) {
         found = true;
@@ -155,7 +155,7 @@ export function containCommandInOnCommandArray(
   command: Command,
   array: Array<OnCommand>,
 ): Boolean {
-  let matching = array.filter((element) => element.command === command);
+  const matching = array.filter((element) => element.command === command);
 
   return matching.length === 0 ? false : true;
 }

@@ -10,29 +10,29 @@ export default class AppDetails implements AppDetailsAccessors {
   /**
    * The name of the app.
    * 
-   * @public
+   * @private
    * @type {string}
    * @memberof AppDetails
    */
-  _app_name: string;
+  private _app_name: string;
 
   /**
    * The description of the app.
    * 
-   * @public
+   * @private
    * @type {string}
    * @memberof AppDetails
    */
-  _app_description: string;
+  private _app_description: string;
 
   /**
    * The version of the app.
    * 
-   * @public
+   * @private
    * @type {string}
    * @memberof AppDetails
    */
-  _app_version: string;
+  private _app_version: string;
 
   /**
    * Constructor of AppDetails object.

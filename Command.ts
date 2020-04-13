@@ -9,6 +9,16 @@ import { CommandOptions } from "./interfaces.ts";
  */
 export default class Command {
   /**
+   * If the command has a required value
+   * to be passed from the user.
+   * 
+   * @public
+   * @type {boolean}
+   * @memberof Command
+   */
+  public require_command_value = false;
+
+  /**
     * Holds the short flag (-p)
     * One letter command.
     *
@@ -37,16 +47,6 @@ export default class Command {
    * @memberof Command
    */
   private options: CommandOptions;
-
-  /**
-   * If the command has a required value
-   * to be passed from the user.
-   * 
-   * @public
-   * @type {boolean}
-   * @memberof Command
-   */
-  require_command_value: boolean = false;
 
   /**
    * Constructor of Command object.
@@ -82,7 +82,7 @@ export default class Command {
    * @memberof Command
    */
   private generateCommand() {
-    let splitedValue = this.options.value.split(" ");
+    const splitedValue = this.options.value.split(" ");
 
     switch (splitedValue.length) {
       case 1:
@@ -107,7 +107,7 @@ export default class Command {
    * @memberof Command
    */
   private generateOption() {
-    let splitedValue: Array<string> = this.splitValue(this.options.value);
+    const splitedValue: Array<string> = this.splitValue(this.options.value);
 
     switch (splitedValue.length) {
       case 1:

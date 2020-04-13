@@ -2,7 +2,7 @@ import { assertEquals, test } from "./deno_deps.ts";
 import AppDetails from "./AppDetails.ts";
 
 test(function app_detail_accessors() {
-  let program = new AppDetails();
+  const program = new AppDetails();
   assertEquals(program.app_name, "My App"); // Default app name if not provided in constructor
   assertEquals(program.app_description, "My Description"); // Default description if not provided in constructor
   assertEquals(program.app_version, "0.0.1"); // Default version if not provided in constructor
@@ -18,7 +18,7 @@ test(function app_detail_accessors() {
 });
 
 test(function app_detail_accessors_passing_values_in_constructor() {
-  let program = new AppDetails({
+  const program = new AppDetails({
     app_name: "New App",
     app_description: "New Description",
     app_version: "10.1.8",

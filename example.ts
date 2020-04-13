@@ -2,7 +2,7 @@ import { red, green, blue, bold } from "https://deno.land/std/fmt/colors.ts";
 import { serve } from "https://deno.land/std/http/server.ts";
 import Denomander from "./mod.ts";
 
-let program = new Denomander(
+const program = new Denomander(
   {
     app_name: "My MY App",
     app_description: "My MY Description",
