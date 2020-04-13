@@ -1,8 +1,8 @@
 import { assertEquals, test } from "./deno_deps.ts";
-import Command from "./Command.ts";
+import { Command } from "./Command.ts";
 
 test(function command_option() {
-  let option = new Command({
+  const option = new Command({
     value: "-h --help",
     description: "Print command line options (currently set)",
   });
@@ -17,7 +17,7 @@ test(function command_option() {
 });
 
 test(function command_required_option() {
-  let required_option = new Command(
+  const required_option = new Command(
     {
       value: "-p --port",
       description: "Define Port Number",
@@ -35,7 +35,7 @@ test(function command_required_option() {
 });
 
 test(function command_command() {
-  let command = new Command({
+  const command = new Command({
     value: "new [name]",
     description: "Create a new file",
     is_required: false,

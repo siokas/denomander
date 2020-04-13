@@ -8,7 +8,7 @@ import {
   containCommandInOnCommandArray,
   trimString
 } from "./helpers.ts";
-import Command from "./Command.ts";
+import { Command } from "./Command.ts";
 import { OnCommand } from "./interfaces.ts";
 
 test(function strip_dashes() {
