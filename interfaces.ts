@@ -1,6 +1,12 @@
 import { Command } from "./Command.ts";
 import { Denomander } from "./Denomander.ts";
 
+/**
+ * The methods that must be implemented for public api
+ * 
+ * @export
+ * @interface PublicAPI
+ */
 export interface PublicAPI {
   option(value: string, description: string): Denomander;
   requiredOption(value: string, description: string): Denomander;
@@ -19,7 +25,7 @@ export interface PublicAPI {
  * @interface Parasable
  */
 export interface Parasable {
-  parse(args: any): void;
+  parse(args: Array<string>): void;
 }
 
 /**
@@ -68,4 +74,14 @@ export interface CommandOptions {
   is_required?: boolean;
   type?: "command" | "option";
   action?: Function;
+}
+
+/**
+ * Defines the args
+ * 
+ * @export
+ * @interface CustomArgs
+ */
+export interface CustomArgs {
+  [key: string]: string;
 }

@@ -1,5 +1,5 @@
 import { Command } from "./Command.ts";
-import { OnCommand } from "./interfaces.ts";
+import { OnCommand, CustomArgs } from "./interfaces.ts";
 
 /**
  * It removes dashes from a string
@@ -68,10 +68,10 @@ export function removeCommandFromArray(
  * It detects if the given command is in the arguments
  * 
  * @param {Command} command 
- * @param {any} args 
+ * @param {CustomArgs} args 
  * @returns {Boolean}
  */
-export function isCommandInArgs(command: Command, args: any): Boolean {
+export function isCommandInArgs(command: Command, args: CustomArgs): Boolean {
   let found = false;
 
   for (const key in args) {
@@ -83,7 +83,10 @@ export function isCommandInArgs(command: Command, args: any): Boolean {
     ) {
       found = true;
     }
-    args["_"].forEach((arg: string) => {
+    
+    const commandArgs:Array<string> = eval(args["_"]);
+
+    commandArgs.forEach((arg: string) => {
       if (command.letter_command === arg || command.word_command === arg) {
         found = true;
       }
@@ -98,12 +101,12 @@ export function isCommandInArgs(command: Command, args: any): Boolean {
  * is included in the given array of Commands.
  * 
  * @param {Array<Command>} commands 
- * @param {Array<string>} args 
+ * @param {CustomArgs} args 
  * @returns {boolean}
  */
 export function isCommandFromArrayInArgs(
   commands: Array<Command>,
-  args: Array<string>,
+  args: CustomArgs,
 ): Boolean {
   let found = false;
 

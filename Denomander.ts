@@ -3,7 +3,8 @@ import {
   OnCommand,
   TempOnCommand,
   Parasable,
-  PublicAPI
+  PublicAPI,
+  CustomArgs
 } from "./interfaces.ts";
 import { AppDetails } from "./AppDetails.ts";
 import { Command } from "./Command.ts";
@@ -35,10 +36,10 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
     * Arguments passed by the user during runtime
     *
     * @private
-    * @type {any}
+    * @type {CustomArgs}
     * @memberof Denomander
    */
-  private _args: any;
+  private _args: CustomArgs = {};
 
   /**
     * Holds all the available required options
@@ -109,7 +110,7 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
    * holding the values of the commands passed from the user
    * 
    * @public
-   * @type {any}
+   * @type {string | boolean}
    * @memberof Denomander
    */
   [key: string]: any
@@ -162,7 +163,7 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
    * @param {any} args 
    * @memberof Parasable
    */
-  public parse(args: any): void {
+  public parse(args: Array<string>): void {
     this._args = parse(args, { "--": false });
 
     this
@@ -448,7 +449,7 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
    */
   private validateOnCommands(): Denomander {
     this.temp_on_commands.forEach((temp: TempOnCommand) => {
-      let command: Command = findCommandFromArgs(
+      const command: Command = findCommandFromArgs(
         this.commands,
         temp.arg,
       )!;
@@ -517,7 +518,7 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
 
         // variable name conflicts (version)
         if (command && command != this.version_command) {
-          let value = this._args[key];
+          let value:string | boolean = this._args[key];
           if (value == "true" || value == "false") {
             value = (value == "true");
           }
