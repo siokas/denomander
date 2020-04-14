@@ -83,8 +83,8 @@ export function isCommandInArgs(command: Command, args: CustomArgs): Boolean {
     ) {
       found = true;
     }
-    
-    const commandArgs:Array<string> = eval(args["_"]);
+
+    const commandArgs: Array<string> = eval(args["_"]);
 
     commandArgs.forEach((arg: string) => {
       if (command.letter_command === arg || command.word_command === arg) {

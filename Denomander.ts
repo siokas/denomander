@@ -518,7 +518,7 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
 
         // variable name conflicts (version)
         if (command && command != this.version_command) {
-          let value:string | boolean = this._args[key];
+          let value: string | boolean = this._args[key];
           if (value == "true" || value == "false") {
             value = (value == "true");
           }
