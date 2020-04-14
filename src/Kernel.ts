@@ -1,128 +1,238 @@
-import { green, yellow, bold, parse } from "./deno_deps.ts";
+import { green, yellow, bold } from "../deno_deps.ts";
 import {
   OnCommand,
   TempOnCommand,
-  Parasable,
-  PublicAPI,
-  CustomArgs
+  CustomArgs,
+  AppDetails
 } from "./interfaces.ts";
-import { AppDetails } from "./AppDetails.ts";
 import { Command } from "./Command.ts";
 import {
   findCommandFromArgs,
-  removeCommandFromArray,
   isCommandInArgs,
   isCommandFromArrayInArgs,
   containCommandInOnCommandArray
 } from "./helpers.ts";
+
 /**
- * The main class 
- * 
- * @export
- * @class Denomander
- * @extends AppDetails
+  * Kernel class 
+  * 
+  * @export
+  * @class Kernel
  */
-export class Denomander extends AppDetails implements Parasable, PublicAPI {
-  /**
-    * Holds all the commands
-    *
-    * @private
-    * @type {Array<Command>}
-    * @memberof Denomander
-   */
-  private commands: Array<Command> = [];
-
-  /**
-    * Arguments passed by the user during runtime
-    *
-    * @private
-    * @type {CustomArgs}
-    * @memberof Denomander
-   */
-  private _args: CustomArgs = {};
-
-  /**
-    * Holds all the available required options
-    *
-    * @private
-    * @type {Array<Command>}
-    * @memberof Denomander
-   */
-  private available_requiredOptions: Array<Command> = [];
-
-  /**
-    * Holds all the available commands
-    *
-    * @private
-    * @type {Array<Command>}
-    * @memberof Denomander
-   */
-  private available_commands: Array<Command> = [];
-
-  /**
-    * Holds all the available options
-    *
-    * @private
-    * @type {Array<Command>}
-    * @memberof Denomander
-   */
-  private available_options: Array<Command> = [];
-
-  /**
-    * Holds the available default options.
-    * (help, version)
-    *
-    * @private
-    * @type {Array<Command>}
-    * @memberof Denomander
-   */
-  private available_default_options: Array<Command> = [];
-
-  /**
-    * Holds all the available actions
-    *
-    * @private
-    * @type {Array<Command>}
-    * @memberof Denomander
-   */
-  private available_actions: Array<Command> = [];
-
-  /**
-    * Holds all the available .on() commands
-    *
-    * @private
-    * @type {Array<OnCommand>}
-    * @memberof Denomander
-   */
-  private available_on_commands: Array<OnCommand> = [];
-
-  /**
-    * Temporary array for .on() commands
-    *
-    * @private
-    * @type {Array<TempOnCommand>}
-    * @memberof Denomander
-   */
-  private temp_on_commands: Array<TempOnCommand> = [];
-
+export class Kernel {
   /**
    * Multiple variables that will be defined during runtime,
    * holding the values of the commands passed from the user
    * 
    * @public
    * @type {string | boolean}
-   * @memberof Denomander
+   * @memberof Kernel
    */
   [key: string]: any
 
   /**
+   * The name of the app.
+   * 
+   * @protected
+   * @type {string}
+   * @memberof AppDetails
+   */
+  protected _app_name: string;
+
+  /**
+   * The description of the app.
+   * 
+   * @protected
+   * @type {string}
+   * @memberof AppDetails
+   */
+  protected _app_description: string;
+
+  /**
+   * The version of the app.
+   * 
+   * @protected
+   * @type {string}
+   * @memberof AppDetails
+   */
+  protected _app_version: string;
+
+  /**
+   * Constructor of AppDetails object.
+   * 
+   * @param {AppDetails} app_details 
+   * @memberof AppDetails
+   */
+  constructor(app_details?: AppDetails) {
+    if (app_details) {
+      this._app_name = app_details.app_name;
+      this._app_description = app_details.app_description;
+      this._app_version = app_details.app_version;
+    } else {
+      this._app_name = "My App";
+      this._app_description = "My Description";
+      this._app_version = "0.0.1";
+    }
+  }
+
+  /**
+   * Getter of the app name
+   * 
+   * @public
+   * @return {string}
+   * @memberof AppDetails
+   */
+  get app_name(): string {
+    return this._app_name;
+  }
+
+  /**
+   * Setter of the app name
+   * 
+   * @public
+   * @param {string} name
+   * @return void
+   * @memberof AppDetails
+   */
+  set app_name(name: string) {
+    this._app_name = name;
+  }
+
+  /**
+   * Getter of the app description
+   * 
+   * @public
+   * @return {string}
+   * @memberof AppDetails
+   */
+  get app_description(): string {
+    return this._app_description;
+  }
+
+  /**
+   * Setter of the app description
+   * 
+   * @public
+   * @param {string} description
+   * @return void
+   * @memberof AppDetails
+   */
+  set app_description(description: string) {
+    this._app_description = description;
+  }
+
+  /**
+   * Getter of the app version
+   * 
+   * @public
+   * @return {string}
+   * @memberof AppDetails
+   */
+  get app_version(): string {
+    return this._app_version;
+  }
+
+  /**
+   * Setter of the app version
+   * 
+   * @public
+   * @param {string} version
+   * @return void
+   * @memberof AppDetails
+   */
+  set app_version(version: string) {
+    this._app_version = version;
+  }
+  /**
+    * Holds all the commands
+    *
+    * @protected
+    * @type {Array<Command>}
+    * @memberof Kernel
+   */
+  protected commands: Array<Command> = [];
+
+  /**
+    * Arguments passed by the user during runtime
+    *
+    * @protected
+    * @type {CustomArgs}
+    * @memberof Kernel
+   */
+  protected _args: CustomArgs = {};
+
+  /**
+    * Holds all the available required options
+    *
+    * @protected
+    * @type {Array<Command>}
+    * @memberof Kernel
+   */
+  protected available_requiredOptions: Array<Command> = [];
+
+  /**
+    * Holds all the available commands
+    *
+    * @protected
+    * @type {Array<Command>}
+    * @memberof Kernel
+   */
+  protected available_commands: Array<Command> = [];
+
+  /**
+    * Holds all the available options
+    *
+    * @protected
+    * @type {Array<Command>}
+    * @memberof Kernel
+   */
+  protected available_options: Array<Command> = [];
+
+  /**
+    * Holds the available default options.
+    * (help, version)
+    *
+    * @protected
+    * @type {Array<Command>}
+    * @memberof Kernel
+   */
+  protected available_default_options: Array<Command> = [];
+
+  /**
+    * Holds all the available actions
+    *
+    * @protected
+    * @type {Array<Command>}
+    * @memberof Kernel
+   */
+  protected available_actions: Array<Command> = [];
+
+  /**
+    * Holds all the available .on() commands
+    *
+    * @protected
+    * @type {Array<OnCommand>}
+    * @memberof Kernel
+   */
+  protected available_on_commands: Array<OnCommand> = [];
+
+  /**
+    * Temporary array for .on() commands
+    *
+    * @protected
+    * @type {Array<TempOnCommand>}
+    * @memberof Kernel
+   */
+  protected temp_on_commands: Array<TempOnCommand> = [];
+
+  /**
    * The Command instance of the --version option
    * 
-   * @private
+   * @protected
    * @type {Command}
    * @memberof Denomander
    */
-  private version_command: Command = new Command({
+  protected version_command: Command = new Command({
     value: "-V --version",
     description: "Print the current version",
   });
@@ -130,11 +240,11 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * The Command instance of the --help option
    * 
-   * @private
+   * @protected
    * @type {Command}
    * @memberof Denomander
    */
-  private help_command: Command = new Command({
+  protected help_command: Command = new Command({
     value: "-h --help",
     description: "Print command line options (currently set)",
   });
@@ -142,204 +252,30 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * If the user has defined a custom help
    * 
-   * @private
+   * @protected
    * @type {boolean}
    * @memberof Denomander
    */
-  private isHelpConfigured = false;
+  protected isHelpConfigured = false;
 
   /**
    * If the user has defined a custom version
    * 
-   * @private
+   * @protected
    * @type {boolean}
    * @memberof Denomander
    */
-  private isVersionConfigured = false;
-
-  /**
-   * Parses the args.
-   * 
-   * @param {any} args 
-   * @memberof Parasable
-   */
-  public parse(args: Array<string>): void {
-    this._args = parse(args, { "--": false });
-
-    this
-      .generateDefaultOptions()
-      .validateArgs()
-      .executeCommands();
-  }
-
-  /**
-   * Implements the option command
-   * 
-   * @public
-   * @param {string} value
-   * @param {string} description 
-   * @returns {Denomander}
-   * @memberof PublicAPI
-   */
-  public option(value: string, description: string): Denomander {
-    this.commands.push(new Command({ value, description }));
-    this.available_options.push(new Command({ value, description }));
-
-    return this;
-  }
-
-  /**
-   * Implements the required option command
-   * 
-   * @public
-   * @param {string} value
-   * @param {string} description 
-   * @returns {Denomander}
-   * @memberof PublicAPI
-   */
-  public requiredOption(value: string, description: string): Denomander {
-    const command: Command = new Command(
-      { value, description, is_required: true },
-    );
-    this.commands.push(command);
-    this.available_requiredOptions.push(command);
-
-    return this;
-  }
-
-  /**
-   * Implements the option command
-   * 
-   * @public
-   * @param {string} value
-   * @param {string} description optional
-   * @returns {Denomander}
-   * @memberof PublicAPI
-   */
-  public command(value: string, description?: string): Denomander {
-    const new_command: Command = new Command({
-      value,
-      description,
-      type: "command",
-    });
-    this.commands.push(new_command);
-    this.available_commands.push(new_command);
-
-    return this;
-  }
-
-  /**
-   * Implements the description of the previous mentioned command (by the user)
-   * 
-   * @public
-   * @param {string} description 
-   * @returns {Denomander}
-   * @memberof PublicAPI
-   */
-  public description(description: string): Denomander {
-    const command: Command = this.commands.slice(-1)[0];
-
-    if (command) {
-      command.description = description;
-    }
-
-    return this;
-  }
-
-  /**
-   * Implements the action of a command registered by the user
-   * 
-   * @public
-   * @param {Function} callback 
-   * @returns {Denomander}
-   * @memberof PublicAPI
-   */
-  public action(callback: Function): Denomander {
-    const command: Command = this.commands.slice(-1)[0];
-
-    if (command) {
-      command.action = callback;
-      this.available_actions.push(command);
-    }
-
-    return this;
-  }
-
-  /**
-   * Implements the .on() option
-   * 
-   * @public
-   * @param {string} arg 
-   * @param {Function} callback 
-   * @memberof PublicAPI
-   */
-  public on(arg: string, callback: Function): Denomander {
-    this.temp_on_commands.push({ arg, callback });
-
-    return this;
-  }
-
-  /**
-   * Lets user to customize the help method
-   * 
-   * @public
-   * @param {string} command 
-   * @param {string} description 
-   * @memberof PublicAPI
-   */
-  public setHelp(command: string, description: string): Denomander {
-    this.help_command = new Command({ value: command, description });
-
-    const new_available_default_options = removeCommandFromArray(
-      this.commands,
-      "help",
-    );
-
-    new_available_default_options.push(this.help_command);
-    this.available_default_options = new_available_default_options;
-    this.isHelpConfigured = true;
-
-    return this;
-  }
-
-  /**
-   * Lets user to customize the version method
-   *
-   * @public
-   * @param {string} version  
-   * @param {string} command 
-   * @param {string} description 
-   * @memberof PublicAPI
-   */
-  public setVersion(
-    version: string,
-    command: string,
-    description: string,
-  ): Denomander {
-    this.version = version;
-    this.version_command = new Command({ value: command, description });
-
-    const new_available_default_options = removeCommandFromArray(
-      this.commands,
-      "version",
-    );
-
-    new_available_default_options.push(this.version_command);
-    this.available_default_options = new_available_default_options;
-    this.isVersionConfigured = true;
-
-    return this;
-  }
+  protected isVersionConfigured = false;
 
   /**
    * Generate the default options
    * (help, version)
    * 
-   * @private
-   * @returns {Denomander}
-   * @memberof Denomander
+   * @protected
+   * @returns {Kernel}
+   * @memberof Kernel
    */
-  private generateDefaultOptions(): Denomander {
+  protected generateDefaultOptions(): Kernel {
     return this
       .generateHelpOption()
       .generateVersionOption();
@@ -348,11 +284,11 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * Generate the default help option
    * 
-   * @private
-   * @returns {Denomander}
-   * @memberof Denomander
+   * @protected
+   * @returns {Kernel}
+   * @memberof Kernel
    */
-  private generateHelpOption(): Denomander {
+  protected generateHelpOption(): Kernel {
     if (!this.isHelpConfigured) {
       this.commands.push(this.help_command);
       this.available_default_options.push(this.help_command);
@@ -364,11 +300,11 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * Generate the default version option
    * 
-   * @private
-   * @returns {Denomander}
-   * @memberof Denomander
+   * @protected
+   * @returns {Kernel}
+   * @memberof Kernel
    */
-  private generateVersionOption(): Denomander {
+  protected generateVersionOption(): Kernel {
     if (!this.isVersionConfigured) {
       this.commands.push(this.version_command);
       this.available_default_options.push(this.version_command);
@@ -380,10 +316,10 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * It prints out the help doc
    * 
-   * @private
-   * @memberof Denomander
+   * @protected
+   * @memberof Kernel
    */
-  private print_help(): void {
+  protected print_help(): void {
     console.log();
     console.log(green(bold(this.app_name)));
     console.log();
@@ -424,11 +360,11 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * Validates all types of Commands
    * 
-   * @private
-   * @returns {Denomander}
-   * @memberof Denomander
+   * @protected
+   * @returns {Kernel}
+   * @memberof Kernel
    */
-  private validateArgs(): Denomander {
+  protected validateArgs(): Kernel {
     if (Object.keys(this._args).length <= 1 && this._args["_"].length < 1) {
       this.print_help();
       Deno.exit(0);
@@ -443,11 +379,11 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * Validates the .on() commands
    * 
-   * @private
-   * @returns {Denomander}
-   * @memberof Denomander
+   * @protected
+   * @returns {Kernel}
+   * @memberof Kernel
    */
-  private validateOnCommands(): Denomander {
+  protected validateOnCommands(): Kernel {
     this.temp_on_commands.forEach((temp: TempOnCommand) => {
       const command: Command = findCommandFromArgs(
         this.commands,
@@ -475,15 +411,15 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * Validates the options and commands
    * and sets the public property of the option passed
-   * (ex. --port sets program.port)
+   * (ex. --port sets Kernel.port)
    * 
-   * @private
-   * @returns {Denomander}
+   * @protected
+   * @returns {Kernel}
    * @throws {Error("You have to pass a parameter")}
    * @throws {Error("Command not found")}
-   * @memberof Denomander
+   * @memberof Kernel
    */
-  private validateOptionsAndCommands(): Denomander {
+  protected validateOptionsAndCommands(): Kernel {
     for (const key in this._args) {
       if (key === "length" || !this._args.hasOwnProperty(key)) continue;
 
@@ -538,12 +474,12 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * Validates the required options
    * 
-   * @private
-   * @returns {Denomander}
+   * @protected
+   * @returns {Kernel}
    * @throws {Error("Required option not specified")}
-   * @memberof Denomander
+   * @memberof Kernel
    */
-  private validateRequiredOptions(): Denomander {
+  protected validateRequiredOptions(): Kernel {
     this.available_requiredOptions.forEach((command: Command) => {
       if (
         !(this._args[command.word_command!] ||
@@ -570,12 +506,12 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
   /**
    * Executes commands
    * 
-   * @private
-   * @returns {Denomander}
+   * @protected
+   * @returns {Kernel}
    * @throws {Error("Too much parameters")}
-   * @memberof Denomander
+   * @memberof Kernel
    */
-  private executeCommands(): Denomander {
+  protected executeCommands(): Kernel {
     if (
       isCommandInArgs(this.help_command, this._args) &&
       !containCommandInOnCommandArray(
@@ -593,7 +529,7 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
         this.available_on_commands,
       )
     ) {
-      console.log("v" + this.version);
+      console.log("v" + this._app_version);
     }
 
     this.available_actions.forEach((command: Command) => {
@@ -609,5 +545,11 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
     });
 
     return this;
+  }
+
+  protected executeProgram(): Kernel {
+    return this.generateDefaultOptions()
+      .validateArgs()
+      .executeCommands();
   }
 }

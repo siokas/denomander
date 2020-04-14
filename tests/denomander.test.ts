@@ -1,5 +1,5 @@
-import { assertEquals, assertThrows, test } from "./deno_deps.ts";
-import { Denomander } from "./Denomander.ts";
+import { assertEquals, assertThrows, test } from "../deno_deps.ts";
+import { Denomander } from "../src/Denomander.ts";
 
 test(function app_option() {
   const program = new Denomander();

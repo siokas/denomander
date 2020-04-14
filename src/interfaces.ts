@@ -16,6 +16,7 @@ export interface PublicAPI {
   on(arg: string, callback: Function): Denomander;
   setHelp(command: string, description: string): Denomander;
   setVersion(version: string, command: string, description: string): Denomander;
+  parse(args: Array<string>): void;
 }
 
 /**
@@ -32,9 +33,9 @@ export interface Parasable {
  * Defines the app detail types
  * 
  * @export 
- * @interface AppDetailsAccessors
+ * @interface AppDetails
  */
-export interface AppDetailsAccessors {
+export interface AppDetails {
   app_name: string;
   app_description: string;
   app_version: string;

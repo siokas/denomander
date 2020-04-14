@@ -1,4 +1,4 @@
-import { assertEquals, test } from "./deno_deps.ts";
+import { assertEquals, test } from "../deno_deps.ts";
 import {
   stripDashes,
   containsBrackets,
@@ -7,9 +7,9 @@ import {
   arraysHaveMatchingCommand,
   containCommandInOnCommandArray,
   trimString
-} from "./helpers.ts";
-import { Command } from "./Command.ts";
-import { OnCommand } from "./interfaces.ts";
+} from "../src/helpers.ts";
+import { Command } from "../src/Command.ts";
+import { OnCommand } from "../src/interfaces.ts";
 
 test(function strip_dashes() {
   assertEquals(stripDashes("--test"), "test");

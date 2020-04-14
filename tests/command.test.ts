@@ -1,5 +1,5 @@
-import { assertEquals, test } from "./deno_deps.ts";
-import { Command } from "./Command.ts";
+import { assertEquals, test } from "../deno_deps.ts";
+import { Command } from "../src/Command.ts";
 
 test(function command_option() {
   const option = new Command({
