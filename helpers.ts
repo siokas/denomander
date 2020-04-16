@@ -5,7 +5,7 @@ import { OnCommand, CustomArgs } from "./interfaces.ts";
  * It removes dashes from a string
  * 
  * @param {string} text 
- * @return {string}
+ * @returns string
  */
 export function stripDashes(text: string): string {
   return text.replace(/-/g, "");
@@ -15,7 +15,7 @@ export function stripDashes(text: string): string {
  * Detects if a strign contains brackets
  * 
  * @param {string} text 
- * @returns {boolean}
+ * @returns boolean
  */
 export function containsBrackets(text: string): boolean {
   return text.match(/\[(.*?)\]/) ? true : false;
@@ -27,7 +27,7 @@ export function containsBrackets(text: string): boolean {
  * 
  * @param {Array<Command>} array 
  * @param {string} arg 
- * @returns {Command | undefined}
+ * @returns Command | undefined
  */
 export function findCommandFromArgs(
   array: Array<Command>,
@@ -49,7 +49,7 @@ export function findCommandFromArgs(
  * 
  * @param {Array<Command>} haystack 
  * @param {string} needle 
- * @returns {Array<Command>}
+ * @returns Array<Command>
  */
 export function removeCommandFromArray(
   haystack: Array<Command>,
@@ -69,7 +69,7 @@ export function removeCommandFromArray(
  * 
  * @param {Command} command 
  * @param {CustomArgs} args 
- * @returns {Boolean}
+ * @returns Boolean
  */
 export function isCommandInArgs(command: Command, args: CustomArgs): Boolean {
   let found = false;
@@ -102,12 +102,12 @@ export function isCommandInArgs(command: Command, args: CustomArgs): Boolean {
  * 
  * @param {Array<Command>} commands 
  * @param {CustomArgs} args 
- * @returns {boolean}
+ * @returns boolean
  */
 export function isCommandFromArrayInArgs(
   commands: Array<Command>,
   args: CustomArgs,
-): Boolean {
+): boolean {
   let found = false;
 
   for (const key in args) {
@@ -132,7 +132,7 @@ export function isCommandFromArrayInArgs(
  * @param {Command} command 
  * @param {Array<Command>} array1 
  * @param {Array<Command>} array2 
- * @return {boolean}
+ * @returns boolean
  */
 export function arraysHaveMatchingCommand(
   command: Command,
@@ -152,7 +152,7 @@ export function arraysHaveMatchingCommand(
  * 
  * @param {Command} command 
  * @param {Array<OnCommand>} array 
- * @returns {boolean}
+ * @returns boolean
  */
 export function containCommandInOnCommandArray(
   command: Command,
@@ -167,7 +167,7 @@ export function containCommandInOnCommandArray(
  * It trims of the empty spaces from the given string
  * 
  * @param {string} text 
- * @returns {string}
+ * @returns string
  */
 export function trimString(text: string): string {
   return text.replace(/\s/g, "");

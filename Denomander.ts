@@ -489,10 +489,10 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
 
       if (key == "_") {
         if (this._args["_"].length > 0) {
-          const command: Command = findCommandFromArgs(
+          const command: Command | undefined = findCommandFromArgs(
             this.commands,
             this._args[key][0],
-          )!;
+          );
           if (command) {
             if (command.require_command_value) {
               if (this._args["_"].length < 2) {
@@ -519,11 +519,17 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
         // variable name conflicts (version)
         if (command && command != this.version_command) {
           let value: string | boolean = this._args[key];
+
           if (value == "true" || value == "false") {
             value = (value == "true");
           }
-          this[command.letter_command!] = value;
-          this[command.word_command!] = value;
+          if (command.letter_command) {
+            this[command.letter_command] = value;
+          }
+
+          if (command.word_command) {
+            this[command.word_command!] = value;
+          }
         } else {
           if (!key.startsWith("allow") && command != this.version_command) {
             throw new Error("Command [" + key + "] not found");
@@ -549,6 +555,7 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
         !(this._args[command.word_command!] ||
           this._args[command.letter_command!])
       ) {
+        // Do not throw required error if the arg is (--version || --help)
         if (
           !isCommandFromArrayInArgs(
             this.available_default_options,

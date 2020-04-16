@@ -35,8 +35,10 @@ test(function find_command_from_args() {
 
   const command = findCommandFromArgs(commands, arg);
 
-  assertEquals(command!.letter_command, "h");
-  assertEquals(command!.word_command, "help");
+  if (command) {
+    assertEquals(command.letter_command, "h");
+    assertEquals(command.word_command, "help");
+  }
 });
 
 test(function remove_command_from_array() {
