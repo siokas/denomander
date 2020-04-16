@@ -100,7 +100,7 @@ test(function action_command() {
 
   let result = "";
 
-  program.command("clone [foldername]").action((foldername: any) => {
+  program.command("clone [foldername]").action((foldername: string) => {
     result = foldername;
   });
 

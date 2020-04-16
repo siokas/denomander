@@ -502,7 +502,7 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
             }
 
             if (command.word_command === this._args["_"][0]) {
-              this[command.word_command!] = command.value;
+              this[command.word_command] = command.value;
             }
           } else {
             throw new Error(
@@ -511,10 +511,10 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
           }
         }
       } else {
-        const command: Command = findCommandFromArgs(
+        const command: Command | undefined = findCommandFromArgs(
           this.commands,
           key,
-        )!;
+        );
 
         // variable name conflicts (version)
         if (command && command != this.version_command) {
@@ -528,7 +528,7 @@ export class Denomander extends AppDetails implements Parasable, PublicAPI {
           }
 
           if (command.word_command) {
-            this[command.word_command!] = value;
+            this[command.word_command] = value;
           }
         } else {
           if (!key.startsWith("allow") && command != this.version_command) {
