@@ -1,7 +1,6 @@
 import * as Interface from "./interfaces.ts";
-import * as Helper from "./helpers.ts";
 import { Command } from "./Command.ts";
-import { print_help } from "./utils.ts";
+import * as Util from "./utils.ts";
 
 /**
   * Kernel class 
@@ -304,6 +303,12 @@ export class Kernel {
     return this;
   }
 
+  /**
+   * Print the help screen
+   * 
+   * @protected
+   * @memberof Kernel
+   */
   protected print(): void {
     const app_details: Interface.AppDetails = {
       app_name: this._app_name,
@@ -318,7 +323,7 @@ export class Kernel {
       commands: this.available_commands,
     };
 
-    print_help(app_details, command_types);
+    Util.print_help(app_details, command_types);
   }
 
   /**
@@ -349,7 +354,7 @@ export class Kernel {
    */
   protected validateOnCommands(): Kernel {
     this.temp_on_commands.forEach((temp: Interface.TempOnCommand) => {
-      const command: Command | undefined = Helper.findCommandFromArgs(
+      const command: Command | undefined = Util.findCommandFromArgs(
         this.commands,
         temp.arg,
       );
@@ -364,7 +369,7 @@ export class Kernel {
     });
 
     this.available_on_commands.forEach((arg: Interface.OnCommand) => {
-      if (Helper.isCommandInArgs(arg.command, this._args)) {
+      if (Util.isCommandInArgs(arg.command, this._args)) {
         arg.callback();
       }
     });
@@ -389,7 +394,7 @@ export class Kernel {
 
       if (key == "_") {
         if (this._args["_"].length > 0) {
-          const command: Command = Helper.findCommandFromArgs(
+          const command: Command = Util.findCommandFromArgs(
             this.commands,
             this._args[key][0],
           )!;
@@ -411,7 +416,7 @@ export class Kernel {
           }
         }
       } else {
-        const command: Command = Helper.findCommandFromArgs(
+        const command: Command = Util.findCommandFromArgs(
           this.commands,
           key,
         )!;
@@ -450,7 +455,7 @@ export class Kernel {
           this._args[command.letter_command!])
       ) {
         if (
-          !Helper.isCommandFromArrayInArgs(
+          !Util.isCommandFromArrayInArgs(
             this.available_default_options,
             this._args,
           )
@@ -477,8 +482,8 @@ export class Kernel {
    */
   protected executeCommands(): Kernel {
     if (
-      Helper.isCommandInArgs(this.help_command, this._args) &&
-      !Helper.containCommandInOnCommandArray(
+      Util.isCommandInArgs(this.help_command, this._args) &&
+      !Util.containCommandInOnCommandArray(
         this.help_command,
         this.available_on_commands,
       )
@@ -487,8 +492,8 @@ export class Kernel {
     }
 
     if (
-      Helper.isCommandInArgs(this.version_command, this._args) &&
-      !Helper.containCommandInOnCommandArray(
+      Util.isCommandInArgs(this.version_command, this._args) &&
+      !Util.containCommandInOnCommandArray(
         this.version_command,
         this.available_on_commands,
       )
@@ -497,7 +502,7 @@ export class Kernel {
     }
 
     this.available_actions.forEach((command: Command) => {
-      if (Helper.isCommandInArgs(command, this._args)) {
+      if (Util.isCommandInArgs(command, this._args)) {
         if (command.action.length == 0) {
           command.action();
         } else if (command.action.length == 1) {

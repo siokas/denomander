@@ -1,6 +1,3 @@
-import { Command } from "./Command.ts";
-import { OnCommand, CustomArgs } from "./interfaces.ts";
-
 /**
  * It removes dashes from a string
  * 

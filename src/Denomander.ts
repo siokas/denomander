@@ -1,7 +1,7 @@
 import { parse } from "../deno_deps.ts";
 import { PublicAPI } from "./interfaces.ts";
 import { Command } from "./Command.ts";
-import { removeCommandFromArray } from "./helpers.ts";
+import { removeCommandFromArray } from "./utils.ts";
 import { Kernel } from "./Kernel.ts";
 
 /**
