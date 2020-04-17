@@ -1,17 +1,7 @@
-import { green, yellow, bold } from "../deno_deps.ts";
-import {
-  OnCommand,
-  TempOnCommand,
-  CustomArgs,
-  AppDetails
-} from "./interfaces.ts";
+import * as Interface from "./interfaces.ts";
+import * as Helper from "./helpers.ts";
 import { Command } from "./Command.ts";
-import {
-  findCommandFromArgs,
-  isCommandInArgs,
-  isCommandFromArrayInArgs,
-  containCommandInOnCommandArray
-} from "./helpers.ts";
+import { print_help } from "./utils.ts";
 
 /**
   * Kernel class 
@@ -35,7 +25,7 @@ export class Kernel {
    * 
    * @protected
    * @type {string}
-   * @memberof AppDetails
+   * @memberof Interface.AppDetails
    */
   protected _app_name: string;
 
@@ -44,7 +34,7 @@ export class Kernel {
    * 
    * @protected
    * @type {string}
-   * @memberof AppDetails
+   * @memberof Interface.AppDetails
    */
   protected _app_description: string;
 
@@ -53,7 +43,7 @@ export class Kernel {
    * 
    * @protected
    * @type {string}
-   * @memberof AppDetails
+   * @memberof Interface.AppDetails
    */
   protected _app_version: string;
 
@@ -70,10 +60,10 @@ export class Kernel {
     * Arguments passed by the user during runtime
     *
     * @protected
-    * @type {CustomArgs}
+    * @type {Interface.CustomArgs}
     * @memberof Kernel
    */
-  protected _args: CustomArgs = {};
+  protected _args: Interface.CustomArgs = {};
 
   /**
     * Holds all the available required options
@@ -125,19 +115,19 @@ export class Kernel {
     * Holds all the available .on() commands
     *
     * @protected
-    * @type {Array<OnCommand>}
+    * @type {Array<Interface.OnCommand>}
     * @memberof Kernel
    */
-  protected available_on_commands: Array<OnCommand> = [];
+  protected available_on_commands: Array<Interface.OnCommand> = [];
 
   /**
     * Temporary array for .on() commands
     *
     * @protected
-    * @type {Array<TempOnCommand>}
+    * @type {Array<Interface.TempOnCommand>}
     * @memberof Kernel
    */
-  protected temp_on_commands: Array<TempOnCommand> = [];
+  protected temp_on_commands: Array<Interface.TempOnCommand> = [];
 
   /**
    * The Command instance of the --version option
@@ -182,12 +172,12 @@ export class Kernel {
   protected isVersionConfigured = false;
 
   /**
-   * Constructor of AppDetails object.
+   * Constructor of Interface.AppDetails object.
    * 
-   * @param {AppDetails} app_details 
-   * @memberof AppDetails
+   * @param {Interface.AppDetails} app_details 
+   * @memberof Interface.AppDetails
    */
-  constructor(app_details?: AppDetails) {
+  constructor(app_details?: Interface.AppDetails) {
     if (app_details) {
       this._app_name = app_details.app_name;
       this._app_description = app_details.app_description;
@@ -204,7 +194,7 @@ export class Kernel {
    * 
    * @public
    * @return {string}
-   * @memberof AppDetails
+   * @memberof Interface.AppDetails
    */
   public get app_name(): string {
     return this._app_name;
@@ -216,7 +206,7 @@ export class Kernel {
    * @public
    * @param {string} name
    * @return void
-   * @memberof AppDetails
+   * @memberof Interface.AppDetails
    */
   public set app_name(name: string) {
     this._app_name = name;
@@ -227,7 +217,7 @@ export class Kernel {
    * 
    * @public
    * @return {string}
-   * @memberof AppDetails
+   * @memberof Interface.AppDetails
    */
   public get app_description(): string {
     return this._app_description;
@@ -239,7 +229,7 @@ export class Kernel {
    * @public
    * @param {string} description
    * @return void
-   * @memberof AppDetails
+   * @memberof Interface.AppDetails
    */
   public set app_description(description: string) {
     this._app_description = description;
@@ -250,7 +240,7 @@ export class Kernel {
    * 
    * @public
    * @return {string}
-   * @memberof AppDetails
+   * @memberof Interface.AppDetails
    */
   public get app_version(): string {
     return this._app_version;
@@ -262,7 +252,7 @@ export class Kernel {
    * @public
    * @param {string} version
    * @return void
-   * @memberof AppDetails
+   * @memberof Interface.AppDetails
    */
   public set app_version(version: string) {
     this._app_version = version;
@@ -314,48 +304,21 @@ export class Kernel {
     return this;
   }
 
-  /**
-   * It prints out the help doc
-   * 
-   * @protected
-   * @memberof Kernel
-   */
-  protected print_help(): void {
-    console.log();
-    console.log(green(bold(this.app_name)));
-    console.log();
-    console.log(yellow(bold("Description:")));
-    console.log(this.app_description);
-    console.log();
+  protected print(): void {
+    const app_details: Interface.AppDetails = {
+      app_name: this._app_name,
+      app_description: this._app_description,
+      app_version: this._app_version,
+    };
 
-    if (this.available_requiredOptions.length > 0) {
-      console.log(yellow(bold("Required Options:")));
-      this.available_requiredOptions.forEach((command) => {
-        console.log(command.value + "\t" + command.description);
-      });
-      console.log();
-    }
+    const command_types: Interface.CommandTypes = {
+      default_options: this.available_default_options,
+      required_options: this.available_requiredOptions,
+      options: this.available_options,
+      commands: this.available_commands,
+    };
 
-    console.log(yellow(bold("Options:")));
-    this.available_default_options.forEach((command) => {
-      console.log(command.value + "\t" + command.description);
-    });
-
-    console.log();
-
-    this.available_options.forEach((command) => {
-      console.log(command.value + "\t" + command.description);
-    });
-
-    console.log();
-
-    if (this.available_commands.length > 0) {
-      console.log(yellow(bold("Commands:")));
-      this.available_commands.forEach((command) => {
-        console.log(command.value + "\t" + command.description);
-      });
-      console.log();
-    }
+    print_help(app_details, command_types);
   }
 
   /**
@@ -367,7 +330,7 @@ export class Kernel {
    */
   protected validateArgs(): Kernel {
     if (Object.keys(this._args).length <= 1 && this._args["_"].length < 1) {
-      this.print_help();
+      this.print();
       Deno.exit(0);
     }
 
@@ -385,11 +348,11 @@ export class Kernel {
    * @memberof Kernel
    */
   protected validateOnCommands(): Kernel {
-    this.temp_on_commands.forEach((temp: TempOnCommand) => {
-      const command: Command = findCommandFromArgs(
+    this.temp_on_commands.forEach((temp: Interface.TempOnCommand) => {
+      const command: Command | undefined = Helper.findCommandFromArgs(
         this.commands,
         temp.arg,
-      )!;
+      );
 
       if (command) {
         this.available_on_commands.push(
@@ -400,8 +363,8 @@ export class Kernel {
       }
     });
 
-    this.available_on_commands.forEach((arg: OnCommand) => {
-      if (isCommandInArgs(arg.command, this._args)) {
+    this.available_on_commands.forEach((arg: Interface.OnCommand) => {
+      if (Helper.isCommandInArgs(arg.command, this._args)) {
         arg.callback();
       }
     });
@@ -426,7 +389,7 @@ export class Kernel {
 
       if (key == "_") {
         if (this._args["_"].length > 0) {
-          const command: Command = findCommandFromArgs(
+          const command: Command = Helper.findCommandFromArgs(
             this.commands,
             this._args[key][0],
           )!;
@@ -448,7 +411,7 @@ export class Kernel {
           }
         }
       } else {
-        const command: Command = findCommandFromArgs(
+        const command: Command = Helper.findCommandFromArgs(
           this.commands,
           key,
         )!;
@@ -487,7 +450,7 @@ export class Kernel {
           this._args[command.letter_command!])
       ) {
         if (
-          !isCommandFromArrayInArgs(
+          !Helper.isCommandFromArrayInArgs(
             this.available_default_options,
             this._args,
           )
@@ -514,18 +477,18 @@ export class Kernel {
    */
   protected executeCommands(): Kernel {
     if (
-      isCommandInArgs(this.help_command, this._args) &&
-      !containCommandInOnCommandArray(
+      Helper.isCommandInArgs(this.help_command, this._args) &&
+      !Helper.containCommandInOnCommandArray(
         this.help_command,
         this.available_on_commands,
       )
     ) {
-      this.print_help();
+      this.print();
     }
 
     if (
-      isCommandInArgs(this.version_command, this._args) &&
-      !containCommandInOnCommandArray(
+      Helper.isCommandInArgs(this.version_command, this._args) &&
+      !Helper.containCommandInOnCommandArray(
         this.version_command,
         this.available_on_commands,
       )
@@ -534,11 +497,13 @@ export class Kernel {
     }
 
     this.available_actions.forEach((command: Command) => {
-      if (isCommandInArgs(command, this._args)) {
+      if (Helper.isCommandInArgs(command, this._args)) {
         if (command.action.length == 0) {
           command.action();
         } else if (command.action.length == 1) {
-          command.action(this[command.word_command!]);
+          if (command.word_command) {
+            command.action(this[command.word_command]);
+          }
         } else {
           throw new Error("Too much parameters");
         }

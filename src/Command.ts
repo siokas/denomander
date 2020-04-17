@@ -188,7 +188,7 @@ export class Command {
    * @memberof Command
    */
   get description(): string {
-    return this.options.description!;
+    return this.options.description || "";
   }
 
   /**
@@ -257,7 +257,7 @@ export class Command {
    * @memberof Command
    */
   get action(): Function {
-    return this.options.action!;
+    return this.options.action || Function;
   }
 
   /**
@@ -280,6 +280,6 @@ export class Command {
    * @memberof Command
    */
   get type(): "command" | "option" {
-    return this.options.type!;
+    return this.options.type || "option";
   }
 }

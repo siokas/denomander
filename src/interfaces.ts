@@ -86,3 +86,16 @@ export interface CommandOptions {
 export interface CustomArgs {
   [key: string]: string;
 }
+
+/**
+ * Defines all the types of commands
+ * 
+ * @export
+ * @interface CommandTypes
+ */
+export interface CommandTypes {
+  default_options: Array<Command>;
+  required_options: Array<Command>;
+  options: Array<Command>;
+  commands: Array<Command>;
+}
