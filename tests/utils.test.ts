@@ -1,24 +1,12 @@
-import { assertEquals, test } from "./deno_deps.ts";
+import { assertEquals, test } from "../deno_deps.ts";
 import {
-  stripDashes,
-  containsBrackets,
   findCommandFromArgs,
   removeCommandFromArray,
   arraysHaveMatchingCommand,
-  containCommandInOnCommandArray,
-  trimString
-} from "./helpers.ts";
-import { Command } from "./Command.ts";
-import { OnCommand } from "./interfaces.ts";
-
-test(function strip_dashes() {
-  assertEquals(stripDashes("--test"), "test");
-});
-
-test(function contains_brackets() {
-  assertEquals(containsBrackets("new [name]"), true);
-  assertEquals(containsBrackets("start"), false);
-});
+  containCommandInOnCommandArray
+} from "../src/utils.ts";
+import { Command } from "../src/Command.ts";
+import { OnCommand } from "../src/interfaces.ts";
 
 test(function find_command_from_args() {
   const commands: Array<Command> = [];
@@ -83,10 +71,4 @@ test(function contain_command_in_on_commands_array() {
   ];
 
   assertEquals(containCommandInOnCommandArray(helpCommand, array1), true);
-});
-
-test(function trim_string() {
-  const value = "  -- port  ";
-
-  assertEquals(trimString(value), "--port");
 });
