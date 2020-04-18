@@ -188,6 +188,10 @@ program.parse(args);
     -  Extract some interfaces
     -  Fix some code readability errors
     -  Change internal exported classed to named from default (Only mod.ts file has the default export od Denomander class)
+-  [0.4.0](https://github.com/siokas/denomander/releases/tag/0.4.0)
+    -  Add CustomArgs interface
+    -  Generate documentation
+    -  Create utils finalise clearing project
     
 
 ## Meta
