@@ -394,10 +394,10 @@ export class Kernel {
 
       if (key == "_") {
         if (this._args["_"].length > 0) {
-          const command: Command = Util.findCommandFromArgs(
+          const command: Command | undefined = Util.findCommandFromArgs(
             this.commands,
             this._args[key][0],
-          )!;
+          );
           if (command) {
             if (command.require_command_value) {
               if (this._args["_"].length < 2) {
