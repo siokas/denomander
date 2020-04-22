@@ -37,7 +37,7 @@ export class Generator {
     this.args = args;
   }
 
-  generateRequiredCommandValues() {
+  public generateRequiredCommandValues() {
     const commandArgsWithRequiredValues = Utils.commandArgsWithRequiredValues(
       this.args,
       this.app,
@@ -51,7 +51,9 @@ export class Generator {
 
       if (command) {
         command.value = this.args.commands[key + 1];
-        this.app[command.word_command!] = command.value;
+        if (command.word_command) {
+          this.app[command.word_command!] = command.value;
+        }
         this.app.commands = Utils.removeCommandFromArray(
           this.app.commands,
           this.args.commands[key + 1],
@@ -61,7 +63,7 @@ export class Generator {
     });
   }
 
-  commandValues() {
+  public commandValues() {
     this.args.commands.forEach((arg: string) => {
       const command: Command | undefined = Utils.findCommandFromArgs(
         this.app.commands,
@@ -80,7 +82,7 @@ export class Generator {
     return this;
   }
 
-  optionValues() {
+  public optionValues() {
     for (const key in this.args.options) {
       const command: Command | undefined = Utils.findCommandFromArgs(
         this.app.commands,
@@ -98,7 +100,7 @@ export class Generator {
     return this;
   }
 
-  onCommands() {
+  public onCommands() {
     this.app.available_on_commands.forEach((arg: Interface.OnCommand) => {
       if (Utils.isCommandInArgs(arg.command, this.args)) {
         arg.callback();

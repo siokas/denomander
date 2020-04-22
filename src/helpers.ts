@@ -27,18 +27,3 @@ export function containsBrackets(text: string): boolean {
 export function trimString(text: string): string {
   return text.replace(/\s/g, "");
 }
-
-/**
- * It replaces {0}, {1}, {n} with the given variables in a given string 
- * 
- * @param {string} str
- * @param {Array<string>} val
- * @returns {string}
- */
-export function format(str: string, ...val: Array<string>): string {
-  for (let index = 0; index < val.length; index++) {
-    str = str.replace(`{${index}}`, val[index]);
-  }
-
-  return str;
-}

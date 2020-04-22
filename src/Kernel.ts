@@ -344,28 +344,29 @@ export class Kernel {
    * @throws {Error("Too much parameters")}
    */
   protected executeCommands(): Kernel {
-    if (
-      Util.isCommandInArgs(this.help_command, this.args!) &&
-      !Util.containCommandInOnCommandArray(
-        this.help_command,
-        this.available_on_commands,
-      )
-    ) {
-      this.printHelp();
-    }
+    if (this.args) {
+      if (
+        Util.isCommandInArgs(this.help_command, this.args!) &&
+        !Util.containCommandInOnCommandArray(
+          this.help_command,
+          this.available_on_commands,
+        )
+      ) {
+        this.printHelp();
+      }
 
-    if (
-      Util.isCommandInArgs(this.version_command, this.args!) &&
-      !Util.containCommandInOnCommandArray(
-        this.version_command,
-        this.available_on_commands,
-      )
-    ) {
-      console.log("v" + this._app_version);
+      if (
+        Util.isCommandInArgs(this.version_command, this.args!) &&
+        !Util.containCommandInOnCommandArray(
+          this.version_command,
+          this.available_on_commands,
+        )
+      ) {
+        console.log("v" + this._app_version);
+      }
     }
 
     this.available_actions.forEach((command: Command) => {
-      console.log("avmes");
       if (Util.isCommandInArgs(command, this.args!)) {
         if (command.action.length == 0) {
           command.action();
