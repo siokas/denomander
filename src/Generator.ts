@@ -52,7 +52,7 @@ export class Generator {
       if (command) {
         command.value = this.args.commands[key + 1];
         if (command.word_command) {
-          this.app[command.word_command!] = command.value;
+          this.app[command.word_command] = command.value;
         }
         this.app.commands = Utils.removeCommandFromArray(
           this.app.commands,

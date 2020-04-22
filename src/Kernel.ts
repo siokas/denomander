@@ -346,7 +346,7 @@ export class Kernel {
   protected executeCommands(): Kernel {
     if (this.args) {
       if (
-        Util.isCommandInArgs(this.help_command, this.args!) &&
+        Util.isCommandInArgs(this.help_command, this.args) &&
         !Util.containCommandInOnCommandArray(
           this.help_command,
           this.available_on_commands,
@@ -356,7 +356,7 @@ export class Kernel {
       }
 
       if (
-        Util.isCommandInArgs(this.version_command, this.args!) &&
+        Util.isCommandInArgs(this.version_command, this.args) &&
         !Util.containCommandInOnCommandArray(
           this.version_command,
           this.available_on_commands,
