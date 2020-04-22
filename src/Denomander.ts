@@ -17,7 +17,6 @@ export class Denomander extends Kernel implements PublicAPI {
    * Parses the args.
    * 
    * @param {Array<string>} args 
-   * @memberof PublicAPI
    */
   public parse(args: Array<string>) {
     this.args = new Arguments(args);
@@ -33,7 +32,6 @@ export class Denomander extends Kernel implements PublicAPI {
    * @param {string} value
    * @param {string} description 
    * @returns {Denomander}
-   * @memberof PublicAPI
    */
   public option(value: string, description: string): Denomander {
     this.commands.push(new Command({ value, description }));
@@ -49,7 +47,6 @@ export class Denomander extends Kernel implements PublicAPI {
    * @param {string} value
    * @param {string} description 
    * @returns {Denomander}
-   * @memberof PublicAPI
    */
   public requiredOption(value: string, description: string): Denomander {
     const command: Command = new Command(
@@ -68,7 +65,6 @@ export class Denomander extends Kernel implements PublicAPI {
    * @param {string} value
    * @param {string} description optional
    * @returns {Denomander}
-   * @memberof PublicAPI
    */
   public command(value: string, description?: string): Denomander {
     const new_command: Command = new Command({
@@ -88,7 +84,6 @@ export class Denomander extends Kernel implements PublicAPI {
    * @public
    * @param {string} description 
    * @returns {Denomander}
-   * @memberof PublicAPI
    */
   public description(description: string): Denomander {
     const command: Command = this.commands.slice(-1)[0];
@@ -106,7 +101,6 @@ export class Denomander extends Kernel implements PublicAPI {
    * @public
    * @param {Function} callback 
    * @returns {Denomander}
-   * @memberof PublicAPI
    */
   public action(callback: Function): Denomander {
     const command: Command = this.commands.slice(-1)[0];
@@ -125,7 +119,6 @@ export class Denomander extends Kernel implements PublicAPI {
    * @public
    * @param {string} arg 
    * @param {Function} callback 
-   * @memberof PublicAPI
    */
   public on(arg: string, callback: Function): Denomander {
     this.temp_on_commands.push({ arg, callback });
@@ -139,7 +132,6 @@ export class Denomander extends Kernel implements PublicAPI {
    * @public
    * @param {string} command 
    * @param {string} description 
-   * @memberof PublicAPI
    */
   public setHelp(command: string, description: string): Denomander {
     this.help_command = new Command({ value: command, description });
@@ -163,7 +155,6 @@ export class Denomander extends Kernel implements PublicAPI {
    * @param {string} version  
    * @param {string} command 
    * @param {string} description 
-   * @memberof PublicAPI
    */
   public setVersion(
     version: string,

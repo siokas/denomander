@@ -14,7 +14,6 @@ export class Command {
    * 
    * @public
    * @type {boolean}
-   * @memberof Command
    */
   public require_command_value = false;
 
@@ -24,7 +23,6 @@ export class Command {
     *
     * @private
     * @type {string}
-    * @memberof Command
    */
   private _letter_command?: string;
 
@@ -34,7 +32,6 @@ export class Command {
     *
     * @private
     * @type {string}
-    * @memberof Command
    */
   private _word_command?: string;
 
@@ -44,7 +41,6 @@ export class Command {
    * 
    * @private
    * @type {CommandOptions}
-   * @memberof Command
    */
   private options: CommandOptions;
 
@@ -52,7 +48,6 @@ export class Command {
    * Constructor of Command object.
    * 
    * @param {CommandOptions} options
-   * @memberof Command
    */
   constructor(options: CommandOptions) {
     this.options = Object.assign({
@@ -79,7 +74,6 @@ export class Command {
    * 
    * @private
    * @returns void
-   * @memberof Command
    */
   private generateCommand() {
     const splitedValue = this.options.value.split(" ");
@@ -104,7 +98,6 @@ export class Command {
    * 
    * @private
    * @returns void
-   * @memberof Command
    */
   private generateOption() {
     const splitedValue: Array<string> = this.splitValue(this.options.value);
@@ -143,7 +136,6 @@ export class Command {
    * @private
    * @returns {Array<string>}
    * @param {string} value 
-   * @memberof Command
    */
   private splitValue(value: string): Array<string> {
     if (value.indexOf(",") !== -1) {
@@ -162,7 +154,6 @@ export class Command {
    * 
    * @public
    * @returns {string}
-   * @memberof Command
    */
   get value(): string {
     return this.options.value;
@@ -174,7 +165,6 @@ export class Command {
    * @public
    * @param {string} value
    * @returns void
-   * @memberof Command
    */
   set value(value: string) {
     this.options.value = value;
@@ -185,7 +175,6 @@ export class Command {
    * 
    * @public
    * @returns {string}
-   * @memberof Command
    */
   get description(): string {
     return this.options.description || "";
@@ -197,7 +186,6 @@ export class Command {
    * @public
    * @param {string} description
    * @returns void
-   * @memberof Command
    */
   set description(description: string) {
     this.options.description = description;
@@ -208,7 +196,6 @@ export class Command {
    * 
    * @public
    * @returns {string | undefined}
-   * @memberof Command
    */
   get letter_command(): string | undefined {
     return this._letter_command;
@@ -220,7 +207,6 @@ export class Command {
    * @public
    * @param {string | undefined} letter_command
    * @returns void
-   * @memberof Command
    */
   set letter_command(letter_command: string | undefined) {
     this._letter_command = letter_command;
@@ -231,7 +217,6 @@ export class Command {
    * 
    * @public
    * @returns {string | undefined}
-   * @memberof Command
    */
   get word_command(): string | undefined {
     return this._word_command;
@@ -243,7 +228,6 @@ export class Command {
    * @public
    * @param {string | undefined} word_command
    * @returns void
-   * @memberof Command
    */
   set word_command(word_command: string | undefined) {
     this._word_command = word_command;
@@ -254,7 +238,6 @@ export class Command {
    * 
    * @public
    * @returns {Function | undefined}
-   * @memberof Command
    */
   get action(): Function {
     return this.options.action || Function;
@@ -266,7 +249,6 @@ export class Command {
    * @public
    * @param {Function} callback
    * @returns void
-   * @memberof Command
    */
   set action(callback: Function) {
     this.options.action = callback;
@@ -277,7 +259,6 @@ export class Command {
    * 
    * @public
    * @returns {"command" | "option"}
-   * @memberof Command
    */
   get type(): "command" | "option" {
     return this.options.type || "option";

@@ -84,7 +84,7 @@ export interface CommandOptions {
  * @interface CustomArgs
  */
 export interface CustomArgs {
-  [key: string]: string;
+  [key: string]: string | Array<string>;
 }
 
 /**

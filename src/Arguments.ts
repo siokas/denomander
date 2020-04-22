@@ -3,69 +3,110 @@ import * as Interface from "./interfaces.ts";
 
 /**
  * It parses the arguments and splits them into commands and options
+ * 
+ * @export
+ * @class Arguments
+ * @implements ArgumentsContract
  */
 export class Arguments implements Interface.ArgumentsContract {
-
   /**
    * Aruments from Deno.args (unparsed)
    * 
-   * @private
+   * @protected
    * @type {Array<string>}
    */
-  private unparsed_args: Array<string>;
+  protected unparsed_args: Array<string>;
 
   /**
-   * Aruments from Deno.args (unparsed)
+   * All arguments parsed
    * 
-   * @private
+   * @protected
    * @type {CustomArgs}
    */
-  private _all: Interface.CustomArgs = {};
+  protected _all: Interface.CustomArgs = {};
 
   /**
-   * Aruments from Deno.args (unparsed)
+   * Option arguments
    * 
-   * @private
+   * @protected
    * @type {CustomArgs}
    */
-  private _options: Interface.CustomArgs = {};
+  protected _options: Interface.CustomArgs = {};
 
   /**
-   * Aruments from Deno.args (unparsed)
+   * Command arguments
    * 
-   * @private
+   * @protected
    * @type {Array<string>}
    */
-  private _commands: Array<string> = [];
+  protected _commands: Array<string> = [];
 
+  /**
+   * Constructor of Arguments object
+   * 
+   * @param {Array<string>} args
+   */
   constructor(args: Array<string>) {
     this.unparsed_args = args;
   }
 
-  parse(options?:any): void {
-    this._all = parse(this.unparsed_args, options);
+  /**
+   * It parses the args
+   * 
+   * @public
+   */
+  public parse(): void {
+    this._all = parse(this.unparsed_args);
     this._commands = this.extractCommands(this._all);
     this._options = this.extractOptions(this._all);
   }
 
-  get all() {
+  /**
+   * Getter of all arguments
+   * 
+   * @public
+   */
+  public get all() {
     return this._all;
   }
 
-  get options() {
+  /**
+   * Getter of option arguments
+   * 
+   * @public
+   * @returns {CustomArgs}
+   */
+  public get options() {
     return this._options;
   }
 
-  get commands() {
+  /**
+   * Getter of command arguments
+   * 
+   * @public
+   * @returns {Array<string>}
+   */
+  public get commands(): Array<string> {
     return this._commands;
   }
 
-  private extractOptions(args: Interface.CustomArgs): Interface.CustomArgs {
+  /**
+   * Splits the arguments and gets the options
+   * 
+   * @param args {CustomArgs}
+   * @returns {CustomArgs}
+   */
+  protected extractOptions(args: Interface.CustomArgs): Interface.CustomArgs {
     delete args["_"];
     return args;
   }
 
-  private extractCommands(args: any): Array<string> {
-    return args["_"];
+  /**
+   * 
+   * @param args {}
+   * @returns {Array<string>}
+   */
+  protected extractCommands(args: Interface.CustomArgs): Array<string> {
+    return args["_"] as Array<string>;
   }
 }

@@ -1,13 +1,37 @@
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
-import * as Utils from "./utils.ts";
 import { Command } from "./Command.ts";
 import * as Interface from "./interfaces.ts";
+import * as Utils from "./utils.ts";
 
+/**
+ * It is responsible for generating the public variables and running the necessary callback functions
+ * 
+ * @exports
+ * @class Generator
+ */
 export class Generator {
-  args: Arguments;
-  app: Kernel;
+  /**
+   * The Arguments instance holding all the arguments passed by the user
+   * 
+   * @protected
+   * @type {Arguments}
+   */
+  protected args: Arguments;
 
+  /**
+   * The instance of the main app
+   * 
+   * @protected
+   * @type {Kernel}
+   */
+  protected app: Kernel;
+
+  /**
+   * 
+   * @param {} app 
+   * @param args 
+   */
   constructor(app: Kernel, args: Arguments) {
     this.app = app;
     this.args = args;
@@ -57,9 +81,6 @@ export class Generator {
   }
 
   optionValues() {
-    // if (!key.startsWith("allow") && command != this.version_command) {
-    //   throw new Error("Command [" + key + "] not found");
-    // }
     for (const key in this.args.options) {
       const command: Command | undefined = Utils.findCommandFromArgs(
         this.app.commands,

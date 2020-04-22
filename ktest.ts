@@ -8,19 +8,15 @@ const program = new Denomander(
   },
 );
 
+function pull(url: any) {
+  console.log("start pulling from: " + url);
+}
+
 program
   .option("-t --test", "Test")
   .command("clone [url]", "clone url")
   .command("pull", "clone url");
 
-// console.log(program.clone);
-
-program.on("--help", () => {
-  console.log("NOT HELP");
-});
+program.on("pull", pull);
 
 program.parse(Deno.args);
-
-// if (program.test) {
-//   console.log(program.test);
-// }
