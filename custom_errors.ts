@@ -6,7 +6,7 @@ enum ErrorMessage {
 }
 
 export class ValidationError extends Error {
-  message: string;
+  public message: string;
   constructor(message: string) {
     super(message);
 
