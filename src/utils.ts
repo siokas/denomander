@@ -7,6 +7,8 @@ import {
 } from "./interfaces.ts";
 import { Command } from "./Command.ts";
 import * as Helper from "./helpers.ts";
+import { Arguments } from "./Arguments.ts";
+import { Kernel } from "./Kernel.ts";
 
 /**
    * It prints out the help doc
@@ -130,6 +132,30 @@ export function isCommandInArgs(command: Command, args: CustomArgs): Boolean {
 }
 
 /**
+   * It detects if the given command is in the arguments
+   * 
+   * @param {Command} command 
+   * @param {CustomArgs} args 
+   * @returns {Boolean}
+   */
+export function isOptionInArgs(command: Command, args: CustomArgs): Boolean {
+  let found = false;
+
+  for (const key in args) {
+    if (key === "length" || !args.hasOwnProperty(key)) continue;
+
+    if (
+      key != "" &&
+      (command.letter_command === key || command.word_command === key)
+    ) {
+      found = true;
+    }
+  }
+
+  return found;
+}
+
+/**
    * It detects if on of the given args,
    * is included in the given array of Commands.
    * 
@@ -154,6 +180,29 @@ export function isCommandFromArrayInArgs(
       }
     }
   }
+
+  return found;
+}
+
+/**
+   * It detects if on of the given args,
+   * is included in the given array of Commands.
+   * 
+   * @param {Array<Command>} commands 
+   * @param {Arguments} args 
+   * @returns {boolean}
+   */
+export function argIsInAvailableCommands(
+  commands: Array<Command>,
+  arg: string,
+): Boolean {
+  let found = false;
+
+  commands.forEach((command: Command) => {
+    if (command.word_command === arg || command.letter_command === arg) {
+      found = true;
+    }
+  });
 
   return found;
 }
@@ -194,4 +243,20 @@ export function containCommandInOnCommandArray(
   const matching = array.filter((element) => element.command === command);
 
   return matching.length === 0 ? false : true;
+}
+
+export function commandArgsWithRequiredValues(
+  args: Arguments,
+  commands: Kernel,
+) {
+  return args.commands.filter((arg: string) => {
+    const command: Command | undefined = findCommandFromArgs(
+      commands.commands,
+      arg,
+    );
+
+    if (command) {
+      return command.require_command_value;
+    }
+  });
 }

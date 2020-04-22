@@ -1,6 +1,14 @@
 import * as Interface from "./interfaces.ts";
 import { Command } from "./Command.ts";
 import * as Util from "./utils.ts";
+import { Validator } from "./Validator.ts";
+import { Arguments } from "./Arguments.ts";
+
+enum ValidationRules {
+  requiredOptions,
+  requiredValues,
+  nonDeclearedArgs,
+}
 
 /**
   * Kernel class 
@@ -53,7 +61,7 @@ export class Kernel {
     * @type {Array<Command>}
     * @memberof Kernel
    */
-  protected commands: Array<Command> = [];
+  public commands: Array<Command> = [];
 
   /**
     * Arguments passed by the user during runtime
@@ -71,7 +79,7 @@ export class Kernel {
     * @type {Array<Command>}
     * @memberof Kernel
    */
-  protected available_requiredOptions: Array<Command> = [];
+  public available_requiredOptions: Array<Command> = [];
 
   /**
     * Holds all the available commands
@@ -169,6 +177,8 @@ export class Kernel {
    * @memberof Denomander
    */
   protected isVersionConfigured = false;
+
+  protected args: Arguments | undefined;
 
   /**
    * Constructor of Interface.AppDetails object.
@@ -334,15 +344,29 @@ export class Kernel {
    * @memberof Kernel
    */
   protected validateArgs(): Kernel {
-    if (Object.keys(this._args).length <= 1 && this._args["_"].length < 1) {
-      this.print();
-      Deno.exit(0);
+    if (this.args) {
+      if (
+        Object.keys(this.args.options).length < 1 &&
+        this.args.commands.length < 1
+      ) {
+        this.print();
+        Deno.exit(0);
+      }
+
+      const validation = new Validator(
+        this.args,
+        this,
+        [
+          ValidationRules.requiredValues,
+          ValidationRules.requiredOptions,
+          ValidationRules.nonDeclearedArgs,
+        ],
+      );
+
+      validation.validate();
     }
 
-    return this
-      .validateOnCommands()
-      .validateRequiredOptions()
-      .validateOptionsAndCommands();
+    return this;
   }
 
   /**
@@ -430,9 +454,6 @@ export class Kernel {
           this[command.letter_command!] = value;
           this[command.word_command!] = value;
         } else {
-          if (!key.startsWith("allow") && command != this.version_command) {
-            throw new Error("Command [" + key + "] not found");
-          }
         }
       }
     }
@@ -526,7 +547,8 @@ export class Kernel {
    * @memberof Kernel
    */
   protected executeProgram(): Kernel {
-    return this.generateDefaultOptions()
+    return this
+      .generateDefaultOptions()
       .validateArgs()
       .executeCommands();
   }

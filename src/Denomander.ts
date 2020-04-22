@@ -1,8 +1,8 @@
-import { parse } from "../deno_deps.ts";
 import { PublicAPI } from "./interfaces.ts";
 import { Command } from "./Command.ts";
 import { removeCommandFromArray } from "./utils.ts";
 import { Kernel } from "./Kernel.ts";
+import { Arguments } from "./Arguments.ts";
 
 /**
  * The main class 
@@ -19,8 +19,9 @@ export class Denomander extends Kernel implements PublicAPI {
    * @param {Array<string>} args 
    * @memberof PublicAPI
    */
-  public parse(args: Array<string>): void {
-    this._args = parse(args, { "--": false });
+  public parse(args: Array<string>) {
+    this.args = new Arguments(args);
+    this.args.parse();
 
     this.executeProgram();
   }
