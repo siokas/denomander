@@ -106,27 +106,20 @@ export function removeCommandFromArray(
    * @param {CustomArgs} args 
    * @returns {Boolean}
    */
-export function isCommandInArgs(command: Command, args: CustomArgs): Boolean {
+export function isCommandInArgs(command: Command, args: Arguments): Boolean {
   let found = false;
 
-  for (const key in args) {
-    if (key === "length" || !args.hasOwnProperty(key)) continue;
-
-    if (
-      key != "" &&
-      (command.letter_command === key || command.word_command === key)
-    ) {
+  for (const key in args.options) {
+    if ((command.letter_command === key || command.word_command === key)) {
       found = true;
     }
-
-    const commandArgs: Array<string> = eval(args["_"]);
-
-    commandArgs.forEach((arg: string) => {
-      if (command.letter_command === arg || command.word_command === arg) {
-        found = true;
-      }
-    });
   }
+
+  args.commands.forEach((arg: string) => {
+    if (command.letter_command === arg || command.word_command === arg) {
+      found = true;
+    }
+  });
 
   return found;
 }
@@ -259,4 +252,11 @@ export function commandArgsWithRequiredValues(
       return command.require_command_value;
     }
   });
+}
+
+export enum ValidationRules {
+  REQUIRED_OPTIONS,
+  REQUIRED_VALUES,
+  NON_DECLEARED_ARGS,
+  ON_COMMANDS,
 }

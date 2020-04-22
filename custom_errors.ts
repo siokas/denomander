@@ -1,19 +1,19 @@
 import * as CustomError from "./src/errors.ts";
 
-const INVALID_RULE_MESSAGE = "Invalid Rule";
-const ARG_NOT_FOUND_MESSAGE = "Argument {0} not found in available commands!";
-const REQUIRED_OPTIONS_NOT_FOUND_MESSAGE =
-  "Required option {0} is not specified!";
-const REQUIRED_VALUE_NOT_FOUND_MESSAGE =
-  "Required value for command {0} is not specified!";
+enum ErrorMessage {
+  INVALID_RULE = "Invalid Rule",
+  ARG_NOT_FOUND = "Argument not found in available commands!",
+  REQUIRED_OPTION_NOT_FOUND = "Required option is not specified!",
+  REQUIRED_VALUE_NOT_FOUND = "Required command value is not specified!",
+}
 
 export const VALIDATION_INVALID_RULE: Error = new CustomError.ValidationError(
-  INVALID_RULE_MESSAGE,
+  ErrorMessage.INVALID_RULE,
 );
 export const VALIDATION_ARG_NOT_FOUND: Error = new CustomError.ValidationError(
-  ARG_NOT_FOUND_MESSAGE,
+  ErrorMessage.ARG_NOT_FOUND,
 );
 export const VALIDATION_REQUIRED_OPTIONS_NOT_FOUND: Error = new CustomError
-  .ValidationError(REQUIRED_OPTIONS_NOT_FOUND_MESSAGE);
+  .ValidationError(ErrorMessage.REQUIRED_OPTION_NOT_FOUND);
 export const VALIDATION_REQUIRED_VALUE_NOT_FOUND: Error = new CustomError
-  .ValidationError(REQUIRED_VALUE_NOT_FOUND_MESSAGE);
+  .ValidationError(ErrorMessage.REQUIRED_VALUE_NOT_FOUND);

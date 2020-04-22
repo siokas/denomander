@@ -11,11 +11,16 @@ const program = new Denomander(
 program
   .option("-t --test", "Test")
   .command("clone [url]", "clone url")
-  .command("pull", "clone url")
-  .parse(Deno.args);
+  .command("pull", "clone url");
 
 // console.log(program.clone);
 
-if (program.test) {
-  console.log(program.test);
-}
+program.on("--help", () => {
+  console.log("NOT HELP");
+});
+
+program.parse(Deno.args);
+
+// if (program.test) {
+//   console.log(program.test);
+// }

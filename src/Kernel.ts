@@ -4,12 +4,6 @@ import * as Util from "./utils.ts";
 import { Validator } from "./Validator.ts";
 import { Arguments } from "./Arguments.ts";
 
-enum ValidationRules {
-  requiredOptions,
-  requiredValues,
-  nonDeclearedArgs,
-}
-
 /**
   * Kernel class 
   * 
@@ -125,7 +119,7 @@ export class Kernel {
     * @type {Array<Interface.OnCommand>}
     * @memberof Kernel
    */
-  protected available_on_commands: Array<Interface.OnCommand> = [];
+  public available_on_commands: Array<Interface.OnCommand> = [];
 
   /**
     * Temporary array for .on() commands
@@ -134,7 +128,7 @@ export class Kernel {
     * @type {Array<Interface.TempOnCommand>}
     * @memberof Kernel
    */
-  protected temp_on_commands: Array<Interface.TempOnCommand> = [];
+  public temp_on_commands: Array<Interface.TempOnCommand> = [];
 
   /**
    * The Command instance of the --version option
@@ -357,9 +351,10 @@ export class Kernel {
         this.args,
         this,
         [
-          ValidationRules.requiredValues,
-          ValidationRules.requiredOptions,
-          ValidationRules.nonDeclearedArgs,
+          Util.ValidationRules.REQUIRED_VALUES,
+          Util.ValidationRules.REQUIRED_OPTIONS,
+          Util.ValidationRules.NON_DECLEARED_ARGS,
+          Util.ValidationRules.ON_COMMANDS,
         ],
       );
 
@@ -393,100 +388,8 @@ export class Kernel {
     });
 
     this.available_on_commands.forEach((arg: Interface.OnCommand) => {
-      if (Util.isCommandInArgs(arg.command, this._args)) {
+      if (Util.isCommandInArgs(arg.command, this.args!)) {
         arg.callback();
-      }
-    });
-
-    return this;
-  }
-
-  /**
-   * Validates the options and commands
-   * and sets the public property of the option passed
-   * (ex. --port sets Kernel.port)
-   * 
-   * @protected
-   * @returns {Kernel}
-   * @throws {Error("You have to pass a parameter")}
-   * @throws {Error("Command not found")}
-   * @memberof Kernel
-   */
-  protected validateOptionsAndCommands(): Kernel {
-    for (const key in this._args) {
-      if (key === "length" || !this._args.hasOwnProperty(key)) continue;
-
-      if (key == "_") {
-        if (this._args["_"].length > 0) {
-          const command: Command | undefined = Util.findCommandFromArgs(
-            this.commands,
-            this._args[key][0],
-          );
-          if (command) {
-            if (command.require_command_value) {
-              if (this._args["_"].length < 2) {
-                throw new Error("You have to pass a parameter");
-              }
-              command.value = this._args["_"][1];
-            }
-
-            if (command.word_command === this._args["_"][0]) {
-              this[command.word_command!] = command.value;
-            }
-          } else {
-            throw new Error(
-              "Command [" + this._args["_"][0] + "] not found",
-            );
-          }
-        }
-      } else {
-        const command: Command = Util.findCommandFromArgs(
-          this.commands,
-          key,
-        )!;
-
-        // variable name conflicts (version)
-        if (command && command != this.version_command) {
-          let value: string | boolean = this._args[key];
-          if (value == "true" || value == "false") {
-            value = (value == "true");
-          }
-          this[command.letter_command!] = value;
-          this[command.word_command!] = value;
-        } else {
-        }
-      }
-    }
-
-    return this;
-  }
-
-  /**
-   * Validates the required options
-   * 
-   * @protected
-   * @returns {Kernel}
-   * @throws {Error("Required option not specified")}
-   * @memberof Kernel
-   */
-  protected validateRequiredOptions(): Kernel {
-    this.available_requiredOptions.forEach((command: Command) => {
-      if (
-        !(this._args[command.word_command!] ||
-          this._args[command.letter_command!])
-      ) {
-        if (
-          !Util.isCommandFromArrayInArgs(
-            this.available_default_options,
-            this._args,
-          )
-        ) {
-          throw new Error(
-            "Required option [" +
-              (command.word_command! || command.letter_command!) +
-              "] not specified",
-          );
-        }
       }
     });
 
@@ -503,7 +406,7 @@ export class Kernel {
    */
   protected executeCommands(): Kernel {
     if (
-      Util.isCommandInArgs(this.help_command, this._args) &&
+      Util.isCommandInArgs(this.help_command, this.args!) &&
       !Util.containCommandInOnCommandArray(
         this.help_command,
         this.available_on_commands,
@@ -513,7 +416,7 @@ export class Kernel {
     }
 
     if (
-      Util.isCommandInArgs(this.version_command, this._args) &&
+      Util.isCommandInArgs(this.version_command, this.args!) &&
       !Util.containCommandInOnCommandArray(
         this.version_command,
         this.available_on_commands,
@@ -523,7 +426,7 @@ export class Kernel {
     }
 
     this.available_actions.forEach((command: Command) => {
-      if (Util.isCommandInArgs(command, this._args)) {
+      if (Util.isCommandInArgs(command, this.args!)) {
         if (command.action.length == 0) {
           command.action();
         } else if (command.action.length == 1) {

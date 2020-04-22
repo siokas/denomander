@@ -6,7 +6,6 @@ import * as CustomError from "../custom_errors.ts";
 test(function validation_command_with_required_value() {
   const program = new Denomander();
   const args = ["clone"];
-  // const args = ["clone", "https://github.com/siokas/denomander"];
 
   assertThrows(() => {
     program.command("clone [repo]", "Clone the repo").parse(args);
@@ -31,9 +30,9 @@ test(function validation_command_not_defined() {
   const command_args = ["test"];
 
   assertThrows(() => {
-    program.command("new [filename]", "Generate a new file").parse(
-      command_args,
-    );
+    program
+      .command("new [filename]", "Generate a new file")
+      .parse(command_args);
   }, ValidationError, CustomError.VALIDATION_ARG_NOT_FOUND.message);
 });
 
@@ -42,6 +41,8 @@ test(function validation_option_not_defined() {
   const optionArgs = ["-a", "127.0.0.1"];
 
   assertThrows(() => {
-    program.option("-p --port", "Define port number").parse(optionArgs);
+    program
+      .option("-p --port", "Define port number")
+      .parse(optionArgs);
   }, ValidationError, CustomError.VALIDATION_ARG_NOT_FOUND.message);
 });

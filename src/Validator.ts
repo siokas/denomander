@@ -1,43 +1,23 @@
-// import * as Interface from "./interfaces.ts";
+import * as Interface from "./interfaces.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
 import * as Utils from "./utils.ts";
-import { ValidationError } from "./errors.ts";
 import * as CustomError from "../custom_errors.ts";
-import * as Helper from "./helpers.ts";
 import { Generator } from "./Generator.ts";
 
-interface ValidatorContract {
-  validate(): void;
-}
-
-enum ValidationRules {
-  requiredOptions,
-  requiredValues,
-  nonDeclearedArgs,
-}
-interface ValidationParameters {
-  type: "commands" | "arguments";
-  rule: ValidationRules;
-}
-
-interface ValidationResult {
-  passed: boolean;
-  error?: Error;
-}
-export class Validator implements ValidatorContract {
+export class Validator implements Interface.ValidatorContract {
   public args: Arguments;
-  public commands: Kernel;
-  public rules: Array<ValidationRules>;
+  public app: Kernel;
+  public rules: Array<Utils.ValidationRules>;
 
   constructor(
     args: Arguments,
-    commands: Kernel,
-    rules: Array<ValidationRules>,
+    app: Kernel,
+    rules: Array<Utils.ValidationRules>,
   ) {
     this.args = args;
-    this.commands = commands;
+    this.app = app;
     this.rules = rules;
   }
 
@@ -47,8 +27,11 @@ export class Validator implements ValidatorContract {
       throw failed[0].error;
     }
 
-    const generate = new Generator(this.commands, this.args);
-    generate.commandValues().optionValues();
+    const generate = new Generator(this.app, this.args);
+    generate
+      .commandValues()
+      .optionValues()
+      .onCommands();
   }
 
   private failed() {
@@ -59,24 +42,28 @@ export class Validator implements ValidatorContract {
     return failed;
   }
 
-  private passed(): Array<ValidationResult> {
-    return this.rules.map((rule: ValidationRules) => {
+  private passed(): Array<Interface.ValidationResult> {
+    return this.rules.map((rule: Utils.ValidationRules) => {
       switch (rule) {
-        case ValidationRules.nonDeclearedArgs:
+        case Utils.ValidationRules.NON_DECLEARED_ARGS:
           return this.validateNonDeclearedArgs();
-        case ValidationRules.requiredOptions:
+        case Utils.ValidationRules.REQUIRED_OPTIONS:
           return this.validateRequiredOptions();
-        case ValidationRules.requiredValues:
+        case Utils.ValidationRules.REQUIRED_VALUES:
           return this.validateRequiredValues();
+        case Utils.ValidationRules.ON_COMMANDS:
+          return this.validateOnCommands();
         default:
           return { passed: false, error: CustomError.VALIDATION_INVALID_RULE };
       }
     });
   }
 
-  private validateNonDeclearedArgs(): ValidationResult {
-    const commandArgs: ValidationResult = this.nonDeclearedCommandArgs();
-    const optionArgs: ValidationResult = this.nonDeclearedOptionArgs();
+  private validateNonDeclearedArgs(): Interface.ValidationResult {
+    const commandArgs: Interface.ValidationResult = this
+      .nonDeclearedCommandArgs();
+    const optionArgs: Interface.ValidationResult = this
+      .nonDeclearedOptionArgs();
 
     if (commandArgs.error) {
       return { passed: false, error: commandArgs.error };
@@ -89,9 +76,9 @@ export class Validator implements ValidatorContract {
     return { passed: true };
   }
 
-  private validateRequiredOptions() {
+  private validateRequiredOptions(): Interface.ValidationResult {
     if (this.availableRequiredOptions()) {
-      const found = this.commands.available_requiredOptions.filter(
+      const found = this.app.available_requiredOptions.filter(
         (command: Command) => {
           return Utils.isOptionInArgs(command, this.args.options) == true;
         },
@@ -110,11 +97,11 @@ export class Validator implements ValidatorContract {
     return { passed: true };
   }
 
-  private validateRequiredValues() {
+  private validateRequiredValues(): Interface.ValidationResult {
     if (this.args.commands.length > 0) {
       const commandArgsWithRequiredValues = Utils.commandArgsWithRequiredValues(
         this.args,
-        this.commands,
+        this.app,
       );
 
       if (commandArgsWithRequiredValues.length >= this.args.commands.length) {
@@ -124,27 +111,41 @@ export class Validator implements ValidatorContract {
         };
       }
 
-      const generator = new Generator(this.commands, this.args);
+      const generator = new Generator(this.app, this.args);
       generator.generateRequiredCommandValues();
     }
 
     return { passed: true };
   }
 
-  private validateOnCommands() {
+  private validateOnCommands(): Interface.ValidationResult {
+    this.app.temp_on_commands.forEach((temp: Interface.TempOnCommand) => {
+      const command: Command | undefined = Utils.findCommandFromArgs(
+        this.app.commands,
+        temp.arg,
+      );
+
+      if (command) {
+        this.app.available_on_commands.push(
+          { command: command, callback: temp.callback },
+        );
+      } else {
+        return { passed: false, error: CustomError.VALIDATION_ARG_NOT_FOUND };
+      }
+    });
+
+    return { passed: true };
   }
 
-  private nonDeclearedCommandArgs(): ValidationResult {
-    let result: ValidationResult = { passed: true };
+  private nonDeclearedCommandArgs(): Interface.ValidationResult {
+    let result: Interface.ValidationResult = { passed: true };
 
     this.args.commands.forEach((arg: string) => {
-      const found = Utils.argIsInAvailableCommands(this.commands.commands, arg);
+      const found = Utils.argIsInAvailableCommands(this.app.commands, arg);
       if (!found) {
         result = {
           passed: false,
-          error: new ValidationError(
-            `Argument ${arg} not found in available commands!`,
-          ),
+          error: CustomError.VALIDATION_ARG_NOT_FOUND,
         };
       }
     });
@@ -152,16 +153,14 @@ export class Validator implements ValidatorContract {
     return result;
   }
 
-  private nonDeclearedOptionArgs(): ValidationResult {
-    let result: ValidationResult = { passed: true };
+  private nonDeclearedOptionArgs(): Interface.ValidationResult {
+    let result: Interface.ValidationResult = { passed: true };
     for (const key in this.args.options) {
-      const found = Utils.argIsInAvailableCommands(this.commands.commands, key);
+      const found = Utils.argIsInAvailableCommands(this.app.commands, key);
       if (!found) {
         result = {
           passed: false,
-          error: new ValidationError(
-            `Argument ${key} not found in available commands!`,
-          ),
+          error: CustomError.VALIDATION_ARG_NOT_FOUND,
         };
       }
     }
@@ -170,6 +169,6 @@ export class Validator implements ValidatorContract {
   }
 
   private availableRequiredOptions() {
-    return this.commands.available_requiredOptions.length > 0;
+    return this.app.available_requiredOptions.length > 0;
   }
 }

@@ -38,21 +38,6 @@ test(function app_command() {
   assertEquals(program.new, "myFileName");
 });
 
-test(function app_command_and_option_not_defined() {
-  const program = new Denomander();
-  const command_args = ["test"];
-  const optionArgs = ["-a", "127.0.0.1"];
-
-  // assertThrows(() => {
-  //   program.option("-p --port", "Define port number").parse(optionArgs);
-  // }, Error, "Command [a] not found");
-  // assertThrows(() => {
-  //   program.command("new [filename]", "Generate a new file").parse(
-  //     command_args,
-  //   );
-  // }, Error, "Command [test] not found");
-});
-
 test(function app_change_default_option_command() {
   const program = new Denomander();
   const args = ["-x"];
@@ -68,7 +53,7 @@ test(function app_change_default_option_command() {
 
 test(function app_on_command() {
   const program = new Denomander();
-  const args = ["-V"];
+  const args = ["--version"];
 
   let test = false;
   let test2 = false;

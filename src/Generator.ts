@@ -2,6 +2,7 @@ import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import * as Utils from "./utils.ts";
 import { Command } from "./Command.ts";
+import * as Interface from "./interfaces.ts";
 
 export class Generator {
   args: Arguments;
@@ -73,6 +74,15 @@ export class Generator {
         }
       }
     }
+    return this;
+  }
+
+  onCommands() {
+    this.app.available_on_commands.forEach((arg: Interface.OnCommand) => {
+      if (Utils.isCommandInArgs(arg.command, this.args)) {
+        arg.callback();
+      }
+    });
     return this;
   }
 }

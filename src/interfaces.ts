@@ -99,3 +99,16 @@ export interface CommandTypes {
   options: Array<Command>;
   commands: Array<Command>;
 }
+
+export interface ValidatorContract {
+  validate(): void;
+}
+
+export interface ValidationResult {
+  passed: boolean;
+  error?: Error;
+}
+
+export interface ArgumentsContract {
+  parse(): void;
+}
