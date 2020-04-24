@@ -69,7 +69,7 @@ export class Validator implements Interface.ValidatorContract {
    * @returns {Array<ValidationResult>}
    */
   protected failed(): Array<Interface.ValidationResult> {
-    let failed = this.runValidations().filter((validation) => {
+    const failed = this.runValidations().filter((validation) => {
       return !validation.passed;
     });
 
@@ -218,7 +218,7 @@ export class Validator implements Interface.ValidatorContract {
     let result: Interface.ValidationResult = { passed: true };
 
     this.app.available_actions.forEach((command: Command) => {
-      if (Util.isCommandInArgs(command, this.args!)) {
+      if (Util.isCommandInArgs(command, this.args)) {
         if (command.action.length == 0) {
           command.action();
         } else if (command.action.length == 1) {
