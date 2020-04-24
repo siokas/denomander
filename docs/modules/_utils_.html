@@ -73,11 +73,17 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#argisinavailablecommands" class="tsd-kind-icon">arg<wbr>IsIn<wbr>Available<wbr>Commands</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#arrayshavematchingcommand" class="tsd-kind-icon">arrays<wbr>Have<wbr>Matching<wbr>Command</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-protected"><a href="_utils_.html#availablerequiredoptions" class="tsd-kind-icon">available<wbr>Required<wbr>Options</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#commandargswithrequiredvalues" class="tsd-kind-icon">command<wbr>Args<wbr>With<wbr>Required<wbr>Values</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#containcommandinoncommandarray" class="tsd-kind-icon">contain<wbr>Command<wbr>InOn<wbr>Command<wbr>Array</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#emptyargs" class="tsd-kind-icon">empty<wbr>Args</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#findcommandfromargs" class="tsd-kind-icon">find<wbr>Command<wbr>From<wbr>Args</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#iscommandfromarrayinargs" class="tsd-kind-icon">is<wbr>Command<wbr>From<wbr>Array<wbr>InArgs</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#iscommandinargs" class="tsd-kind-icon">is<wbr>Command<wbr>InArgs</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#isoptioninargs" class="tsd-kind-icon">is<wbr>Option<wbr>InArgs</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#optionargscontaindefaultoptions" class="tsd-kind-icon">option<wbr>Args<wbr>Contain<wbr>Default<wbr>Options</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#print_help" class="tsd-kind-icon">print_<wbr>help</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_utils_.html#removecommandfromarray" class="tsd-kind-icon">remove<wbr>Command<wbr>From<wbr>Array</a></li>
 							</ul>
@@ -88,6 +94,42 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="argisinavailablecommands" class="tsd-anchor"></a>
+					<h3>arg<wbr>IsIn<wbr>Available<wbr>Commands</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">arg<wbr>IsIn<wbr>Available<wbr>Commands<span class="tsd-signature-symbol">(</span>commands<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span>, arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in utils.ts:193</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>It detects if on of the given args,
+									is included in the given array of Commands.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>commands: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>arg: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
 					<a name="arrayshavematchingcommand" class="tsd-anchor"></a>
 					<h3>arrays<wbr>Have<wbr>Matching<wbr>Command</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
@@ -97,7 +139,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in utils.ts:170</li>
+									<li>Defined in utils.ts:218</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -105,6 +147,10 @@
 									<p>It detects if the given command is included
 									in BOTH of the other two given arrays of Commands</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -122,24 +168,91 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="containcommandinoncommandarray" class="tsd-anchor"></a>
-					<h3>contain<wbr>Command<wbr>InOn<wbr>Command<wbr>Array</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">contain<wbr>Command<wbr>InOn<wbr>Command<wbr>Array<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a>, array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_interfaces_.oncommand.html" class="tsd-signature-type">OnCommand</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Boolean</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-protected">
+					<a name="availablerequiredoptions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> available<wbr>Required<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">available<wbr>Required<wbr>Options<span class="tsd-signature-symbol">(</span>app<span class="tsd-signature-symbol">: </span><a href="../classes/_kernel_.kernel.html" class="tsd-signature-type">Kernel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in utils.ts:190</li>
+									<li>Defined in utils.ts:305</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Detects if there are available required options</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>app: <a href="../classes/_kernel_.kernel.html" class="tsd-signature-type">Kernel</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="commandargswithrequiredvalues" class="tsd-anchor"></a>
+					<h3>command<wbr>Args<wbr>With<wbr>Required<wbr>Values</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">command<wbr>Args<wbr>With<wbr>Required<wbr>Values<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="../classes/_arguments_.arguments.html" class="tsd-signature-type">Arguments</a>, app<span class="tsd-signature-symbol">: </span><a href="../classes/_kernel_.kernel.html" class="tsd-signature-type">Kernel</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in utils.ts:256</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>It returns the command arguments with required values</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>args: <a href="../classes/_arguments_.arguments.html" class="tsd-signature-type">Arguments</a></h5>
+								</li>
+								<li>
+									<h5>app: <a href="../classes/_kernel_.kernel.html" class="tsd-signature-type">Kernel</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="containcommandinoncommandarray" class="tsd-anchor"></a>
+					<h3>contain<wbr>Command<wbr>InOn<wbr>Command<wbr>Array</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">contain<wbr>Command<wbr>InOn<wbr>Command<wbr>Array<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a>, array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Interface.OnCommand</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in utils.ts:239</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Detects if the given command is included
-									in the given array of OnCommands</p>
+									in the given array of Interface.OnCommands</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -147,10 +260,40 @@
 									<h5>command: <a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a></h5>
 								</li>
 								<li>
-									<h5>array: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_interfaces_.oncommand.html" class="tsd-signature-type">OnCommand</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>array: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Interface.OnCommand</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="emptyargs" class="tsd-anchor"></a>
+					<h3>empty<wbr>Args</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">empty<wbr>Args<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="../classes/_arguments_.arguments.html" class="tsd-signature-type">Arguments</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in utils.ts:295</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>It detects if there are no arguments</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>args: <a href="../classes/_arguments_.arguments.html" class="tsd-signature-type">Arguments</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -164,7 +307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in utils.ts:65</li>
+									<li>Defined in utils.ts:64</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -172,6 +315,10 @@
 									<p>It returns the command instance
 									if founded in given arguments</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -190,13 +337,13 @@
 					<a name="iscommandfromarrayinargs" class="tsd-anchor"></a>
 					<h3>is<wbr>Command<wbr>From<wbr>Array<wbr>InArgs</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Command<wbr>From<wbr>Array<wbr>InArgs<span class="tsd-signature-symbol">(</span>commands<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span>, args<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_.customargs.html" class="tsd-signature-type">CustomArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Command<wbr>From<wbr>Array<wbr>InArgs<span class="tsd-signature-symbol">(</span>commands<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Interface.CustomArgs</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in utils.ts:140</li>
+									<li>Defined in utils.ts:163</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -204,6 +351,10 @@
 									<p>It detects if on of the given args,
 									is included in the given array of Commands.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -211,7 +362,7 @@
 									<h5>commands: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
-									<h5>args: <a href="../interfaces/_interfaces_.customargs.html" class="tsd-signature-type">CustomArgs</a></h5>
+									<h5>args: <span class="tsd-signature-type">Interface.CustomArgs</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Boolean</span></h4>
@@ -222,19 +373,23 @@
 					<a name="iscommandinargs" class="tsd-anchor"></a>
 					<h3>is<wbr>Command<wbr>InArgs</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Command<wbr>InArgs<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a>, args<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_.customargs.html" class="tsd-signature-type">CustomArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Command<wbr>InArgs<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a>, args<span class="tsd-signature-symbol">: </span><a href="../classes/_arguments_.arguments.html" class="tsd-signature-type">Arguments</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in utils.ts:107</li>
+									<li>Defined in utils.ts:108</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>It detects if the given command is in the arguments</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -242,7 +397,7 @@
 									<h5>command: <a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a></h5>
 								</li>
 								<li>
-									<h5>args: <a href="../interfaces/_interfaces_.customargs.html" class="tsd-signature-type">CustomArgs</a></h5>
+									<h5>args: <a href="../classes/_arguments_.arguments.html" class="tsd-signature-type">Arguments</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Boolean</span></h4>
@@ -250,30 +405,104 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="print_help" class="tsd-anchor"></a>
-					<h3>print_<wbr>help</h3>
+					<a name="isoptioninargs" class="tsd-anchor"></a>
+					<h3>is<wbr>Option<wbr>InArgs</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">print_<wbr>help<span class="tsd-signature-symbol">(</span>app_details<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_.appdetails.html" class="tsd-signature-type">AppDetails</a>, all_commands<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_.commandtypes.html" class="tsd-signature-type">CommandTypes</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Option<wbr>InArgs<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Interface.CustomArgs</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in utils.ts:16</li>
+									<li>Defined in utils.ts:134</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>It detects if the given command is in the arguments</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>command: <a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a></h5>
+								</li>
+								<li>
+									<h5>args: <span class="tsd-signature-type">Interface.CustomArgs</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="optionargscontaindefaultoptions" class="tsd-anchor"></a>
+					<h3>option<wbr>Args<wbr>Contain<wbr>Default<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">option<wbr>Args<wbr>Contain<wbr>Default<wbr>Options<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Interface.CustomArgs</span>, defaultOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in utils.ts:280</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>It finds if there are default options (--help, --version) in arguments</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>args: <span class="tsd-signature-type">Interface.CustomArgs</span></h5>
+								</li>
+								<li>
+									<h5>defaultOptions: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/_command_.command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="print_help" class="tsd-anchor"></a>
+					<h3>print_<wbr>help</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">print_<wbr>help<span class="tsd-signature-symbol">(</span>app_details<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Interface.AppDetails</span>, all_commands<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Interface.CommandTypes</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in utils.ts:14</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>It prints out the help doc</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>app_details: <a href="../interfaces/_interfaces_.appdetails.html" class="tsd-signature-type">AppDetails</a></h5>
+									<h5>app_details: <span class="tsd-signature-type">Interface.AppDetails</span></h5>
 								</li>
 								<li>
-									<h5>all_commands: <a href="../interfaces/_interfaces_.commandtypes.html" class="tsd-signature-type">CommandTypes</a></h5>
+									<h5>all_commands: <span class="tsd-signature-type">Interface.CommandTypes</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -298,6 +527,10 @@
 									<p>It finds the command from given string
 									and removes it from the given array.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -321,13 +554,22 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_arguments_.html">&quot;<wbr>Arguments&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_command_.html">&quot;<wbr>Command&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_denomander_.html">&quot;<wbr>Denomander&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_generator_.html">&quot;<wbr>Generator&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_kernel_.html">&quot;<wbr>Kernel&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_validator_.html">&quot;<wbr>Validator&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_helpers_.html">&quot;helpers&quot;</a>
@@ -343,10 +585,22 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_utils_.html#argisinavailablecommands" class="tsd-kind-icon">arg<wbr>IsIn<wbr>Available<wbr>Commands</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_utils_.html#arrayshavematchingcommand" class="tsd-kind-icon">arrays<wbr>Have<wbr>Matching<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-protected">
+						<a href="_utils_.html#availablerequiredoptions" class="tsd-kind-icon">available<wbr>Required<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_utils_.html#commandargswithrequiredvalues" class="tsd-kind-icon">command<wbr>Args<wbr>With<wbr>Required<wbr>Values</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_utils_.html#containcommandinoncommandarray" class="tsd-kind-icon">contain<wbr>Command<wbr>InOn<wbr>Command<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_utils_.html#emptyargs" class="tsd-kind-icon">empty<wbr>Args</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_utils_.html#findcommandfromargs" class="tsd-kind-icon">find<wbr>Command<wbr>From<wbr>Args</a>
@@ -356,6 +610,12 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_utils_.html#iscommandinargs" class="tsd-kind-icon">is<wbr>Command<wbr>InArgs</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_utils_.html#isoptioninargs" class="tsd-kind-icon">is<wbr>Option<wbr>InArgs</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_utils_.html#optionargscontaindefaultoptions" class="tsd-kind-icon">option<wbr>Args<wbr>Contain<wbr>Default<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_utils_.html#print_help" class="tsd-kind-icon">print_<wbr>help</a>

@@ -17,10 +17,9 @@ program
 
 program
   .command("clone [foldername]")
-  .description("clone a repo")
   .action((test: any) => {
     console.log("The repo is cloned into: " + test);
-  });
+  }).description("clone a repo");
 
 program.on("--help", () => {
   console.log("New Help Screen");
@@ -33,7 +32,11 @@ program.on("--version", () => {
   console.log("v1.5.6");
 });
 
-program.parse(Deno.args);
+try {
+  program.parse(Deno.args);
+} catch (error) {
+  console.log(error);
+}
 
 if (program.serve) {
   let port = program.port || 8080;

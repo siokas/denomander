@@ -27,3 +27,17 @@ export function containsBrackets(text: string): boolean {
 export function trimString(text: string): string {
   return text.replace(/\s/g, "");
 }
+
+/**
+ * Enum containing the Validation Rules
+ * 
+ * @export
+ * @enum ValidationRules
+ */
+export enum ValidationRules {
+  REQUIRED_OPTIONS,
+  REQUIRED_VALUES,
+  NON_DECLEARED_ARGS,
+  ON_COMMANDS,
+  ACTIONS,
+}
