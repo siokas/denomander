@@ -1,57 +1,97 @@
+import * as CustomError from "../custom_errors.ts";
 import * as Interface from "./interfaces.ts";
+import * as Util from "./utils.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
-import * as Utils from "./utils.ts";
-import * as CustomError from "../custom_errors.ts";
 import { Generator } from "./Generator.ts";
+import { ValidationRules } from "./helpers.ts";
 
+/**
+ * It is responsible for validating the arguments and throw the related error
+ * 
+ * @export
+ * @class Validator
+ * @implements ValidatorContract
+ */
 export class Validator implements Interface.ValidatorContract {
-  public args: Arguments;
+  /**
+   * Holds the app instance
+   * 
+   * @public
+   * @type {Kernel}
+   */
   public app: Kernel;
-  public rules: Array<Utils.ValidationRules>;
 
-  constructor(
-    args: Arguments,
-    app: Kernel,
-    rules: Array<Utils.ValidationRules>,
-  ) {
-    this.args = args;
-    this.app = app;
-    this.rules = rules;
+  /**
+   * Holds the Arguments instance
+   * 
+   * @public
+   * @type {Arguments}
+   */
+  public args: Arguments;
+
+  /**
+   * The array of rules for validation
+   * 
+   * @public
+   * @type {Array<ValidationRules>}
+   */
+  public rules: Array<ValidationRules>;
+
+  /**
+   * Constructor of the Validator object
+   * 
+   * @param {ValidatorOptions} options
+   */
+  constructor(options: Interface.ValidatorOptions) {
+    this.app = options.app;
+    this.args = options.args;
+    this.rules = options.rules;
   }
 
+  /**
+   * It starts the validation process and throws the first error
+   * 
+   * @public
+   */
   public validate() {
     const failed = this.failed();
     if (failed.length) {
       throw failed[0].error;
     }
-
-    const generate = new Generator(this.app, this.args);
-    generate
-      .commandValues()
-      .optionValues()
-      .onCommands();
   }
 
-  private failed() {
-    let failed = this.passed().filter((validation) => {
+  /**
+   * It maps through all validations and returns the ones that didn't pass
+   * 
+   * @protected
+   * @returns {Array<ValidationResult>}
+   */
+  protected failed(): Array<Interface.ValidationResult> {
+    let failed = this.runValidations().filter((validation) => {
       return !validation.passed;
     });
 
     return failed;
   }
 
-  private passed(): Array<Interface.ValidationResult> {
-    return this.rules.map((rule: Utils.ValidationRules) => {
+  /**
+   * It runs all the validations passed as ValidationRules
+   * 
+   * @protected
+   * @returns {Array<ValidationResult>}
+   */
+  protected runValidations(): Array<Interface.ValidationResult> {
+    return this.rules.map((rule: ValidationRules) => {
       switch (rule) {
-        case Utils.ValidationRules.NON_DECLEARED_ARGS:
+        case ValidationRules.NON_DECLEARED_ARGS:
           return this.validateNonDeclearedArgs();
-        case Utils.ValidationRules.REQUIRED_OPTIONS:
+        case ValidationRules.REQUIRED_OPTIONS:
           return this.validateRequiredOptions();
-        case Utils.ValidationRules.REQUIRED_VALUES:
+        case ValidationRules.REQUIRED_VALUES:
           return this.validateRequiredValues();
-        case Utils.ValidationRules.ON_COMMANDS:
+        case ValidationRules.ON_COMMANDS:
           return this.validateOnCommands();
         default:
           return { passed: false, error: CustomError.VALIDATION_INVALID_RULE };
@@ -59,7 +99,13 @@ export class Validator implements Interface.ValidatorContract {
     });
   }
 
-  private validateNonDeclearedArgs(): Interface.ValidationResult {
+  /**
+   * Validates if there are non decleared arguments
+   * 
+   * @protected 
+   * @returns {Array<ValidationResult>}
+   */
+  protected validateNonDeclearedArgs(): Interface.ValidationResult {
     const commandArgs: Interface.ValidationResult = this
       .nonDeclearedCommandArgs();
     const optionArgs: Interface.ValidationResult = this
@@ -76,30 +122,49 @@ export class Validator implements Interface.ValidatorContract {
     return { passed: true };
   }
 
-  private validateRequiredOptions(): Interface.ValidationResult {
-    if (this.availableRequiredOptions()) {
-      const found = this.app.available_requiredOptions.filter(
-        (command: Command) => {
-          return Utils.isOptionInArgs(command, this.args.options) == true;
-        },
-      );
+  /**
+   * Validates if the required options are defined
+   * 
+   * @protected 
+   * @returns {Array<ValidationResult>}
+   */
+  protected validateRequiredOptions(): Interface.ValidationResult {
+    if (
+      !Util.optionArgsContainDefaultOptions(
+        this.args.all,
+        this.app.available_default_options,
+      )
+    ) {
+      if (Util.availableRequiredOptions(this.app)) {
+        const found = this.app.available_requiredOptions.filter(
+          (command: Command) => {
+            return Util.isOptionInArgs(command, this.args.options) == true;
+          },
+        );
 
-      if (found.length) {
-        return { passed: true };
+        if (found.length) {
+          return { passed: true };
+        }
+
+        return {
+          passed: false,
+          error: CustomError.VALIDATION_REQUIRED_OPTIONS_NOT_FOUND,
+        };
       }
-
-      return {
-        passed: false,
-        error: CustomError.VALIDATION_REQUIRED_OPTIONS_NOT_FOUND,
-      };
     }
 
     return { passed: true };
   }
 
-  private validateRequiredValues(): Interface.ValidationResult {
+  /**
+   * Validates all the commands which needs required values to be defined
+   * 
+   * @protected 
+   * @returns {Array<ValidationResult>}
+   */
+  protected validateRequiredValues(): Interface.ValidationResult {
     if (this.args.commands.length > 0) {
-      const commandArgsWithRequiredValues = Utils.commandArgsWithRequiredValues(
+      const commandArgsWithRequiredValues = Util.commandArgsWithRequiredValues(
         this.args,
         this.app,
       );
@@ -112,15 +177,21 @@ export class Validator implements Interface.ValidatorContract {
       }
 
       const generator = new Generator(this.app, this.args);
-      generator.generateRequiredCommandValues();
+      generator.requiredOptionValues();
     }
 
     return { passed: true };
   }
 
-  private validateOnCommands(): Interface.ValidationResult {
+  /**
+   * Validates the .on() commands and stacks them in the available commands
+   * 
+   * @protected 
+   * @returns {Array<ValidationResult>}
+   */
+  protected validateOnCommands(): Interface.ValidationResult {
     this.app.temp_on_commands.forEach((temp: Interface.TempOnCommand) => {
-      const command: Command | undefined = Utils.findCommandFromArgs(
+      const command: Command | undefined = Util.findCommandFromArgs(
         this.app.commands,
         temp.arg,
       );
@@ -137,11 +208,46 @@ export class Validator implements Interface.ValidatorContract {
     return { passed: true };
   }
 
-  private nonDeclearedCommandArgs(): Interface.ValidationResult {
+  /**
+   * Validates the .action() parameters and sends them to the callback
+   * 
+   * @protected 
+   * @returns {Array<ValidationResult>}
+   */
+  protected validateActionParams(): Interface.ValidationResult {
+    let result: Interface.ValidationResult = { passed: true };
+
+    this.app.available_actions.forEach((command: Command) => {
+      if (Util.isCommandInArgs(command, this.args!)) {
+        if (command.action.length == 0) {
+          command.action();
+        } else if (command.action.length == 1) {
+          if (command.word_command) {
+            command.action(this.app[command.word_command]);
+          }
+        } else {
+          result = {
+            passed: false,
+            error: CustomError.VALIDATION_TOO_MANY_PARAMS,
+          };
+        }
+      }
+    });
+
+    return result;
+  }
+
+  /**
+   * Validates if there are non decleared commands
+   * 
+   * @protected 
+   * @returns {Array<ValidationResult>}
+   */
+  protected nonDeclearedCommandArgs(): Interface.ValidationResult {
     let result: Interface.ValidationResult = { passed: true };
 
     this.args.commands.forEach((arg: string) => {
-      const found = Utils.argIsInAvailableCommands(this.app.commands, arg);
+      const found = Util.argIsInAvailableCommands(this.app.commands, arg);
       if (!found) {
         result = {
           passed: false,
@@ -153,10 +259,16 @@ export class Validator implements Interface.ValidatorContract {
     return result;
   }
 
-  private nonDeclearedOptionArgs(): Interface.ValidationResult {
+  /**
+   * Validates if there are non decleared options
+   * 
+   * @protected 
+   * @returns {Array<ValidationResult>}
+   */
+  protected nonDeclearedOptionArgs(): Interface.ValidationResult {
     let result: Interface.ValidationResult = { passed: true };
     for (const key in this.args.options) {
-      const found = Utils.argIsInAvailableCommands(this.app.commands, key);
+      const found = Util.argIsInAvailableCommands(this.app.commands, key);
       if (!found) {
         result = {
           passed: false,
@@ -166,9 +278,5 @@ export class Validator implements Interface.ValidatorContract {
     }
 
     return result;
-  }
-
-  private availableRequiredOptions() {
-    return this.app.available_requiredOptions.length > 0;
   }
 }

@@ -1,8 +1,10 @@
 import * as Interface from "./interfaces.ts";
-import { Command } from "./Command.ts";
 import * as Util from "./utils.ts";
+import { Command } from "./Command.ts";
 import { Validator } from "./Validator.ts";
 import { Arguments } from "./Arguments.ts";
+import { Generator } from "./Generator.ts";
+import { ValidationRules } from "./helpers.ts";
 
 /**
   * It is the core of the app. It is responsible for almost everything.
@@ -87,6 +89,52 @@ export class Kernel {
   public temp_on_commands: Array<Interface.TempOnCommand> = [];
 
   /**
+   * The Command instance of the --version option
+   * 
+   * @public
+   * @type {Command}
+   */
+  public version_command: Command = new Command({
+    value: "-V --version",
+    description: "Print the current version",
+  });
+
+  /**
+   * The Command instance of the --help option
+   * 
+   * @public
+   * @type {Command}
+   */
+  public help_command: Command = new Command({
+    value: "-h --help",
+    description: "Print command line options (currently set)",
+  });
+
+  /**
+   * If the user has defined a custom help
+   * 
+   * @public
+   * @type {boolean}
+   */
+  public isHelpConfigured = false;
+
+  /**
+   * If the user has defined a custom version
+   * 
+   * @public
+   * @type {boolean}
+   */
+  public isVersionConfigured = false;
+
+  /**
+   * The arguments object instance
+   * 
+   * @protected
+   * @type {Arguments}
+   */
+  protected args: Arguments | undefined;
+
+  /**
    * The name of the app.
    * 
    * @protected
@@ -114,54 +162,14 @@ export class Kernel {
     * Arguments passed by the user during runtime
     *
     * @protected
-    * @type {Interface.CustomArgs}
+    * @type {CustomArgs}
    */
   protected _args: Interface.CustomArgs = {};
 
   /**
-   * The Command instance of the --version option
-   * 
-   * @protected
-   * @type {Command}
-   */
-  protected version_command: Command = new Command({
-    value: "-V --version",
-    description: "Print the current version",
-  });
-
-  /**
-   * The Command instance of the --help option
-   * 
-   * @protected
-   * @type {Command}
-   */
-  protected help_command: Command = new Command({
-    value: "-h --help",
-    description: "Print command line options (currently set)",
-  });
-
-  /**
-   * If the user has defined a custom help
-   * 
-   * @protected
-   * @type {boolean}
-   */
-  protected isHelpConfigured = false;
-
-  /**
-   * If the user has defined a custom version
-   * 
-   * @protected
-   * @type {boolean}
-   */
-  protected isVersionConfigured = false;
-
-  protected args: Arguments | undefined;
-
-  /**
    * Constructor of Interface.AppDetails object.
    * 
-   * @param {Interface.AppDetails} app_details 
+   * @param {AppDetails} app_details 
    */
   constructor(app_details?: Interface.AppDetails) {
     if (app_details) {
@@ -245,37 +253,77 @@ export class Kernel {
    * @protected
    * @returns {Kernel}
    */
-  protected generateDefaultOptions(): Kernel {
-    return this
-      .generateHelpOption()
-      .generateVersionOption();
+  protected setup(): Kernel {
+    return this.helpOption().versionOption().detectEmptyArgs();
   }
 
   /**
-   * Generate the default help option
+   * It generates the app variables and running the necessary callback functions
+   */
+  protected generate() {
+    if (this.args) {
+      const generator = new Generator(this, this.args);
+      generator.commandValues()
+        .optionValues()
+        .onCommands()
+        .actionCommands();
+    }
+    return this;
+  }
+
+  /**
+   * Validates all types of Commands
    * 
    * @protected
    * @returns {Kernel}
    */
-  protected generateHelpOption(): Kernel {
-    if (!this.isHelpConfigured) {
-      this.commands.push(this.help_command);
-      this.available_default_options.push(this.help_command);
+  protected validate(): Kernel {
+    if (this.args) {
+      const validation = new Validator({
+        app: this,
+        args: this.args,
+        rules: [
+          ValidationRules.REQUIRED_VALUES,
+          ValidationRules.REQUIRED_OPTIONS,
+          ValidationRules.NON_DECLEARED_ARGS,
+          ValidationRules.ON_COMMANDS,
+        ],
+      });
+
+      validation.validate();
     }
 
     return this;
   }
 
   /**
-   * Generate the default version option
+   * Executes default commands (--help, --version)
    * 
    * @protected
    * @returns {Kernel}
+   * @throws {Error("Too much parameters")}
    */
-  protected generateVersionOption(): Kernel {
-    if (!this.isVersionConfigured) {
-      this.commands.push(this.version_command);
-      this.available_default_options.push(this.version_command);
+  protected execute(): Kernel {
+    if (this.args) {
+      if (
+        Util.isCommandInArgs(this.help_command, this.args) &&
+        !Util.containCommandInOnCommandArray(
+          this.help_command,
+          this.available_on_commands,
+        )
+      ) {
+        this.printHelp();
+      }
+
+      if (
+        Util.isCommandInArgs(this.version_command, this.args) &&
+        !Util.containCommandInOnCommandArray(
+          this.version_command,
+          this.available_on_commands,
+        )
+      ) {
+        console.log("v" + this._app_version);
+      }
     }
 
     return this;
@@ -304,82 +352,44 @@ export class Kernel {
   }
 
   /**
-   * Validates all types of Commands
+   * Setup the default help option
    * 
    * @protected
    * @returns {Kernel}
    */
-  protected validateArgs(): Kernel {
-    if (this.args) {
-      if (
-        Object.keys(this.args.options).length < 1 &&
-        this.args.commands.length < 1
-      ) {
-        this.printHelp();
-        Deno.exit(0);
-      }
-
-      const validation = new Validator(
-        this.args,
-        this,
-        [
-          Util.ValidationRules.REQUIRED_VALUES,
-          Util.ValidationRules.REQUIRED_OPTIONS,
-          Util.ValidationRules.NON_DECLEARED_ARGS,
-          Util.ValidationRules.ON_COMMANDS,
-        ],
-      );
-
-      validation.validate();
+  protected helpOption(): Kernel {
+    if (!this.isHelpConfigured) {
+      this.commands.push(this.help_command);
+      this.available_default_options.push(this.help_command);
     }
 
     return this;
   }
 
   /**
-   * Executes default commands (--help, --version)
+   * Setup the default version option
    * 
    * @protected
    * @returns {Kernel}
-   * @throws {Error("Too much parameters")}
    */
-  protected executeCommands(): Kernel {
-    if (this.args) {
-      if (
-        Util.isCommandInArgs(this.help_command, this.args) &&
-        !Util.containCommandInOnCommandArray(
-          this.help_command,
-          this.available_on_commands,
-        )
-      ) {
-        this.printHelp();
-      }
-
-      if (
-        Util.isCommandInArgs(this.version_command, this.args) &&
-        !Util.containCommandInOnCommandArray(
-          this.version_command,
-          this.available_on_commands,
-        )
-      ) {
-        console.log("v" + this._app_version);
-      }
+  protected versionOption(): Kernel {
+    if (!this.isVersionConfigured) {
+      this.commands.push(this.version_command);
+      this.available_default_options.push(this.version_command);
     }
 
-    this.available_actions.forEach((command: Command) => {
-      if (Util.isCommandInArgs(command, this.args!)) {
-        if (command.action.length == 0) {
-          command.action();
-        } else if (command.action.length == 1) {
-          if (command.word_command) {
-            command.action(this[command.word_command]);
-          }
-        } else {
-          throw new Error("Too much parameters");
-        }
-      }
-    });
-
+    return this;
+  }
+  /**
+   * It detects if there are no args and prints the help screen
+   * 
+   * @protected
+   */
+  protected detectEmptyArgs(): Kernel {
+    if (this.args && Util.emptyArgs(this.args)) {
+      this.printHelp();
+      Deno.exit(0);
+    }
     return this;
   }
 
@@ -391,8 +401,9 @@ export class Kernel {
    */
   protected executeProgram(): Kernel {
     return this
-      .generateDefaultOptions()
-      .validateArgs()
-      .executeCommands();
+      .setup()
+      .validate()
+      .generate()
+      .execute();
   }
 }

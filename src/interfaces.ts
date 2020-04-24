@@ -1,5 +1,8 @@
 import { Command } from "./Command.ts";
 import { Denomander } from "./Denomander.ts";
+import { Kernel } from "./Kernel.ts";
+import { Arguments } from "./Arguments.ts";
+import { ValidationRules } from "./helpers.ts";
 
 /**
  * The methods that must be implemented for public api
@@ -100,15 +103,42 @@ export interface CommandTypes {
   commands: Array<Command>;
 }
 
+/**
+ * It sets the contract for the Validator object
+ * 
+ * @export
+ * @interface ValidatorContract
+ */
 export interface ValidatorContract {
   validate(): void;
 }
 
+/**
+ * Defines the validation result
+ * 
+ * @export
+ * @interface ValidationResult
+ */
 export interface ValidationResult {
   passed: boolean;
   error?: Error;
 }
 
+/**
+ * It sets the contract for the Arguments Object
+ * 
+ * @export
+ * @interface ArgumentsContract
+ */
 export interface ArgumentsContract {
   parse(): void;
+}
+
+/**
+ * Defines the validator options for the constructor
+ */
+export interface ValidatorOptions {
+  app: Kernel;
+  args: Arguments;
+  rules: Array<ValidationRules>;
 }

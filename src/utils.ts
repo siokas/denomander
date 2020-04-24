@@ -1,10 +1,5 @@
 import { green, yellow, bold } from "../deno_deps.ts";
-import {
-  CommandTypes,
-  AppDetails,
-  OnCommand,
-  CustomArgs
-} from "./interfaces.ts";
+import * as Interface from "./interfaces.ts";
 import { Command } from "./Command.ts";
 import * as Helper from "./helpers.ts";
 import { Arguments } from "./Arguments.ts";
@@ -13,11 +8,12 @@ import { Kernel } from "./Kernel.ts";
 /**
    * It prints out the help doc
    * 
+   * @export
    * @returns {void}
    */
 export function print_help(
-  app_details: AppDetails,
-  all_commands: CommandTypes,
+  app_details: Interface.AppDetails,
+  all_commands: Interface.CommandTypes,
 ) {
   console.log();
   console.log(green(bold(app_details.app_name)));
@@ -60,6 +56,7 @@ export function print_help(
  * It returns the command instance
  * if founded in given arguments
  * 
+ * @export
  * @param {Array<Command>} array 
  * @param {string} arg 
  * @returns {Command | undefined}
@@ -82,6 +79,7 @@ export function findCommandFromArgs(
    * It finds the command from given string
    * and removes it from the given array.
    * 
+   * @export
    * @param {Array<Command>} haystack 
    * @param {string} needle 
    * @returns {Array<Command>}
@@ -102,8 +100,9 @@ export function removeCommandFromArray(
 /**
    * It detects if the given command is in the arguments
    * 
+   * @export
    * @param {Command} command 
-   * @param {CustomArgs} args 
+   * @param {Interface.CustomArgs} args 
    * @returns {Boolean}
    */
 export function isCommandInArgs(command: Command, args: Arguments): Boolean {
@@ -127,11 +126,15 @@ export function isCommandInArgs(command: Command, args: Arguments): Boolean {
 /**
    * It detects if the given command is in the arguments
    * 
+   * @export
    * @param {Command} command 
-   * @param {CustomArgs} args 
+   * @param {Interface.CustomArgs} args 
    * @returns {Boolean}
    */
-export function isOptionInArgs(command: Command, args: CustomArgs): Boolean {
+export function isOptionInArgs(
+  command: Command,
+  args: Interface.CustomArgs,
+): Boolean {
   let found = false;
 
   for (const key in args) {
@@ -152,13 +155,14 @@ export function isOptionInArgs(command: Command, args: CustomArgs): Boolean {
    * It detects if on of the given args,
    * is included in the given array of Commands.
    * 
+   * @export
    * @param {Array<Command>} commands 
-   * @param {CustomArgs} args 
+   * @param {Interface.CustomArgs} args 
    * @returns {boolean}
    */
 export function isCommandFromArrayInArgs(
   commands: Array<Command>,
-  args: CustomArgs,
+  args: Interface.CustomArgs,
 ): Boolean {
   let found = false;
 
@@ -181,6 +185,7 @@ export function isCommandFromArrayInArgs(
    * It detects if on of the given args,
    * is included in the given array of Commands.
    * 
+   * @export
    * @param {Array<Command>} commands 
    * @param {Arguments} args 
    * @returns {boolean}
@@ -204,6 +209,7 @@ export function argIsInAvailableCommands(
    * It detects if the given command is included
    * in BOTH of the other two given arrays of Commands
    * 
+   * @export
    * @param {Command} command 
    * @param {Array<Command>} array1 
    * @param {Array<Command>} array2 
@@ -223,28 +229,37 @@ export function arraysHaveMatchingCommand(
 
 /**
    * Detects if the given command is included
-   * in the given array of OnCommands
+   * in the given array of Interface.OnCommands
    * 
+   * @export
    * @param {Command} command 
    * @param {Array<OnCommand>} array 
    * @returns {boolean}
    */
 export function containCommandInOnCommandArray(
   command: Command,
-  array: Array<OnCommand>,
+  array: Array<Interface.OnCommand>,
 ): Boolean {
   const matching = array.filter((element) => element.command === command);
 
   return matching.length === 0 ? false : true;
 }
 
+/**
+ * It returns the command arguments with required values
+ * 
+ * @export
+ * @param {Arguments} args 
+ * @param {Kernel} app 
+ * @returns {Array<string>}
+ */
 export function commandArgsWithRequiredValues(
   args: Arguments,
-  commands: Kernel,
-) {
+  app: Kernel,
+): Array<string> {
   return args.commands.filter((arg: string) => {
     const command: Command | undefined = findCommandFromArgs(
-      commands.commands,
+      app.commands,
       arg,
     );
 
@@ -254,9 +269,39 @@ export function commandArgsWithRequiredValues(
   });
 }
 
-export enum ValidationRules {
-  REQUIRED_OPTIONS,
-  REQUIRED_VALUES,
-  NON_DECLEARED_ARGS,
-  ON_COMMANDS,
+/**
+ * It finds if there are default options (--help, --version) in arguments
+ * 
+ * @export
+ * @param {Interface.CustomArgs} args
+ * @param {Array<Command>} defaultOptions 
+ * @returns {boolean}
+ */
+export function optionArgsContainDefaultOptions(
+  args: Interface.CustomArgs,
+  defaultOptions: Array<Command>,
+): boolean {
+  const result = defaultOptions.filter((command: Command) => {
+    return isOptionInArgs(command, args);
+  });
+
+  return result.length > 0;
+}
+/**
+ * It detects if there are no arguments
+ * 
+ * @param {Arguments} args 
+ */
+export function emptyArgs(args: Arguments) {
+  return Object.keys(args.options).length < 1 && args.commands.length < 1;
+}
+
+/**
+   * Detects if there are available required options
+   * 
+   * @protected
+   * @returns {boolean}
+   */
+export function availableRequiredOptions(app: Kernel): boolean {
+  return app.available_requiredOptions.length > 0;
 }

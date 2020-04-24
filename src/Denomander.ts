@@ -9,8 +9,8 @@ import { Arguments } from "./Arguments.ts";
  * 
  * @export
  * @class Denomander
- * @extends {Kernel}
- * @implements {PublicAPI}
+ * @extends Kernel
+ * @implements PublicAPI
  */
 export class Denomander extends Kernel implements PublicAPI {
   /**

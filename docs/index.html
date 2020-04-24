@@ -1,0 +1,389 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title"></a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1></h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p align="center"><img src="https://raw.githubusercontent.com/siokas/siokas.github.io/master/img/denomander.png" width="256"></p>
+				<p align="center">
+					<a href="https://travis-ci.com/siokas/denomander"><img alt="Travis (.com)" src="https://travis-ci.com/siokas/denomander.svg?branch=master"></a>
+					<a href="https://github.styleci.io/repos/245916074"><img src="https://github.styleci.io/repos/245916074/shield?branch=master" alt="StyleCI"></a>
+					<a href="https://app.codacy.com/manual/apostolossiokas/denomander?utm_source=github.com&utm_medium=referral&utm_content=siokas/denomander&utm_campaign=Badge_Grade_Dashboard"> <img src="https://api.codacy.com/project/badge/Grade/b9b7465c7a7e40b5af20edc6c9eb5cdf"></a>
+				</p>
+				<p><em>Denomander</em> is a solution for <a href="https://deno.land">Deno</a> command-line interfaces. It is inspired from <a href="https://github.com/tj/commander.js">commander.js</a> by <a href="https://github.com/tj">tj</a> which is the node&#39;s version.</p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> Denomander <span class="hljs-keyword">from</span> <span class="hljs-string">"https://deno.land/x/denomander/mod.ts"</span>;</code></pre>
+				<a href="#usage-example" id="usage-example" style="color: inherit; text-decoration: none;">
+					<h2>Usage example</h2>
+				</a>
+				<p>At first initialize the app and optionally you may pass the name, description and version of the app. If not you can change them afterwards by setting the <strong>app_name</strong>, <strong>app_description</strong> and <strong>app_version</strong> variables.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> program = <span class="hljs-keyword">new</span> Denomander(
+  {
+    <span class="hljs-attr">app_name</span>: <span class="hljs-string">"My MY App"</span>,
+    <span class="hljs-attr">app_description</span>: <span class="hljs-string">"My MY Description"</span>,
+    <span class="hljs-attr">app_version</span>: <span class="hljs-string">"1.0.1"</span>
+  }
+);</code></pre>
+				<p>There are three option types: <strong>commands</strong>, <strong>options</strong> and <strong>required options</strong>.</p>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h3>Options</h3>
+				</a>
+				<p>To set an option just call the <strong>option()</strong> method passing <strong>a) the sort and the long flag</strong> seperated by space and <strong>b) the description</strong>. The value can be accessed as properties.</p>
+				<pre><code class="language-javascript">program
+  .option(<span class="hljs-string">"-a --address"</span>, <span class="hljs-string">"Define the address"</span>)
+  .option(<span class="hljs-string">"-p --port"</span>, <span class="hljs-string">"Define the port"</span>)
+  .parse(Deno.args);
+
+  <span class="hljs-keyword">if</span>(program.address){
+    <span class="hljs-keyword">const</span> port = program.port || <span class="hljs-string">"8000"</span>;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server is running on <span class="hljs-subst">${program.address}</span>:<span class="hljs-subst">${port}</span>`</span>);
+  }</code></pre>
+				<p><strong>You may define the option&#39;s short and long flags by seperating them with either with a) space, b) comma, or c) | (vertical bar or &quot;pipe&quot;)</strong></p>
+				<pre><code class="language-javascript">program
+  .option(<span class="hljs-string">"-a, --address"</span>, <span class="hljs-string">"Define the address"</span>)
+  .option(<span class="hljs-string">"-p | --port"</span>, <span class="hljs-string">"Define the port"</span>)
+  .parse(Deno.args);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server is running on <span class="hljs-subst">${program.address}</span>:<span class="hljs-subst">${program.port}</span>`</span>);</code></pre>
+				<a href="#required-options" id="required-options" style="color: inherit; text-decoration: none;">
+					<h3>Required Options</h3>
+				</a>
+				<p>The implementation of required option is exactly same as the optional option but you have to call the <strong>requiredOption()</strong> method instead.</p>
+				<pre><code class="language-javascript">program
+  .option(<span class="hljs-string">"-a --address"</span>, <span class="hljs-string">"Define the address"</span>)
+  .requiredOption(<span class="hljs-string">"-p --port"</span>, <span class="hljs-string">"Define the port"</span>)
+  .parse(Deno.args);
+
+  <span class="hljs-comment">// The port is required so it must have a value</span>
+  <span class="hljs-keyword">let</span> address = program.address || <span class="hljs-string">"localhost"</span>;
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server run on <span class="hljs-subst">${address}</span>:<span class="hljs-subst">${program.port}</span>`</span>);</code></pre>
+				<a href="#multiple-short-flags-is-supported-example-from-docker-exec-command" id="multiple-short-flags-is-supported-example-from-docker-exec-command" style="color: inherit; text-decoration: none;">
+					<h4>Multiple short flags is supported (example from docker exec command)</h4>
+				</a>
+				<p>You have the option to pass more than one short flags.</p>
+				<pre><code class="language-javascript">program
+  .option(<span class="hljs-string">"-i --interactive "</span>, <span class="hljs-string">"Keep STDIN open even if not attached"</span>)
+  .option(<span class="hljs-string">"-t --tty"</span>, <span class="hljs-string">"Allocate a pseudo-TTY"</span>)
+  .parse(Deno.args);
+
+  <span class="hljs-keyword">if</span>(program.interactive){
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Interactive Mode'</span>);
+  }
+
+  <span class="hljs-keyword">if</span>(program.tty){
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Pseudo-TTY'</span>);
+  }
+
+  <span class="hljs-comment">// deno run example.ts -it </span>
+  <span class="hljs-comment">// The previous command passes true in both if statements therfore it prints out both console.log commands</span></code></pre>
+				<a href="#commands" id="commands" style="color: inherit; text-decoration: none;">
+					<h3>Commands</h3>
+				</a>
+				<p>There are two ways to implement the command options. The first is to use an action handler by calling the <strong>action()</strong> method immediately after the command definition passing the callback function and the second is with custom one-line implementation.</p>
+				<a href="#action-handler" id="action-handler" style="color: inherit; text-decoration: none;">
+					<h4>Action Handler</h4>
+				</a>
+				<pre><code class="language-javascript">program
+  .command(<span class="hljs-string">"clone [foldername]"</span>)
+  .description(<span class="hljs-string">"clone a repo"</span>)
+  .action(<span class="hljs-function">(<span class="hljs-params">foldername</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The repo is cloned into: "</span> + foldername);
+  });
+
+program.parse(Deno.args);</code></pre>
+				<a href="#custom-implementation" id="custom-implementation" style="color: inherit; text-decoration: none;">
+					<h4>Custom Implementation</h4>
+				</a>
+				<pre><code class="language-javascript">program.command(<span class="hljs-string">"serve"</span>, <span class="hljs-string">"Start the server"</span>);
+
+<span class="hljs-keyword">if</span>(program.serve){
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The server has started..."</span>);
+}
+
+program.parse(Deno.args);</code></pre>
+				<a href="#option-to-change-default-commands-help-version" id="option-to-change-default-commands-help-version" style="color: inherit; text-decoration: none;">
+					<h3>Option to change default commands (help, version)</h3>
+				</a>
+				<p>In order to change the default commands (help, version) just call the corresponding method. In case of help pass the command and the description but in case of version you may also pass the actual version of the app and after that the command and the description. </p>
+				<pre><code class="language-javascript"> program.setVersion(
+    <span class="hljs-string">"1.8.1"</span>,
+    <span class="hljs-string">"-x --xversion"</span>,
+    <span class="hljs-string">"Display the version of the app"</span>
+  );
+
+  program.setHelp(
+    <span class="hljs-string">"-c --customhelp"</span>,
+    <span class="hljs-string">"Custom print help"</span>
+  );
+
+  program.parse(args);</code></pre>
+				<a href="#custom-help-and-version" id="custom-help-and-version" style="color: inherit; text-decoration: none;">
+					<h3>Custom help and version</h3>
+				</a>
+				<p>To customize the commands call on() method passing the command and the callback function.</p>
+				<blockquote>
+					<p>Must be before parse()</p>
+				</blockquote>
+				<pre><code class="language-javascript">program.on(<span class="hljs-string">"--help"</span>, () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"New Help Screen"</span>);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"--- --- ---"</span>);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"-p --port Define port"</span>);
+});
+
+program.on(<span class="hljs-string">"--version"</span>, () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"New version are coming next week"</span>);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"v1.5.6"</span>);
+});
+
+<span class="hljs-comment">// Last command</span>
+program.parse(args);</code></pre>
+				<a href="#todo" id="todo" style="color: inherit; text-decoration: none;">
+					<h2>ToDo</h2>
+				</a>
+				<ul>
+					<li><input checked="" disabled="" type="checkbox"> program.on() method</li>
+					<li><input disabled="" type="checkbox"> Custom option processing</li>
+					<li><input checked="" disabled="" type="checkbox"> Option to change default commands (help, version)</li>
+					<li><input checked="" disabled="" type="checkbox"> description(), action() methods</li>
+					<li><input checked="" disabled="" type="checkbox"> Multiple short flags (-abc)</li>
+					<li><input disabled="" type="checkbox"> Long Flag alias</li>
+				</ul>
+				<a href="#used" id="used" style="color: inherit; text-decoration: none;">
+					<h2>Used</h2>
+				</a>
+				<ul>
+					<li><a href="https://deno.land">Deno</a></li>
+					<li><a href="https://deno.land/std/">Deno STD Libraries</a></li>
+					<li><a href="https://www.flaticon.com/">FlatIcon</a> for the logo </li>
+				</ul>
+				<a href="#release-history" id="release-history" style="color: inherit; text-decoration: none;">
+					<h2>Release History</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/siokas/denomander/releases/tag/0.1.0">0.1.0</a><ul>
+							<li>Initial Commit</li>
+						</ul>
+					</li>
+					<li><a href="https://github.com/siokas/denomander/releases/tag/0.2.0">0.2.0</a><ul>
+							<li>Change Command of Default Options [help, version]</li>
+							<li>Custom help and version (program.on() method)</li>
+							<li>Add description() and action() methods for commands</li>
+						</ul>
+					</li>
+					<li><a href="https://github.com/siokas/denomander/releases/tag/0.3.0">0.3.0</a><ul>
+							<li>Multiple short flags</li>
+							<li>Comma and vertical bar separated options</li>
+						</ul>
+					</li>
+					<li><a href="https://github.com/siokas/denomander/releases/tag/0.3.1">0.3.1</a><ul>
+							<li>Add docblocks</li>
+							<li>Extract some interfaces</li>
+							<li>Fix some code readability errors</li>
+							<li>Change internal exported classed to named from default (Only mod.ts file has the default export od Denomander class)</li>
+						</ul>
+					</li>
+					<li><a href="https://github.com/siokas/denomander/releases/tag/0.4.0">0.4.0</a><ul>
+							<li>Add CustomArgs interface</li>
+							<li>Generate documentation</li>
+							<li>Create utils finalise clearing project</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#meta" id="meta" style="color: inherit; text-decoration: none;">
+					<h2>Meta</h2>
+				</a>
+				<p>Apostolos Siokas – <a href="https://twitter.com/siokas_">@siokas_</a> – <a href="mailto:apostolossiokas@gmail.com">apostolossiokas@gmail.com</a></p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<ol>
+					<li><p>Fork it (<a href="https://github.com/yourname/yourproject/fork">https://github.com/yourname/yourproject/fork</a>)</p>
+					</li>
+					<li><p>Create your feature branch (<code>git checkout -b feature/fooBar</code>)</p>
+					</li>
+					<li><p>Commit your changes (<code>git commit -am &#39;Add some fooBar&#39;</code>)</p>
+					</li>
+					<li><p>Push to the branch (<code>git push origin feature/fooBar</code>)</p>
+					</li>
+					<li><p>Create a new Pull Request</p>
+					</li>
+				</ol>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
+				<p>Distributed under the <a href="https://github.com/siokas/denomander/blob/master/LICENSE">MIT License</a>. </p>
+				<p><a href="https://github.com/siokas/denomander">https://github.com/siokas/denomander</a></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_arguments_.html">&quot;<wbr>Arguments&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_command_.html">&quot;<wbr>Command&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_denomander_.html">&quot;<wbr>Denomander&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_generator_.html">&quot;<wbr>Generator&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_kernel_.html">&quot;<wbr>Kernel&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_validator_.html">&quot;<wbr>Validator&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_helpers_.html">&quot;helpers&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_.html">&quot;interfaces&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_utils_.html">&quot;utils&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
