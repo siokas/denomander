@@ -22,7 +22,7 @@ export class Denomander extends Kernel implements PublicAPI {
     this.args = new Arguments(args);
     this.args.parse();
 
-    this.executeProgram();
+    this.run();
   }
 
   /**

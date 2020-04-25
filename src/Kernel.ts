@@ -34,7 +34,7 @@ export class Kernel {
   /**
     * Holds all the available required options
     *
-    * @protected
+    * @public
     * @type {Array<Command>}
    */
   public available_requiredOptions: Array<Command> = [];
@@ -129,34 +129,34 @@ export class Kernel {
   /**
    * The arguments object instance
    * 
-   * @protected
+   * @public
    * @type {Arguments}
    */
-  protected args: Arguments | undefined;
+  public args: Arguments | undefined;
 
   /**
    * The name of the app.
    * 
-   * @protected
+   * @public
    * @type {string}
    */
-  protected _app_name: string;
+  public _app_name: string;
 
   /**
    * The description of the app.
    * 
-   * @protected
+   * @public
    * @type {string}
    */
-  protected _app_description: string;
+  public _app_description: string;
 
   /**
    * The version of the app.
    * 
-   * @protected
+   * @public
    * @type {string}
    */
-  protected _app_version: string;
+  public _app_version: string;
 
   /**
     * Arguments passed by the user during runtime
@@ -399,7 +399,7 @@ export class Kernel {
    * @protected
    * @returns {Kernel}
    */
-  protected executeProgram(): Kernel {
+  protected run(): Kernel {
     return this
       .setup()
       .validate()
