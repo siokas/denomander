@@ -7,6 +7,11 @@
 
 _Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces. It is inspired from [commander.js](https://github.com/tj/commander.js) by [tj](https://github.com/tj) which is the node's version.
 
+> Denomander is a [Deno](https://deno.land) project so it needs to have deno installed in your system. 
+> If you don't there is a Dockerfile in the root of the project to create an image running deno
+> To use it just build the Docker file `docker build -t deno .`
+> Now you can run all the deno commands `docker run --rm -v $PWD:/app/ deno test`
+
 ## Installation
 
 ```javascript
@@ -192,7 +197,11 @@ program.parse(args);
     -  Add CustomArgs interface
     -  Generate documentation
     -  Create utils finalise clearing project
-    
+-  [0.0.5](https://github.com/siokas/denomander/releases/tag/0.4.0)
+    -  Add Validator object
+    -  Add Arguments object
+    -  Add Generator object
+    -  Customizing errors
 
 ## Meta
 
