@@ -1,7 +1,7 @@
 import { assertEquals, test } from "../deno_deps.ts";
 import { Kernel } from "../src/Kernel.ts";
 
-test(function app_detail_accessors() {
+test("app_detail_accessors", function () {
   const program = new Kernel();
   assertEquals(program.app_name, "My App"); // Default app name if not provided in constructor
   assertEquals(program.app_description, "My Description"); // Default description if not provided in constructor
@@ -17,7 +17,7 @@ test(function app_detail_accessors() {
   assertEquals(program.app_version, "2.5.0");
 });
 
-test(function app_detail_accessors_passing_values_in_constructor() {
+test("app_detail_accessors_passing_values_in_constructor", function () {
   const program = new Kernel({
     app_name: "New App",
     app_description: "New Description",

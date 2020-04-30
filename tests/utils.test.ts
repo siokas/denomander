@@ -3,12 +3,12 @@ import {
   findCommandFromArgs,
   removeCommandFromArray,
   arraysHaveMatchingCommand,
-  containCommandInOnCommandArray
+  containCommandInOnCommandArray,
 } from "../src/utils.ts";
 import { Command } from "../src/Command.ts";
 import { OnCommand } from "../src/interfaces.ts";
 
-test(function find_command_from_args() {
+test("find_command_from_args", function () {
   const commands: Array<Command> = [];
   const arg = "--help";
 
@@ -29,7 +29,7 @@ test(function find_command_from_args() {
   }
 });
 
-test(function remove_command_from_array() {
+test("remove_command_from_array", function () {
   const helpCommand = new Command(
     { value: "-h --help", description: "Helper of the app" },
   );
@@ -47,7 +47,7 @@ test(function remove_command_from_array() {
   );
 });
 
-test(function arrays_have_matching_command() {
+test("arrays_have_matching_command", function () {
   const helpCommand = new Command(
     { value: "-h --help", description: "Helper of the app" },
   );
@@ -61,7 +61,7 @@ test(function arrays_have_matching_command() {
   assertEquals(arraysHaveMatchingCommand(helpCommand, array1, array2), true);
 });
 
-test(function contain_command_in_on_commands_array() {
+test("contain_command_in_on_commands_array", function () {
   const helpCommand = new Command(
     { value: "-h --help", description: "Helper of the app" },
   );

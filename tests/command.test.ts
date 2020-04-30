@@ -1,7 +1,7 @@
 import { assertEquals, test } from "../deno_deps.ts";
 import { Command } from "../src/Command.ts";
 
-test(function command_option() {
+test("command_option", function () {
   const option = new Command({
     value: "-h --help",
     description: "Print command line options (currently set)",
@@ -16,7 +16,7 @@ test(function command_option() {
   assertEquals(option.type, "option");
 });
 
-test(function command_required_option() {
+test("command_required_option", function () {
   const required_option = new Command(
     {
       value: "-p --port",
@@ -34,7 +34,7 @@ test(function command_required_option() {
   assertEquals(required_option.type, "option");
 });
 
-test(function command_command() {
+test("command_command", function () {
   const command = new Command({
     value: "new [name]",
     description: "Create a new file",
