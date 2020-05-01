@@ -177,32 +177,6 @@ program.parse(args);
 -  [Deno STD Libraries](https://deno.land/std/)
 -  [FlatIcon](https://www.flaticon.com/) for the logo 
 
-## Release History
-
--  [0.1.0](https://github.com/siokas/denomander/releases/tag/0.1.0)
-    -  Initial Commit
--  [0.2.0](https://github.com/siokas/denomander/releases/tag/0.2.0)
-    -  Change Command of Default Options [help, version]
-    -  Custom help and version (program.on() method)
-    -  Add description() and action() methods for commands
--  [0.3.0](https://github.com/siokas/denomander/releases/tag/0.3.0)
-    -  Multiple short flags
-    -  Comma and vertical bar separated options
--  [0.3.1](https://github.com/siokas/denomander/releases/tag/0.3.1)
-    -  Add docblocks
-    -  Extract some interfaces
-    -  Fix some code readability errors
-    -  Change internal exported classed to named from default (Only mod.ts file has the default export od Denomander class)
--  [0.4.0](https://github.com/siokas/denomander/releases/tag/0.4.0)
-    -  Add CustomArgs interface
-    -  Generate documentation
-    -  Create utils finalise clearing project
--  [0.0.5](https://github.com/siokas/denomander/releases/tag/0.4.0)
-    -  Add Validator object
-    -  Add Arguments object
-    -  Add Generator object
-    -  Customizing errors
-
 ## Meta
 
 Apostolos Siokas – [@siokas_](https://twitter.com/siokas_) – apostolossiokas@gmail.com

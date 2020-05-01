@@ -1,4 +1,4 @@
-import { green, yellow, bold } from "../deno_deps.ts";
+import { green, yellow, red, bold } from "../deno_deps.ts";
 import * as Interface from "./interfaces.ts";
 import { Command } from "./Command.ts";
 import * as Helper from "./helpers.ts";
@@ -17,6 +17,7 @@ export function print_help(
 ) {
   console.log();
   console.log(green(bold(app_details.app_name)));
+  console.log(red(bold("v" + app_details.app_version)));
   console.log();
   console.log(yellow(bold("Description:")));
   console.log(app_details.app_description);
@@ -25,20 +26,20 @@ export function print_help(
   if (all_commands.required_options.length > 0) {
     console.log(yellow(bold("Required Options:")));
     all_commands.required_options.forEach((command) => {
-      console.log(command.value + "\t" + command.description);
+      console.log(command.value + " \t " + command.description);
     });
     console.log();
   }
 
   console.log(yellow(bold("Options:")));
   all_commands.default_options.forEach((command) => {
-    console.log(command.value + "\t" + command.description);
+    console.log(command.value + " \t " + command.description);
   });
 
   console.log();
 
   all_commands.options.forEach((command) => {
-    console.log(command.value + "\t" + command.description);
+    console.log(command.value + " \t " + command.description);
   });
 
   console.log();
@@ -46,7 +47,7 @@ export function print_help(
   if (all_commands.commands.length > 0) {
     console.log(yellow(bold("Commands:")));
     all_commands.commands.forEach((command) => {
-      console.log(command.value + "\t" + command.description);
+      console.log(command.value + " \t " + command.description);
     });
     console.log();
   }
