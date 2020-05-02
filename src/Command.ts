@@ -1,4 +1,4 @@
-import { stripDashes, containsBrackets, trimString } from "./helpers.ts";
+import { Helper } from "./Helper.ts";
 import { CommandOptions } from "./types.ts";
 /**
   * Command class 
@@ -79,12 +79,12 @@ export class Command {
 
     switch (splitedValue.length) {
       case 1:
-        this._word_command = stripDashes(splitedValue[0]);
+        this._word_command = Helper.stripDashes(splitedValue[0]);
         break;
 
       case 2:
-        this._word_command = stripDashes(splitedValue[0]);
-        if (containsBrackets(splitedValue[1])) {
+        this._word_command = Helper.stripDashes(splitedValue[0]);
+        if (Helper.containsBrackets(splitedValue[1])) {
           this.require_command_value = true;
         }
         break;
@@ -103,22 +103,32 @@ export class Command {
 
     switch (splitedValue.length) {
       case 1:
-        if (stripDashes(splitedValue[0]).length === 1) {
-          this._letter_command = stripDashes(splitedValue[0]);
+        if (Helper.stripDashes(splitedValue[0]).length === 1) {
+          this._letter_command = Helper.stripDashes(splitedValue[0]);
         } else {
-          this._word_command = stripDashes(splitedValue[0]);
+          this._word_command = Helper.stripDashes(splitedValue[0]);
         }
         break;
 
       case 2:
-        if (stripDashes(trimString(splitedValue[0])).length === 1) {
-          this._letter_command = stripDashes(trimString(splitedValue[0]));
+        if (
+          Helper.stripDashes(Helper.trimString(splitedValue[0])).length === 1
+        ) {
+          this._letter_command = Helper.stripDashes(
+            Helper.trimString(splitedValue[0]),
+          );
 
-          if (stripDashes(trimString(splitedValue[1])).length > 1) {
-            this._word_command = stripDashes(trimString(splitedValue[1]));
+          if (
+            Helper.stripDashes(Helper.trimString(splitedValue[1])).length > 1
+          ) {
+            this._word_command = Helper.stripDashes(
+              Helper.trimString(splitedValue[1]),
+            );
           }
         } else {
-          this._word_command = stripDashes(trimString(splitedValue[0]));
+          this._word_command = Helper.stripDashes(
+            Helper.trimString(splitedValue[0]),
+          );
         }
         break;
 

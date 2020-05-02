@@ -1,10 +1,5 @@
 import { assertEquals, test } from "../deno_deps.ts";
-import {
-  findCommandFromArgs,
-  removeCommandFromArray,
-  arraysHaveMatchingCommand,
-  containCommandInOnCommandArray,
-} from "../src/utils.ts";
+import { Util } from "../src/Util.ts";
 import { Command } from "../src/Command.ts";
 import { OnCommand } from "../src/types.ts";
 
@@ -21,7 +16,7 @@ test("find_command_from_args", function () {
     ),
   );
 
-  const command = findCommandFromArgs(commands, arg);
+  const command = Util.findCommandFromArgs(commands, arg);
 
   if (command) {
     assertEquals(command.letter_command, "h");
@@ -42,7 +37,7 @@ test("remove_command_from_array", function () {
   const commands_after: Array<Command> = [helpCommand];
 
   assertEquals(
-    removeCommandFromArray(commands_before, "version"),
+    Util.removeCommandFromArray(commands_before, "version"),
     commands_after,
   );
 });
@@ -58,7 +53,10 @@ test("arrays_have_matching_command", function () {
   const array1: Array<Command> = [versionCommand, helpCommand];
   const array2: Array<Command> = [helpCommand];
 
-  assertEquals(arraysHaveMatchingCommand(helpCommand, array1, array2), true);
+  assertEquals(
+    Util.arraysHaveMatchingCommand(helpCommand, array1, array2),
+    true,
+  );
 });
 
 test("contain_command_in_on_commands_array", function () {
@@ -70,5 +68,5 @@ test("contain_command_in_on_commands_array", function () {
     { command: helpCommand, callback: () => {} },
   ];
 
-  assertEquals(containCommandInOnCommandArray(helpCommand, array1), true);
+  assertEquals(Util.containCommandInOnCommandArray(helpCommand, array1), true);
 });

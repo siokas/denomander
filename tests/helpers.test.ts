@@ -1,21 +1,19 @@
 import { assertEquals, test } from "../deno_deps.ts";
 import {
-  stripDashes,
-  containsBrackets,
-  trimString,
-} from "../src/helpers.ts";
+  Helper,
+} from "../src/Helper.ts";
 
 test("strip_dashes", function () {
-  assertEquals(stripDashes("--test"), "test");
+  assertEquals(Helper.stripDashes("--test"), "test");
 });
 
 test("contains_brackets", function () {
-  assertEquals(containsBrackets("new [name]"), true);
-  assertEquals(containsBrackets("start"), false);
+  assertEquals(Helper.containsBrackets("new [name]"), true);
+  assertEquals(Helper.containsBrackets("start"), false);
 });
 
 test("trim_string", function () {
   const value = "  -- port  ";
 
-  assertEquals(trimString(value), "--port");
+  assertEquals(Helper.trimString(value), "--port");
 });

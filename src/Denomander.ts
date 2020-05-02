@@ -1,7 +1,7 @@
 import { Arguments } from "./Arguments.ts";
 import { Command } from "./Command.ts";
 import { Kernel } from "./Kernel.ts";
-import { removeCommandFromArray } from "./utils.ts";
+import { Util } from "./Util.ts";
 import { PublicAPI } from "./interfaces.ts";
 
 /**
@@ -136,7 +136,7 @@ export class Denomander extends Kernel implements PublicAPI {
   public setHelp(command: string, description: string): Denomander {
     this.help_command = new Command({ value: command, description });
 
-    const new_available_default_options = removeCommandFromArray(
+    const new_available_default_options = Util.removeCommandFromArray(
       this.commands,
       "help",
     );
@@ -164,7 +164,7 @@ export class Denomander extends Kernel implements PublicAPI {
     this.version = version;
     this.version_command = new Command({ value: command, description });
 
-    const new_available_default_options = removeCommandFromArray(
+    const new_available_default_options = Util.removeCommandFromArray(
       this.commands,
       "version",
     );

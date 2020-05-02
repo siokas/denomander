@@ -1,8 +1,8 @@
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
+import { Util } from "./Util.ts";
 import { OnCommand } from "./types.ts";
-import * as Util from "./utils.ts";
 
 /**
  * It is responsible for generating the app variables and running the necessary callback functions

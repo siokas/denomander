@@ -1,15 +1,15 @@
-import * as Util from "./utils.ts";
 import { Command } from "./Command.ts";
 import { Validator } from "./Validator.ts";
 import { Arguments } from "./Arguments.ts";
 import { Generator } from "./Generator.ts";
-import { ValidationRules } from "./helpers.ts";
+import { Util } from "./Util.ts";
 import {
   OnCommand,
   TempOnCommand,
   CustomArgs,
   AppDetails,
   CommandTypes,
+  ValidationRules,
 } from "./types.ts";
 
 /**

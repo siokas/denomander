@@ -1,7 +1,6 @@
 import { Command } from "./Command.ts";
 import { Kernel } from "./Kernel.ts";
 import { Arguments } from "./Arguments.ts";
-import { ValidationRules } from "./helpers.ts";
 
 /**
  * Defines the app detail types
@@ -93,3 +92,17 @@ export type ValidatorOptions = {
   args: Arguments;
   rules: Array<ValidationRules>;
 };
+
+/**
+ * Enum containing the Validation Rules
+ * 
+ * @export
+ * @enum ValidationRules
+ */
+export enum ValidationRules {
+  REQUIRED_OPTIONS,
+  REQUIRED_VALUES,
+  NON_DECLEARED_ARGS,
+  ON_COMMANDS,
+  ACTIONS,
+}

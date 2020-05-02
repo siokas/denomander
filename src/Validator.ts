@@ -1,12 +1,16 @@
 import * as CustomError from "../custom_errors.ts";
-import * as Util from "./utils.ts";
+import { Util } from "./Util.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
 import { Generator } from "./Generator.ts";
-import { ValidationRules } from "./helpers.ts";
 import { ValidatorContract } from "./interfaces.ts";
-import { ValidatorOptions, ValidationResult, TempOnCommand } from "./types";
+import {
+  ValidatorOptions,
+  ValidationResult,
+  TempOnCommand,
+  ValidationRules,
+} from "./types.ts";
 
 /**
  * It is responsible for validating the arguments and throw the related error
