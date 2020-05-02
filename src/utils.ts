@@ -1,9 +1,9 @@
 import { green, yellow, red, bold } from "../deno_deps.ts";
-import * as Interface from "./interfaces.ts";
 import { Command } from "./Command.ts";
 import * as Helper from "./helpers.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
+import { CustomArgs, OnCommand, CommandTypes, AppDetails } from "./types.ts";
 
 /**
    * It prints out the help doc
@@ -12,8 +12,8 @@ import { Kernel } from "./Kernel.ts";
    * @returns {void}
    */
 export function print_help(
-  app_details: Interface.AppDetails,
-  all_commands: Interface.CommandTypes,
+  app_details: AppDetails,
+  all_commands: CommandTypes,
 ) {
   console.log();
   console.log(green(bold(app_details.app_name)));
@@ -103,7 +103,7 @@ export function removeCommandFromArray(
    * 
    * @export
    * @param {Command} command 
-   * @param {Interface.CustomArgs} args 
+   * @param {CustomArgs} args 
    * @returns {Boolean}
    */
 export function isCommandInArgs(command: Command, args: Arguments): Boolean {
@@ -129,12 +129,12 @@ export function isCommandInArgs(command: Command, args: Arguments): Boolean {
    * 
    * @export
    * @param {Command} command 
-   * @param {Interface.CustomArgs} args 
+   * @param {CustomArgs} args 
    * @returns {Boolean}
    */
 export function isOptionInArgs(
   command: Command,
-  args: Interface.CustomArgs,
+  args: CustomArgs,
 ): Boolean {
   let found = false;
 
@@ -158,12 +158,12 @@ export function isOptionInArgs(
    * 
    * @export
    * @param {Array<Command>} commands 
-   * @param {Interface.CustomArgs} args 
+   * @param {CustomArgs} args 
    * @returns {boolean}
    */
 export function isCommandFromArrayInArgs(
   commands: Array<Command>,
-  args: Interface.CustomArgs,
+  args: CustomArgs,
 ): Boolean {
   let found = false;
 
@@ -230,7 +230,7 @@ export function arraysHaveMatchingCommand(
 
 /**
    * Detects if the given command is included
-   * in the given array of Interface.OnCommands
+   * in the given array of .OnCommands
    * 
    * @export
    * @param {Command} command 
@@ -239,7 +239,7 @@ export function arraysHaveMatchingCommand(
    */
 export function containCommandInOnCommandArray(
   command: Command,
-  array: Array<Interface.OnCommand>,
+  array: Array<OnCommand>,
 ): Boolean {
   const matching = array.filter((element) => element.command === command);
 
@@ -274,12 +274,12 @@ export function commandArgsWithRequiredValues(
  * It finds if there are default options (--help, --version) in arguments
  * 
  * @export
- * @param {Interface.CustomArgs} args
+ * @param {CustomArgs} args
  * @param {Array<Command>} defaultOptions 
  * @returns {boolean}
  */
 export function optionArgsContainDefaultOptions(
-  args: Interface.CustomArgs,
+  args: CustomArgs,
   defaultOptions: Array<Command>,
 ): boolean {
   const result = defaultOptions.filter((command: Command) => {

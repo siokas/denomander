@@ -1,6 +1,5 @@
 import { stripDashes, containsBrackets, trimString } from "./helpers.ts";
-import { CommandOptions } from "./interfaces.ts";
-
+import { CommandOptions } from "./types.ts";
 /**
   * Command class 
   * 

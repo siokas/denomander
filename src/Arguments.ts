@@ -1,5 +1,6 @@
 import { parse } from "../deno_deps.ts";
-import * as Interface from "./interfaces.ts";
+import { ArgumentsContract } from "./interfaces.ts";
+import { CustomArgs } from "./types.ts";
 
 /**
  * It parses the arguments and splits them into commands and options
@@ -8,7 +9,7 @@ import * as Interface from "./interfaces.ts";
  * @class Arguments
  * @implements ArgumentsContract
  */
-export class Arguments implements Interface.ArgumentsContract {
+export class Arguments implements ArgumentsContract {
   /**
    * Aruments from Deno.args (unparsed)
    * 
@@ -23,7 +24,7 @@ export class Arguments implements Interface.ArgumentsContract {
    * @protected
    * @type {CustomArgs}
    */
-  protected _all: Interface.CustomArgs = {};
+  protected _all: CustomArgs = {};
 
   /**
    * Option arguments
@@ -31,7 +32,7 @@ export class Arguments implements Interface.ArgumentsContract {
    * @protected
    * @type {CustomArgs}
    */
-  protected _options: Interface.CustomArgs = {};
+  protected _options: CustomArgs = {};
 
   /**
    * Command arguments
@@ -96,7 +97,7 @@ export class Arguments implements Interface.ArgumentsContract {
    * @param args {CustomArgs}
    * @returns {CustomArgs}
    */
-  protected extractOptions(args: Interface.CustomArgs): Interface.CustomArgs {
+  protected extractOptions(args: CustomArgs): CustomArgs {
     delete args["_"];
     return args;
   }
@@ -106,7 +107,7 @@ export class Arguments implements Interface.ArgumentsContract {
    * @param args {}
    * @returns {Array<string>}
    */
-  protected extractCommands(args: Interface.CustomArgs): Array<string> {
+  protected extractCommands(args: CustomArgs): Array<string> {
     return args["_"] as Array<string>;
   }
 }

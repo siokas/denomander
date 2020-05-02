@@ -1,8 +1,8 @@
-import { PublicAPI } from "./interfaces.ts";
-import { Command } from "./Command.ts";
-import { removeCommandFromArray } from "./utils.ts";
-import { Kernel } from "./Kernel.ts";
 import { Arguments } from "./Arguments.ts";
+import { Command } from "./Command.ts";
+import { Kernel } from "./Kernel.ts";
+import { removeCommandFromArray } from "./utils.ts";
+import { PublicAPI } from "./interfaces.ts";
 
 /**
  * The main class 

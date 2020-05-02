@@ -1,10 +1,16 @@
-import * as Interface from "./interfaces.ts";
 import * as Util from "./utils.ts";
 import { Command } from "./Command.ts";
 import { Validator } from "./Validator.ts";
 import { Arguments } from "./Arguments.ts";
 import { Generator } from "./Generator.ts";
 import { ValidationRules } from "./helpers.ts";
+import {
+  OnCommand,
+  TempOnCommand,
+  CustomArgs,
+  AppDetails,
+  CommandTypes,
+} from "./types.ts";
 
 /**
   * It is the core of the app. It is responsible for almost everything.
@@ -76,17 +82,17 @@ export class Kernel {
     * Holds all the available .on() commands
     *
     * @public
-    * @type {Array<Interface.OnCommand>}
+    * @type {Array<OnCommand>}
    */
-  public available_on_commands: Array<Interface.OnCommand> = [];
+  public available_on_commands: Array<OnCommand> = [];
 
   /**
     * Temporary array for .on() commands
     *
     * @public
-    * @type {Array<Interface.TempOnCommand>}
+    * @type {Array<TempOnCommand>}
    */
-  public temp_on_commands: Array<Interface.TempOnCommand> = [];
+  public temp_on_commands: Array<TempOnCommand> = [];
 
   /**
    * The Command instance of the --version option
@@ -164,14 +170,14 @@ export class Kernel {
     * @protected
     * @type {CustomArgs}
    */
-  protected _args: Interface.CustomArgs = {};
+  protected _args: CustomArgs = {};
 
   /**
-   * Constructor of Interface.AppDetails object.
+   * Constructor of AppDetails object.
    * 
    * @param {AppDetails} app_details 
    */
-  constructor(app_details?: Interface.AppDetails) {
+  constructor(app_details?: AppDetails) {
     if (app_details) {
       this._app_name = app_details.app_name;
       this._app_description = app_details.app_description;
@@ -335,13 +341,13 @@ export class Kernel {
    * @protected
    */
   protected printHelp(): void {
-    const app_details: Interface.AppDetails = {
+    const app_details: AppDetails = {
       app_name: this._app_name,
       app_description: this._app_description,
       app_version: this._app_version,
     };
 
-    const command_types: Interface.CommandTypes = {
+    const command_types: CommandTypes = {
       default_options: this.available_default_options,
       required_options: this.available_requiredOptions,
       options: this.available_options,

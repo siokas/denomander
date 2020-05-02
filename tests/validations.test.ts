@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows, test } from "../deno_deps.ts";
+import { assertThrows, test } from "../deno_deps.ts";
 import { Denomander } from "../src/Denomander.ts";
 import * as CustomError from "../custom_errors.ts";
 

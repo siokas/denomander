@@ -6,7 +6,7 @@ import {
   containCommandInOnCommandArray,
 } from "../src/utils.ts";
 import { Command } from "../src/Command.ts";
-import { OnCommand } from "../src/interfaces.ts";
+import { OnCommand } from "../src/types.ts";
 
 test("find_command_from_args", function () {
   const commands: Array<Command> = [];

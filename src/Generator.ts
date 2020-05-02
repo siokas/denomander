@@ -1,7 +1,7 @@
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
-import * as Interface from "./interfaces.ts";
+import { OnCommand } from "./types.ts";
 import * as Util from "./utils.ts";
 
 /**
@@ -128,7 +128,7 @@ export class Generator {
    * @returns {Generator}
    */
   public onCommands(): Generator {
-    this.app.available_on_commands.forEach((arg: Interface.OnCommand) => {
+    this.app.available_on_commands.forEach((arg: OnCommand) => {
       if (Util.isCommandInArgs(arg.command, this.args)) {
         arg.callback();
       }
