@@ -11,9 +11,10 @@ export class Util {
    * It prints out the help doc
    * 
    * @static
+   * @public
    * @returns {void}
    */
-  static print_help(
+  public static print_help(
     app_details: AppDetails,
     all_commands: CommandTypes,
   ) {
@@ -60,11 +61,12 @@ export class Util {
  * if founded in given arguments
  * 
  * @static
+ * @public
  * @param {Array<Command>} array 
  * @param {string} arg 
  * @returns {Command | undefined}
  */
-  static findCommandFromArgs(
+  public static findCommandFromArgs(
     array: Array<Command>,
     arg: string,
   ): Command | undefined {
@@ -83,11 +85,12 @@ export class Util {
    * and removes it from the given array.
    * 
    * @static
+   * @public
    * @param {Array<Command>} haystack 
    * @param {string} needle 
    * @returns {Array<Command>}
    */
-  static removeCommandFromArray(
+  public static removeCommandFromArray(
     haystack: Array<Command>,
     needle: string,
   ): Array<Command> {
@@ -104,11 +107,12 @@ export class Util {
    * It detects if the given command is in the arguments
    * 
    * @static
+   * @public
    * @param {Command} command 
    * @param {CustomArgs} args 
    * @returns {Boolean}
    */
-  static isCommandInArgs(command: Command, args: Arguments): Boolean {
+  public static isCommandInArgs(command: Command, args: Arguments): Boolean {
     let found = false;
 
     for (const key in args.options) {
@@ -130,11 +134,12 @@ export class Util {
    * It detects if the given command is in the arguments
    * 
    * @static
+   * @public
    * @param {Command} command 
    * @param {CustomArgs} args 
    * @returns {Boolean}
    */
-  static isOptionInArgs(
+  public static isOptionInArgs(
     command: Command,
     args: CustomArgs,
   ): Boolean {
@@ -159,11 +164,12 @@ export class Util {
    * is included in the given array of Commands.
    * 
    * @static
+   * @public
    * @param {Array<Command>} commands 
    * @param {CustomArgs} args 
    * @returns {boolean}
    */
-  static isCommandFromArrayInArgs(
+  public static isCommandFromArrayInArgs(
     commands: Array<Command>,
     args: CustomArgs,
   ): Boolean {
@@ -192,11 +198,12 @@ export class Util {
    * is included in the given array of Commands.
    * 
    * @static
+   * @public
    * @param {Array<Command>} commands 
    * @param {Arguments} args 
    * @returns {boolean}
    */
-  static argIsInAvailableCommands(
+  public static argIsInAvailableCommands(
     commands: Array<Command>,
     arg: string,
   ): Boolean {
@@ -216,12 +223,13 @@ export class Util {
    * in BOTH of the other two given arrays of Commands
    * 
    * @static
+   * @public
    * @param {Command} command 
    * @param {Array<Command>} array1 
    * @param {Array<Command>} array2 
    * @return {boolean}
    */
-  static arraysHaveMatchingCommand(
+  public static arraysHaveMatchingCommand(
     command: Command,
     array1: Array<Command>,
     array2: Array<Command>,
@@ -238,11 +246,12 @@ export class Util {
    * in the given array of .OnCommands
    * 
    * @static
+   * @public
    * @param {Command} command 
    * @param {Array<OnCommand>} array 
    * @returns {boolean}
    */
-  static containCommandInOnCommandArray(
+  public static containCommandInOnCommandArray(
     command: Command,
     array: Array<OnCommand>,
   ): Boolean {
@@ -255,11 +264,12 @@ export class Util {
  * It returns the command arguments with required values
  * 
  * @static
+ * @public
  * @param {Arguments} args 
  * @param {Kernel} app 
  * @returns {Array<string>}
  */
-  static commandArgsWithRequiredValues(
+  public static commandArgsWithRequiredValues(
     args: Arguments,
     app: Kernel,
   ): Array<string> {
@@ -279,11 +289,12 @@ export class Util {
  * It finds if there are default options (--help, --version) in arguments
  * 
  * @static
+ * @public
  * @param {CustomArgs} args
  * @param {Array<Command>} defaultOptions 
  * @returns {boolean}
  */
-  static optionArgsContainDefaultOptions(
+  public static optionArgsContainDefaultOptions(
     args: CustomArgs,
     defaultOptions: Array<Command>,
   ): boolean {
@@ -298,7 +309,7 @@ export class Util {
  * 
  * @param {Arguments} args 
  */
-  static emptyArgs(args: Arguments) {
+  public static emptyArgs(args: Arguments) {
     return Object.keys(args.options).length < 1 && args.commands.length < 1;
   }
 
@@ -308,7 +319,7 @@ export class Util {
    * @protected
    * @returns {boolean}
    */
-  static availableRequiredOptions(app: Kernel): boolean {
+  public static availableRequiredOptions(app: Kernel): boolean {
     return app.available_requiredOptions.length > 0;
   }
 }
