@@ -322,4 +322,25 @@ export class Util {
   public static availableRequiredOptions(app: Kernel): boolean {
     return app.available_requiredOptions.length > 0;
   }
+
+  /**
+   * It detects if the passed flags
+   * are seperated by comma, pipe or space
+   * and splits them.
+   * 
+   * @private
+   * @returns {Array<string>}
+   * @param {string} value 
+   */
+  public static splitValue(value: string): Array<string> {
+    if (value.indexOf(",") !== -1) {
+      return value.split(",");
+    }
+
+    if (value.indexOf("|") !== -1) {
+      return value.split("|");
+    }
+
+    return value.split(" ");
+  }
 }

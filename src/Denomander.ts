@@ -3,6 +3,7 @@ import { Command } from "./Command.ts";
 import { Kernel } from "./Kernel.ts";
 import { Util } from "./Util.ts";
 import { PublicAPI } from "./interfaces.ts";
+import { Option } from "./Option.ts";
 
 /**
  * The main class 

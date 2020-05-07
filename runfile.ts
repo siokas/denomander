@@ -10,9 +10,9 @@ export async function run(file: string) {
       stdout: "piped",
       stderr: "piped",
     });
-  
+
     const { code } = await p.status();
-  
+
     if (code === 0) {
       const rawOutput = await p.output();
       await Deno.stdout.write(rawOutput);
@@ -23,5 +23,5 @@ export async function run(file: string) {
       console.log(errorString);
       reject();
     }
-  }); 
+  });
 }
