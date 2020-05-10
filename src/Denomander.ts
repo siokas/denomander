@@ -35,8 +35,12 @@ export class Denomander extends Kernel implements PublicAPI {
    * @returns {Denomander}
    */
   public option(value: string, description: string): Denomander {
-    this.commands.push(new Command({ value, description }));
-    this.available_options.push(new Command({ value, description }));
+      const command:Command|undefined = this.available_commands.pop();
+      if(command){
+        command.addOption(value, description);
+      }else{
+        Kernel.BASE_COMMAND.addOption(value, description)
+      }
 
     return this;
   }

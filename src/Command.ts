@@ -1,5 +1,6 @@
 import { Helper } from "./Helper.ts";
 import { CommandOptions } from "./types.ts";
+import { Option } from "./Option.ts";
 /**
   * Command class 
   * 
@@ -23,15 +24,6 @@ export class Command {
     * @private
     * @type {string}
    */
-  private _letter_command?: string;
-
-  /**
-    * Holds the short flag (-p)
-    * One letter command.
-    *
-    * @private
-    * @type {string}
-   */
   private _word_command?: string;
 
   /**
@@ -41,30 +33,35 @@ export class Command {
    * @private
    * @type {CommandOptions}
    */
-  private options: CommandOptions;
+  private param: CommandOptions;
+
+  public options:Array<Option> = [];
 
   /**
    * Constructor of Command object.
    * 
    * @param {CommandOptions} options
    */
-  constructor(options: CommandOptions) {
-    this.options = Object.assign({
+  constructor(param: CommandOptions) {
+    this.param = Object.assign({
       description: "",
       is_required: false,
-      type: "option",
       action: () => {},
-    }, options);
+    }, param);
 
-    if (!this.options.value) {
+    this.addOption("-h, --help", "Help Screen");
+
+    if (!this.param.value) {
       throw new ReferenceError("You have to specify the command");
     }
 
-    if (this.options.type == "option") {
-      this.generateOption();
-    } else {
       this.generateCommand();
-    }
+  }
+
+  addOption(flags:string, description:string):Command{
+    this.options.push(new Option(flags, description, this));
+
+    return this;
   }
 
   /**
@@ -75,7 +72,7 @@ export class Command {
    * @returns void
    */
   private generateCommand() {
-    const splitedValue = this.options.value.split(" ");
+    const splitedValue = this.param.value.split(" ");
 
     switch (splitedValue.length) {
       case 1:
@@ -92,80 +89,13 @@ export class Command {
   }
 
   /**
-   * It splits the pre declared commands
-   * and stores the word_command.
-   * 
-   * @private
-   * @returns void
-   */
-  private generateOption() {
-    const splitedValue: Array<string> = this.splitValue(this.options.value);
-
-    switch (splitedValue.length) {
-      case 1:
-        if (Helper.stripDashes(splitedValue[0]).length === 1) {
-          this._letter_command = Helper.stripDashes(splitedValue[0]);
-        } else {
-          this._word_command = Helper.stripDashes(splitedValue[0]);
-        }
-        break;
-
-      case 2:
-        if (
-          Helper.stripDashes(Helper.trimString(splitedValue[0])).length === 1
-        ) {
-          this._letter_command = Helper.stripDashes(
-            Helper.trimString(splitedValue[0]),
-          );
-
-          if (
-            Helper.stripDashes(Helper.trimString(splitedValue[1])).length > 1
-          ) {
-            this._word_command = Helper.stripDashes(
-              Helper.trimString(splitedValue[1]),
-            );
-          }
-        } else {
-          this._word_command = Helper.stripDashes(
-            Helper.trimString(splitedValue[0]),
-          );
-        }
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  /**
-   * It detects if the passed flags
-   * are seperated by comma, pipe or space
-   * and splits them.
-   * 
-   * @private
-   * @returns {Array<string>}
-   * @param {string} value 
-   */
-  private splitValue(value: string): Array<string> {
-    if (value.indexOf(",") !== -1) {
-      return value.split(",");
-    }
-
-    if (value.indexOf("|") !== -1) {
-      return value.split("|");
-    }
-
-    return value.split(" ");
-  }
-
-  /**
    * Getter of the command value
    * 
    * @public
    * @returns {string}
    */
   get value(): string {
-    return this.options.value;
+    return this.param.value;
   }
 
   /**
@@ -176,7 +106,7 @@ export class Command {
    * @returns void
    */
   set value(value: string) {
-    this.options.value = value;
+    this.param.value = value;
   }
 
   /**
@@ -186,7 +116,7 @@ export class Command {
    * @returns {string}
    */
   get description(): string {
-    return this.options.description || "";
+    return this.param.description || "";
   }
 
   /**
@@ -197,28 +127,7 @@ export class Command {
    * @returns void
    */
   set description(description: string) {
-    this.options.description = description;
-  }
-
-  /**
-   * Getter of the the short flag (one letter command)
-   * 
-   * @public
-   * @returns {string | undefined}
-   */
-  get letter_command(): string | undefined {
-    return this._letter_command;
-  }
-
-  /**
-   * Setter of the short flag (one letter command)
-   * 
-   * @public
-   * @param {string | undefined} letter_command
-   * @returns void
-   */
-  set letter_command(letter_command: string | undefined) {
-    this._letter_command = letter_command;
+    this.param.description = description;
   }
 
   /**
@@ -249,7 +158,7 @@ export class Command {
    * @returns {Function | undefined}
    */
   get action(): Function {
-    return this.options.action || Function;
+    return this.param.action || Function;
   }
 
   /**
@@ -260,7 +169,7 @@ export class Command {
    * @returns void
    */
   set action(callback: Function) {
-    this.options.action = callback;
+    this.param.action = callback;
   }
 
   /**
@@ -270,6 +179,6 @@ export class Command {
    * @returns {"command" | "option"}
    */
   get type(): "command" | "option" {
-    return this.options.type || "option";
+    return this.param.type || "option";
   }
 }

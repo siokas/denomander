@@ -11,6 +11,7 @@ import {
   CommandTypes,
   ValidationRules,
 } from "./types.ts";
+import { Option } from "./Option.ts";
 
 /**
   * It is the core of the app. It is responsible for almost everything.
@@ -94,27 +95,29 @@ export class Kernel {
    */
   public temp_on_commands: Array<TempOnCommand> = [];
 
-  /**
-   * The Command instance of the --version option
-   * 
-   * @public
-   * @type {Command}
-   */
-  public version_command: Command = new Command({
-    value: "-V --version",
-    description: "Print the current version",
-  });
+  public static readonly BASE_COMMAND:Command = new Command({value:"_", description:"Base Command"});
 
-  /**
-   * The Command instance of the --help option
-   * 
-   * @public
-   * @type {Command}
-   */
-  public help_command: Command = new Command({
-    value: "-h --help",
-    description: "Print command line options (currently set)",
-  });
+  // /**
+  //  * The Command instance of the --version option
+  //  * 
+  //  * @public
+  //  * @type {Command}
+  //  */
+  // public version_command: Command = new Command({
+  //   value: "-V --version",
+  //   description: "Print the current version",
+  // });
+
+  // /**
+  //  * The Command instance of the --help option
+  //  * 
+  //  * @public
+  //  * @type {Command}
+  //  */
+  // public help_command: Command = new Command({
+  //   value: "-h --help",
+  //   description: "Print command line options (currently set)",
+  // });
 
   /**
    * If the user has defined a custom help
@@ -365,8 +368,7 @@ export class Kernel {
    */
   protected helpOption(): Kernel {
     if (!this.isHelpConfigured) {
-      this.commands.push(this.help_command);
-      this.available_default_options.push(this.help_command);
+      Kernel.BASE_COMMAND.addOption("-h --help", "Help Screen");
     }
 
     return this;
@@ -380,8 +382,7 @@ export class Kernel {
    */
   protected versionOption(): Kernel {
     if (!this.isVersionConfigured) {
-      this.commands.push(this.version_command);
-      this.available_default_options.push(this.version_command);
+      Kernel.BASE_COMMAND.addOption("-V --version", "Version");
     }
 
     return this;
