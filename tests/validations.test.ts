@@ -15,18 +15,18 @@ test("validation_command_with_required_value", function () {
   );
 });
 
-test("validation_required_option", function () {
-  const program = new Denomander();
-  const args = ["-p", "8080"];
+// test("validation_required_option", function () {
+//   const program = new Denomander();
+//   const args = ["-p", "8080"];
 
-  assertThrows(
-    () => {
-      program.requiredOption("-a --address", "Define address").parse(args);
-    },
-    CustomError.ValidationError,
-    CustomError.VALIDATION_REQUIRED_OPTIONS_NOT_FOUND.message,
-  );
-});
+//   assertThrows(
+//     () => {
+//       program.requiredOption("-a --address", "Define address").parse(args);
+//     },
+//     CustomError.ValidationError,
+//     CustomError.VALIDATION_REQUIRED_OPTIONS_NOT_FOUND.message,
+//   );
+// });
 
 test("validation_command_not_defined", function () {
   const program = new Denomander();

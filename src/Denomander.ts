@@ -3,7 +3,6 @@ import { Command } from "./Command.ts";
 import { Kernel } from "./Kernel.ts";
 import { Util } from "./Util.ts";
 import { PublicAPI } from "./interfaces.ts";
-import { Option } from "./Option.ts";
 
 /**
  * The main class 
@@ -80,7 +79,7 @@ export class Denomander extends Kernel implements PublicAPI {
    * @param {string} description optional
    * @returns {Denomander}
    */
-  public command(value: string, description?: string): Denomander {
+  public command(value: string, description?: string, action?:Function): Denomander {
     const new_command: Command = new Command({
       value,
       description,
@@ -88,6 +87,10 @@ export class Denomander extends Kernel implements PublicAPI {
     });
     this.commands.push(new_command);
     this.available_commands.push(new_command);
+
+    if(action){
+      this.action(action);
+    }
 
     return this;
   }

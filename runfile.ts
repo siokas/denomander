@@ -4,7 +4,7 @@ export async function run(file: string) {
       cmd: [
         "deno",
         "run",
-        "--allow-all",
+        "--allow-run",
         `${file}`,
       ],
       stdout: "piped",

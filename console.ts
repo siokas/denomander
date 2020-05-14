@@ -10,4 +10,4 @@ function clone() {
   console.log("clone from ...");
 }
 
-export { Saur };
+export {Saur};

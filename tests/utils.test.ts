@@ -19,28 +19,27 @@ test("find_command_from_args", function () {
   const command = Util.findCommandFromArgs(commands, arg);
 
   if (command) {
-    assertEquals(command.letter_command, "h");
     assertEquals(command.word_command, "help");
   }
 });
 
-test("remove_command_from_array", function () {
-  const helpCommand = new Command(
-    { value: "-h --help", description: "Helper of the app" },
-  );
+// test("remove_command_from_array", function () {
+//   const helpCommand = new Command(
+//     { value: "-h --help", description: "Helper of the app" },
+//   );
 
-  const versionCommand = new Command(
-    { value: "-v --version", description: "Version of the app" },
-  );
+//   const versionCommand = new Command(
+//     { value: "-v --version", description: "Version of the app" },
+//   );
 
-  const commands_before: Array<Command> = [helpCommand, versionCommand];
-  const commands_after: Array<Command> = [helpCommand];
+//   const commands_before: Array<Command> = [helpCommand, versionCommand];
+//   const commands_after: Array<Command> = [helpCommand];
 
-  assertEquals(
-    Util.removeCommandFromArray(commands_before, "version"),
-    commands_after,
-  );
-});
+//   assertEquals(
+//     Util.removeCommandFromArray(commands_before, "version"),
+//     commands_after,
+//   );
+// });
 
 test("arrays_have_matching_command", function () {
   const helpCommand = new Command(

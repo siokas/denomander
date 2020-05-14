@@ -16,5 +16,4 @@ program
     }
   });
 
-  program.baseOption("-q --quiet", "QQQ");
-  program.parse(Deno.args);
+program.parse(Deno.args);

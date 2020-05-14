@@ -273,9 +273,9 @@ export abstract class Kernel {
         args: this.args,
         rules: [
           ValidationRules.REQUIRED_VALUES,
-          ValidationRules.REQUIRED_OPTIONS,
           ValidationRules.NON_DECLEARED_ARGS,
           ValidationRules.ON_COMMANDS,
+          // ValidationRules.REQUIRED_OPTIONS,
         ],
       });
 
@@ -369,7 +369,7 @@ export abstract class Kernel {
   protected run(): Kernel {
     return this
       .setup()
-      // .validate()
+      .validate()
       .execute() // print --help --version in BASE COMMAND
       .generate();
   }
