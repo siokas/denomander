@@ -114,9 +114,6 @@ export class Generator {
         if (command.word_command) {
           this.app[command.word_command] = this.args.options[key];
         }
-        // if (command.letter_command) {
-        //   this.app[command.letter_command] = this.args.options[key];
-        // }
       }
     }
     return this;

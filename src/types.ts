@@ -67,8 +67,6 @@ export type CustomArgs = {
  * @type CommandTypes
  */
 export type CommandTypes = {
-  default_options: Array<Command>;
-  required_options: Array<Command>;
   options: Array<Command>;
   commands: Array<Command>;
 };

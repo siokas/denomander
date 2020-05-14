@@ -35,12 +35,11 @@ export class Denomander extends Kernel implements PublicAPI {
    * @returns {Denomander}
    */
   public option(value: string, description: string): Denomander {
-      const command:Command|undefined = this.available_commands.pop();
-      if(command){
-        command.addOption(value, description);
-      }else{
-        Kernel.BASE_COMMAND.addOption(value, description)
-      }
+    const command: Command | undefined = this.commands.slice(-1)[0];
+
+    if (command) {
+      command.addOption({ flags: value, description });
+    }
 
     return this;
   }
@@ -54,11 +53,21 @@ export class Denomander extends Kernel implements PublicAPI {
    * @returns {Denomander}
    */
   public requiredOption(value: string, description: string): Denomander {
-    const command: Command = new Command(
-      { value, description, is_required: true },
-    );
-    this.commands.push(command);
-    this.available_requiredOptions.push(command);
+    const command: Command | undefined = this.commands.slice(-1)[0];
+
+    if (command) {
+      command.addOption({ flags: value, description, isRequired: true });
+    }
+
+    return this;
+  }
+
+  /* Implements the base option */
+  public baseOption(value: string, description: string): Denomander {
+    this.BASE_COMMAND.addOption({ 
+      flags: value, 
+      description
+    });
 
     return this;
   }

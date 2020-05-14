@@ -4,6 +4,7 @@ import { Helper } from "./Helper.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { CustomArgs, OnCommand, CommandTypes, AppDetails } from "./types.ts";
+import { Option } from "./Option.ts";
 
 /* Specific functionality */
 export class Util {
@@ -16,7 +17,8 @@ export class Util {
    */
   public static print_help(
     app_details: AppDetails,
-    all_commands: CommandTypes,
+    commands: Array<Command>,
+    BASE_COMMAND: Command,
   ) {
     console.log();
     console.log(green(bold(app_details.app_name)));
@@ -26,33 +28,37 @@ export class Util {
     console.log(app_details.app_description);
     console.log();
 
-    if (all_commands.required_options.length > 0) {
-      console.log(yellow(bold("Required Options:")));
-      all_commands.required_options.forEach((command) => {
-        console.log(command.value + " \t " + command.description);
-      });
-      console.log();
+    console.log(yellow(bold("Options:")));
+    BASE_COMMAND.options.forEach((option) => {
+      console.log(option.flags + " \t " + option.description);
+    });
+
+    console.log();
+
+    console.log(yellow(bold("Commands:")));
+    commands.forEach((command) => {
+      console.log(command.value + " \t " + command.description);
+    });
+    console.log();
+  }
+
+  public static optionIsInArgs(option: Option, args: Arguments) {
+    let found = false;
+
+    for (const key in args.options) {
+      if (key == option.word_option || key == option.letter_option) {
+        found = true;
+      }
     }
 
-    console.log(yellow(bold("Options:")));
-    all_commands.default_options.forEach((command) => {
-      console.log(command.value + " \t " + command.description);
-    });
+    return found;
+  }
 
-    console.log();
-
-    all_commands.options.forEach((command) => {
-      console.log(command.value + " \t " + command.description);
-    });
-
-    console.log();
-
-    if (all_commands.commands.length > 0) {
-      console.log(yellow(bold("Commands:")));
-      all_commands.commands.forEach((command) => {
-        console.log(command.value + " \t " + command.description);
-      });
-      console.log();
+  public static setOptionValue(option: Option, args: Arguments) {
+    for (const key in args.options) {
+      if (key == option.word_option || key == option.letter_option) {
+        return args.options[key];
+      }
     }
   }
 
@@ -72,8 +78,7 @@ export class Util {
   ): Command | undefined {
     return array.find((command: Command) => {
       if (
-        command.word_command === Helper.stripDashes(arg) ||
-        command.letter_command === Helper.stripDashes(arg)
+        command.word_command === Helper.stripDashes(arg)
       ) {
         return command;
       }
@@ -95,7 +100,7 @@ export class Util {
     needle: string,
   ): Array<Command> {
     haystack.forEach((command: Command, index: number) => {
-      if (command.word_command == needle || command.letter_command == needle) {
+      if (command.word_command == needle) {
         haystack.splice(index, 1);
       }
     });
@@ -116,13 +121,13 @@ export class Util {
     let found = false;
 
     for (const key in args.options) {
-      if ((command.letter_command === key || command.word_command === key)) {
+      if ((command.word_command === key)) {
         found = true;
       }
     }
 
     args.commands.forEach((arg: string) => {
-      if (command.letter_command === arg || command.word_command === arg) {
+      if (command.word_command === arg) {
         found = true;
       }
     });
@@ -150,7 +155,7 @@ export class Util {
 
       if (
         key != "" &&
-        (command.letter_command === key || command.word_command === key)
+        (command.word_command === key)
       ) {
         found = true;
       }
@@ -210,7 +215,7 @@ export class Util {
     let found = false;
 
     commands.forEach((command: Command) => {
-      if (command.word_command === arg || command.letter_command === arg) {
+      if (command.word_command === arg) {
         found = true;
       }
     });

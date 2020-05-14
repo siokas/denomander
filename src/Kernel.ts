@@ -20,7 +20,7 @@ import { Option } from "./Option.ts";
   * @export
   * @class Kernel
  */
-export class Kernel {
+export abstract class Kernel {
   /**
    * Multiple variables that will be defined during runtime,
    * holding the values of the commands passed from the user
@@ -95,29 +95,9 @@ export class Kernel {
    */
   public temp_on_commands: Array<TempOnCommand> = [];
 
-  public static readonly BASE_COMMAND:Command = new Command({value:"_", description:"Base Command"});
-
-  // /**
-  //  * The Command instance of the --version option
-  //  * 
-  //  * @public
-  //  * @type {Command}
-  //  */
-  // public version_command: Command = new Command({
-  //   value: "-V --version",
-  //   description: "Print the current version",
-  // });
-
-  // /**
-  //  * The Command instance of the --help option
-  //  * 
-  //  * @public
-  //  * @type {Command}
-  //  */
-  // public help_command: Command = new Command({
-  //   value: "-h --help",
-  //   description: "Print command line options (currently set)",
-  // });
+  public BASE_COMMAND: Command = new Command(
+    { value: "_", description: "Base Command" },
+  );
 
   /**
    * If the user has defined a custom help
@@ -263,13 +243,13 @@ export class Kernel {
    * @returns {Kernel}
    */
   protected setup(): Kernel {
-    return this.helpOption().versionOption().detectEmptyArgs();
+    return this.versionOption().detectEmptyArgs();
   }
 
   /**
    * It generates the app variables and running the necessary callback functions
    */
-  protected generate() {
+  protected generate(): Kernel {
     if (this.args) {
       const generator = new Generator(this, this.args);
       generator.commandValues()
@@ -314,25 +294,24 @@ export class Kernel {
    */
   protected execute(): Kernel {
     if (this.args) {
-      if (
-        Util.isCommandInArgs(this.help_command, this.args) &&
-        !Util.containCommandInOnCommandArray(
-          this.help_command,
-          this.available_on_commands,
-        )
-      ) {
-        this.printHelp();
-      }
+      this.args.commands.forEach((argCommand) => {
+        const command = Util.findCommandFromArgs(this.commands, argCommand);
 
-      if (
-        Util.isCommandInArgs(this.version_command, this.args) &&
-        !Util.containCommandInOnCommandArray(
-          this.version_command,
-          this.available_on_commands,
-        )
-      ) {
-        console.log("v" + this._app_version);
-      }
+        if (command) {
+          command.options.forEach((option) => {
+            option.value = Util.setOptionValue(option, this.args!);
+
+            if (Util.optionIsInArgs(option, this.args!)) {
+              if (option.word_option == "help") {
+                console.log("PRINT COMMAND HELP SCREEN");
+                Deno.exit(0);
+              }
+
+              this[option.word_option] = option.value;
+            }
+          });
+        }
+      });
     }
 
     return this;
@@ -343,35 +322,14 @@ export class Kernel {
    * 
    * @protected
    */
-  protected printHelp(): void {
+  protected printDefaultHelp(): void {
     const app_details: AppDetails = {
       app_name: this._app_name,
       app_description: this._app_description,
       app_version: this._app_version,
     };
 
-    const command_types: CommandTypes = {
-      default_options: this.available_default_options,
-      required_options: this.available_requiredOptions,
-      options: this.available_options,
-      commands: this.available_commands,
-    };
-
-    Util.print_help(app_details, command_types);
-  }
-
-  /**
-   * Setup the default help option
-   * 
-   * @protected
-   * @returns {Kernel}
-   */
-  protected helpOption(): Kernel {
-    if (!this.isHelpConfigured) {
-      Kernel.BASE_COMMAND.addOption("-h --help", "Help Screen");
-    }
-
-    return this;
+    Util.print_help(app_details, this.commands, this.BASE_COMMAND);
   }
 
   /**
@@ -382,7 +340,9 @@ export class Kernel {
    */
   protected versionOption(): Kernel {
     if (!this.isVersionConfigured) {
-      Kernel.BASE_COMMAND.addOption("-V --version", "Version");
+      this.BASE_COMMAND.addOption(
+        { flags: "-V --version", description: "Version" },
+      );
     }
 
     return this;
@@ -394,7 +354,7 @@ export class Kernel {
    */
   protected detectEmptyArgs(): Kernel {
     if (this.args && Util.emptyArgs(this.args)) {
-      this.printHelp();
+      this.printDefaultHelp();
       Deno.exit(0);
     }
     return this;
@@ -409,8 +369,8 @@ export class Kernel {
   protected run(): Kernel {
     return this
       .setup()
-      .validate()
-      .generate()
-      .execute();
+      // .validate()
+      .execute() // print --help --version in BASE COMMAND
+      .generate();
   }
 }

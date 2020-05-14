@@ -1,6 +1,12 @@
 import { Helper } from "./Helper.ts";
 import { CommandOptions } from "./types.ts";
 import { Option } from "./Option.ts";
+
+type CommandOption = {
+  flags: string;
+  description: string;
+  isRequired?: boolean;
+};
 /**
   * Command class 
   * 
@@ -35,7 +41,8 @@ export class Command {
    */
   private param: CommandOptions;
 
-  public options:Array<Option> = [];
+  public options: Array<Option> = [];
+  public requiredOptions: Array<Option> = [];
 
   /**
    * Constructor of Command object.
@@ -49,17 +56,28 @@ export class Command {
       action: () => {},
     }, param);
 
-    this.addOption("-h, --help", "Help Screen");
+    this.addOption({
+      flags: "-h --help",
+      description: "Help Screen",
+    });
 
     if (!this.param.value) {
       throw new ReferenceError("You have to specify the command");
     }
 
-      this.generateCommand();
+    this.generateCommand();
   }
 
-  addOption(flags:string, description:string):Command{
-    this.options.push(new Option(flags, description, this));
+  addOption(params: CommandOption): Command {
+    if (params.isRequired) {
+      this.requiredOptions.push(
+        new Option(params.flags, params.description, this, true),
+      );
+    } else {
+      this.options.push(
+        new Option(params.flags, params.description, this),
+      );
+    }
 
     return this;
   }

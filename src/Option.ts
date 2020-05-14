@@ -19,13 +19,13 @@ export class Option {
   private _letter_option?: string;
 
   /**
-    * Holds the short flag (-p)
+    * Holds the long flag (--port)
     * One letter command.
     *
     * @private
     * @type {string}
    */
-  private _word_option?: string;
+  private _word_option: string = "";
 
   public flags: string;
 
@@ -33,15 +33,25 @@ export class Option {
 
   public command: Command;
 
+  public isRequired: boolean;
+
+  public _value: any;
+
   /**
    * Constructor of Command object.
    * 
    * @param {CommandOptions} options
    */
-  constructor(flags: string, description: string, command: Command) {
+  constructor(
+    flags: string,
+    description: string,
+    command: Command,
+    isRequired = false,
+  ) {
     this.flags = flags;
     this.description = description;
     this.command = command;
+    this.isRequired = isRequired;
 
     this.splitFlags();
   }
@@ -123,7 +133,7 @@ export class Option {
    * @public
    * @returns {string | undefined}
    */
-  get word_option(): string | undefined {
+  get word_option(): string {
     return this._word_option;
   }
 
@@ -134,7 +144,28 @@ export class Option {
    * @param {string | undefined} word_option
    * @returns void
    */
-  set word_option(word_option: string | undefined) {
+  set word_option(word_option: string) {
     this._word_option = word_option;
+  }
+
+  /**
+   * Getter of the long flag (word command)
+   * 
+   * @public
+   * @returns {string | undefined}
+   */
+  get value(): any {
+    return this._value;
+  }
+
+  /**
+   * Setter of the long flag (word command)
+   * 
+   * @public
+   * @param {string | undefined} word_option
+   * @returns void
+   */
+  set value(value: any) {
+    this._value = value;
   }
 }
