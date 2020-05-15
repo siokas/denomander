@@ -10,7 +10,7 @@ export class Helper {
   public static stripDashes(text: string): string {
     return text.substr(0, 2).replace(/-/g, "") +
       text.substr(2, text.length - 1);
-    }
+  }
 
   /**
    * Detects if a strign contains brackets
