@@ -6,15 +6,10 @@ import { Kernel } from "./Kernel.ts";
 import { CustomArgs, OnCommand, CommandTypes, AppDetails } from "./types.ts";
 import { Option } from "./Option.ts";
 
-/* Specific functionality */
+/** Specific functionality */
 export class Util {
-  /**
-   * It prints out the help doc
-   * 
-   * @static
-   * @public
-   * @returns {void}
-   */
+
+  /** It prints out the help doc */
   public static print_help(
     app_details: AppDetails,
     commands: Array<Command>,
@@ -42,6 +37,28 @@ export class Util {
     console.log();
   }
 
+  /** Print the help screen for a specific command */
+  public static printCommandHelp(command: Command) {
+    console.log();
+    console.log(yellow(bold("Command Usage:")));
+    console.log(command.usage + " {options}");
+    console.log();
+    if (command.hasRequiredOptions()) {
+      console.log(yellow(bold("Required Options:")));
+      command.requiredOptions.forEach((option) => {
+        console.log(option.flags + " \t " + option.description);
+      });
+      console.log();
+    }
+    console.log(yellow(bold("Options:")));
+    command.options.forEach((option) => {
+      if (!option.isRequired) {
+        console.log(option.flags + " \t " + option.description);
+      }
+    });
+  }
+
+  /** Detects if option is in args */
   public static optionIsInArgs(option: Option, args: Arguments) {
     let found = false;
 
@@ -54,6 +71,7 @@ export class Util {
     return found;
   }
 
+  /** Sets the option value */
   public static setOptionValue(option: Option, args: Arguments) {
     for (const key in args.options) {
       if (key == option.word_option || key == option.letter_option) {
@@ -62,16 +80,7 @@ export class Util {
     }
   }
 
-  /**
- * It returns the command instance
- * if founded in given arguments
- * 
- * @static
- * @public
- * @param {Array<Command>} array 
- * @param {string} arg 
- * @returns {Command | undefined}
- */
+  /** It returns the command instance if founded in given arguments */
   public static findCommandFromArgs(
     array: Array<Command>,
     arg: string,
@@ -88,12 +97,6 @@ export class Util {
   /**
    * It finds the command from given string
    * and removes it from the given array.
-   * 
-   * @static
-   * @public
-   * @param {Array<Command>} haystack 
-   * @param {string} needle 
-   * @returns {Array<Command>}
    */
   public static removeCommandFromArray(
     haystack: Array<Command>,
@@ -108,15 +111,7 @@ export class Util {
     return haystack;
   }
 
-  /**
-   * It detects if the given command is in the arguments
-   * 
-   * @static
-   * @public
-   * @param {Command} command 
-   * @param {CustomArgs} args 
-   * @returns {Boolean}
-   */
+  /** It detects if the given command is in the arguments */
   public static isCommandInArgs(command: Command, args: Arguments): Boolean {
     let found = false;
 
@@ -135,15 +130,7 @@ export class Util {
     return found;
   }
 
-  /**
-   * It detects if the given command is in the arguments
-   * 
-   * @static
-   * @public
-   * @param {Command} command 
-   * @param {CustomArgs} args 
-   * @returns {Boolean}
-   */
+  /** It detects if the given command is in the arguments */
   public static isOptionInArgs(
     command: Command,
     args: CustomArgs,
@@ -167,12 +154,6 @@ export class Util {
   /**
    * It detects if on of the given args,
    * is included in the given array of Commands.
-   * 
-   * @static
-   * @public
-   * @param {Array<Command>} commands 
-   * @param {CustomArgs} args 
-   * @returns {boolean}
    */
   public static isCommandFromArrayInArgs(
     commands: Array<Command>,
@@ -201,12 +182,6 @@ export class Util {
   /**
    * It detects if on of the given args,
    * is included in the given array of Commands.
-   * 
-   * @static
-   * @public
-   * @param {Array<Command>} commands 
-   * @param {Arguments} args 
-   * @returns {boolean}
    */
   public static argIsInAvailableCommands(
     commands: Array<Command>,
@@ -223,16 +198,25 @@ export class Util {
     return found;
   }
 
+  /** Detects if arg is in pre-defined options */
+  public static argIsInAvailableOptions(
+    options: Array<Option>,
+    arg: string,
+  ): Boolean {
+    let found = false;
+
+    options.forEach((option: Option) => {
+      if (option.word_option === arg) {
+        found = true;
+      }
+    });
+
+    return found;
+  }
+
   /**
    * It detects if the given command is included
    * in BOTH of the other two given arrays of Commands
-   * 
-   * @static
-   * @public
-   * @param {Command} command 
-   * @param {Array<Command>} array1 
-   * @param {Array<Command>} array2 
-   * @return {boolean}
    */
   public static arraysHaveMatchingCommand(
     command: Command,
@@ -249,12 +233,6 @@ export class Util {
   /**
    * Detects if the given command is included
    * in the given array of .OnCommands
-   * 
-   * @static
-   * @public
-   * @param {Command} command 
-   * @param {Array<OnCommand>} array 
-   * @returns {boolean}
    */
   public static containCommandInOnCommandArray(
     command: Command,
@@ -265,15 +243,7 @@ export class Util {
     return matching.length === 0 ? false : true;
   }
 
-  /**
- * It returns the command arguments with required values
- * 
- * @static
- * @public
- * @param {Arguments} args 
- * @param {Kernel} app 
- * @returns {Array<string>}
- */
+  /** It returns the command arguments with required values */
   public static commandArgsWithRequiredValues(
     args: Arguments,
     app: Kernel,
@@ -290,40 +260,24 @@ export class Util {
     });
   }
 
-  /**
- * It finds if there are default options (--help, --version) in arguments
- * 
- * @static
- * @public
- * @param {CustomArgs} args
- * @param {Array<Command>} defaultOptions 
- * @returns {boolean}
- */
+  /** It finds if there are default options (--help, --version) in arguments */
   public static optionArgsContainDefaultOptions(
-    args: CustomArgs,
-    defaultOptions: Array<Command>,
+    args: Arguments,
+    baseCommand: Command,
   ): boolean {
-    const result = defaultOptions.filter((command: Command) => {
-      return Util.isOptionInArgs(command, args);
+    let found = false;
+    baseCommand.options.forEach((option) => {
+      found = Util.optionIsInArgs(option, args);
     });
 
-    return result.length > 0;
+    return found;
   }
-  /**
- * It detects if there are no arguments
- * 
- * @param {Arguments} args 
- */
+  /** It detects if there are no arguments */
   public static emptyArgs(args: Arguments) {
     return Object.keys(args.options).length < 1 && args.commands.length < 1;
   }
 
-  /**
-   * Detects if there are available required options
-   * 
-   * @protected
-   * @returns {boolean}
-   */
+  /** Detects if there are available required options */
   public static availableRequiredOptions(app: Kernel): boolean {
     return app.available_requiredOptions.length > 0;
   }
@@ -332,10 +286,6 @@ export class Util {
    * It detects if the passed flags
    * are seperated by comma, pipe or space
    * and splits them.
-   * 
-   * @private
-   * @returns {Array<string>}
-   * @param {string} value 
    */
   public static splitValue(value: string): Array<string> {
     if (value.indexOf(",") !== -1) {

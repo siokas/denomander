@@ -1,6 +1,5 @@
-import { red, green, blue, bold } from "https://deno.land/std/fmt/colors.ts";
-import { serve } from "https://deno.land/std/http/server.ts";
-import Denomander from "./mod.ts";
+import { red, green, blue } from "../deno_deps.ts";
+import Denomander from "../mod.ts";
 
 const program = new Denomander(
   {
@@ -39,10 +38,7 @@ try {
 }
 
 if (program.serve) {
-  let port = program.port || 8080;
-  const s = serve({ port: port });
-
-  colored_output("http://localhost:" + port);
+  colored_output("http://localhost:" + program.port);
 }
 
 function colored_output(text: string) {

@@ -9,39 +9,28 @@ import { Command } from "./Command.ts";
   * @class Option
  */
 export class Option {
-  /**
-    * Holds the short flag (-p)
-    * One letter command.
-    *
-    * @private
-    * @type {string}
-   */
+  /** Holds the short flag (-p). One letter command */
   private _letter_option?: string;
 
-  /**
-    * Holds the long flag (--port)
-    * One letter command.
-    *
-    * @private
-    * @type {string}
-   */
+  /** Holds the long flag (--port). One letter command */
   private _word_option: string = "";
 
+  /** Holds the flags as defined (unparsed) */
   public flags: string;
 
+  /** The description of the option */
   public description: string;
 
+  /** The command that belongs to it */
   public command: Command;
 
+  /** If the option is required */
   public isRequired: boolean;
 
-  public _value: any;
+  /** The value of the option */
+  protected _value: any;
 
-  /**
-   * Constructor of Command object.
-   * 
-   * @param {CommandOptions} options
-   */
+  /** Constructor of Command object */
   constructor(
     flags: string,
     description: string,
@@ -56,6 +45,7 @@ export class Option {
     this.splitFlags();
   }
 
+  /** The command that belongs to it */
   belongsTo(command: Command) {
     this.command = command;
   }
@@ -63,9 +53,6 @@ export class Option {
   /**
    * It splits the pre declared commands
    * and stores the word_option.
-   * 
-   * @private
-   * @returns void
    */
   private splitFlags() {
     const splitedValue: Array<string> = Util.splitValue(this.flags);
@@ -106,65 +93,33 @@ export class Option {
     }
   }
 
-  /**
-   * Getter of the the short flag (one letter command)
-   * 
-   * @public
-   * @returns {string | undefined}
-   */
+  /** Getter of the the short flag (one letter command) */
   get letter_option(): string | undefined {
     return this._letter_option;
   }
 
-  /**
-   * Setter of the short flag (one letter command)
-   * 
-   * @public
-   * @param {string | undefined} letter_option
-   * @returns void
-   */
+  /** Setter of the short flag (one letter command) */
   set letter_option(letter_option: string | undefined) {
     this._letter_option = letter_option;
   }
 
-  /**
-   * Getter of the long flag (word command)
-   * 
-   * @public
-   * @returns {string | undefined}
-   */
+  /** Getter of the long flag (word command) */
   get word_option(): string {
     return this._word_option;
   }
 
-  /**
-   * Setter of the long flag (word command)
-   * 
-   * @public
-   * @param {string | undefined} word_option
-   * @returns void
-   */
+  /** Setter of the long flag (word command) */
   set word_option(word_option: string) {
     this._word_option = word_option;
   }
 
   /**
-   * Getter of the long flag (word command)
-   * 
-   * @public
-   * @returns {string | undefined}
-   */
+   * Getter of the long flag (word command) */
   get value(): any {
     return this._value;
   }
 
-  /**
-   * Setter of the long flag (word command)
-   * 
-   * @public
-   * @param {string | undefined} word_option
-   * @returns void
-   */
+  /** Setter of the long flag (word command) */
   set value(value: any) {
     this._value = value;
   }

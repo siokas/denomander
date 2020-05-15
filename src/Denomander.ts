@@ -4,20 +4,10 @@ import { Kernel } from "./Kernel.ts";
 import { Util } from "./Util.ts";
 import { PublicAPI } from "./interfaces.ts";
 
-/**
- * The main class 
- * 
- * @export
- * @class Denomander
- * @extends Kernel
- * @implements PublicAPI
- */
+/** The main class */
 export class Denomander extends Kernel implements PublicAPI {
-  /**
-   * Parses the args.
-   * 
-   * @param {Array<string>} args 
-   */
+
+  /** Parses the args*/
   public parse(args: Array<string>) {
     this.args = new Arguments(args);
     this.args.parse();
@@ -25,14 +15,7 @@ export class Denomander extends Kernel implements PublicAPI {
     this.run();
   }
 
-  /**
-   * Implements the option command
-   * 
-   * @public
-   * @param {string} value
-   * @param {string} description 
-   * @returns {Denomander}
-   */
+  /** Implements the option command */
   public option(value: string, description: string): Denomander {
     const command: Command | undefined = this.commands.slice(-1)[0];
 
@@ -43,14 +26,7 @@ export class Denomander extends Kernel implements PublicAPI {
     return this;
   }
 
-  /**
-   * Implements the required option command
-   * 
-   * @public
-   * @param {string} value
-   * @param {string} description 
-   * @returns {Denomander}
-   */
+  /** Implements the required option command */
   public requiredOption(value: string, description: string): Denomander {
     const command: Command | undefined = this.commands.slice(-1)[0];
 
@@ -63,45 +39,34 @@ export class Denomander extends Kernel implements PublicAPI {
 
   /* Implements the base option */
   public baseOption(value: string, description: string): Denomander {
-    this.BASE_COMMAND.addOption({ 
-      flags: value, 
-      description
+    this.BASE_COMMAND.addOption({
+      flags: value,
+      description,
     });
 
     return this;
   }
 
-  /**
-   * Implements the option command
-   * 
-   * @public
-   * @param {string} value
-   * @param {string} description optional
-   * @returns {Denomander}
-   */
-  public command(value: string, description?: string, action?:Function): Denomander {
+  /** Implements the option command */
+  public command(
+    value: string,
+    description?: string,
+    action?: Function,
+  ): Denomander {
     const new_command: Command = new Command({
       value,
       description,
-      type: "command",
     });
     this.commands.push(new_command);
-    this.available_commands.push(new_command);
 
-    if(action){
+    if (action) {
       this.action(action);
     }
 
     return this;
   }
 
-  /**
-   * Implements the description of the previous mentioned command (by the user)
-   * 
-   * @public
-   * @param {string} description 
-   * @returns {Denomander}
-   */
+  /** Implements the description of the previous mentioned command (by the user) */
   public description(description: string): Denomander {
     const command: Command = this.commands.slice(-1)[0];
 
@@ -112,13 +77,7 @@ export class Denomander extends Kernel implements PublicAPI {
     return this;
   }
 
-  /**
-   * Implements the action of a command registered by the user
-   * 
-   * @public
-   * @param {Function} callback 
-   * @returns {Denomander}
-   */
+  /** Implements the action of a command registered by the user */
   public action(callback: Function): Denomander {
     const command: Command = this.commands.slice(-1)[0];
 
@@ -130,26 +89,22 @@ export class Denomander extends Kernel implements PublicAPI {
     return this;
   }
 
-  /**
-   * Implements the .on() option
-   * 
-   * @public
-   * @param {string} arg 
-   * @param {Function} callback 
-   */
+  /** Implements the .on() option */
   public on(arg: string, callback: Function): Denomander {
-    this.temp_on_commands.push({ arg, callback });
+    const command: Command | undefined = Util.findCommandFromArgs(
+      this.commands,
+      arg,
+    );
+
+    if (command) {
+      command.action = callback;
+      this.available_actions.push(command);
+    }
 
     return this;
   }
 
-  /**
-   * Lets user to customize the help method
-   * 
-   * @public
-   * @param {string} command 
-   * @param {string} description 
-   */
+  /** Lets user to customize the help method */
   public setHelp(command: string, description: string): Denomander {
     this.help_command = new Command({ value: command, description });
 
@@ -165,14 +120,7 @@ export class Denomander extends Kernel implements PublicAPI {
     return this;
   }
 
-  /**
-   * Lets user to customize the version method
-   *
-   * @public
-   * @param {string} version  
-   * @param {string} command 
-   * @param {string} description 
-   */
+  /** Lets user to customize the version method */
   public setVersion(
     version: string,
     command: string,

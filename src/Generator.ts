@@ -5,46 +5,22 @@ import { Util } from "./Util.ts";
 import { OnCommand } from "./types.ts";
 import { Helper } from "./Helper.ts";
 
-/**
- * It is responsible for generating the app variables and running the necessary callback functions
- * 
- * @exports
- * @class Generator
- */
+/** It is responsible for generating the app variables and running the necessary callback functions */
 export class Generator {
-  /**
-   * The Arguments instance holding all the arguments passed by the user
-   * 
-   * @protected
-   * @type {Arguments}
-   */
+  
+  /** The Arguments instance holding all the arguments passed by the user */
   protected args: Arguments;
 
-  /**
-   * The instance of the main app
-   * 
-   * @protected
-   * @type {Kernel}
-   */
+  /** The instance of the main app */
   protected app: Kernel;
 
-  /**
-   * Constructor of Generator object.
-   * 
-   * @param {Kernel} app 
-   * @param {Arguments} args 
-   */
+  /** Constructor of Generator object. */
   constructor(app: Kernel, args: Arguments) {
     this.app = app;
     this.args = args;
   }
 
-  /**
-   * It generates the required option app variables. (ex. program.message="initial commit")
-   * 
-   * @public
-   * @returns {Generator}
-   */
+  /** It generates the required option app variables. (ex. program.message="initial commit") */
   public requiredOptionValues(): Generator {
     const commandArgsWithRequiredValues = Util.commandArgsWithRequiredValues(
       this.args,
@@ -73,12 +49,7 @@ export class Generator {
     return this;
   }
 
-  /**
-   * It generates the command app variables (ex. program.clone="url...")
-   * 
-   * @public
-   * @returns {Generator}
-   */
+  /** It generates the command app variables (ex. program.clone="url...") */
   public commandValues(): Generator {
     this.args.commands.forEach((arg: string) => {
       const command: Command | undefined = Util.findCommandFromArgs(
@@ -89,21 +60,13 @@ export class Generator {
         if (command.word_command) {
           this.app[command.word_command] = true;
         }
-        // if (command.letter_command) {
-        //   this.app[command.letter_command] = true;
-        // }
       }
     });
 
     return this;
   }
 
-  /**
-   * It generates the option app variables (ex. program.force=true)
-   * 
-   * @public
-   * @returns {Generator}
-   */
+  /** It generates the option app variables (ex. program.force=true) */
   public optionValues(): Generator {
     for (const key in this.args.options) {
       const command: Command | undefined = Util.findCommandFromArgs(
@@ -119,12 +82,7 @@ export class Generator {
     return this;
   }
 
-  /**
-   * It calls the .on() method callback functions
-   * 
-   * @public
-   * @returns {Generator}
-   */
+  /** It calls the .on() method callback functions */
   public onCommands(): Generator {
     this.app.available_on_commands.forEach((arg: OnCommand) => {
       if (Util.isCommandInArgs(arg.command, this.args)) {
@@ -134,12 +92,7 @@ export class Generator {
     return this;
   }
 
-  /**
-   * It calls the .action() method calback function and passes the nessesery parameters
-   * 
-   * @public
-   * @returns {Generator}
-   */
+  /** It calls the .action() method calback function and passes the nessesery parameters */
   public actionCommands(): Generator {
     this.app.available_actions.forEach((command: Command) => {
       if (Util.isCommandInArgs(command, this.args!)) {

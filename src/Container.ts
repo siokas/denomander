@@ -3,12 +3,10 @@ export class Container {
   bindings: any = [];
 
   constructor() {
-    // console.log("NEW INSTANCE");
   }
 
   bind(abstract: string, concrete: any) {
     if (this.bindings[abstract] === undefined) {
-      // console.log("bind: " + abstract);
       this.bindings[abstract] = concrete;
     }
   }

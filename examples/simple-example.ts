@@ -1,4 +1,4 @@
-import Denomander from "./mod.ts";
+import Denomander from "../mod.ts";
 
 const program = new Denomander(
   {
@@ -13,5 +13,11 @@ program
   .action((test: any) => {
     console.log("The repo is cloned into: " + test);
   })
-  .description("clone a repo")
-  .parse(Deno.args);
+  .description("clone a repo");
+
+// program.on("--help", (test:any) => {
+//   console.log("The repo is cloned into: " + test);
+//   // console.log("skotos");
+// });
+
+program.parse(Deno.args);
