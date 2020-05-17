@@ -211,6 +211,7 @@ export class Validator implements ValidatorContract {
       if (command) {
         for (const key in this.args.options) {
           const found = Util.argIsInAvailableOptions(command.options, key);
+
           if (!found) {
             result = {
               passed: false,

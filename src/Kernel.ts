@@ -116,7 +116,9 @@ export abstract class Kernel {
   protected generate(): Kernel {
     if (this.args) {
       const generator = new Generator(this, this.args);
-      generator.commandValues()
+      generator
+        .requiredOptionValues()
+        .commandValues()
         .optionValues()
         .onCommands()
         .actionCommands();
@@ -224,7 +226,7 @@ export abstract class Kernel {
     return this
       .setup()
       .execute()
-      .generate()
-      .validate();
+      .validate()
+      .generate();
   }
 }

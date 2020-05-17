@@ -71,6 +71,8 @@ export class Command {
         this._word_command = Helper.stripDashes(splitedValue[0]);
         if (Helper.containsBrackets(splitedValue[1])) {
           this.require_command_value = true;
+          // console.log(splitedValue)
+          // this.value = 
         }
         break;
     }

@@ -4,10 +4,11 @@ import { Command } from "./Command.ts";
 import { Util } from "./Util.ts";
 import { OnCommand } from "./types.ts";
 import { Helper } from "./Helper.ts";
+import { Option } from "./Option.ts";
 
 /** It is responsible for generating the app variables and running the necessary callback functions */
 export class Generator {
-  
+
   /** The Arguments instance holding all the arguments passed by the user */
   protected args: Arguments;
 
@@ -28,6 +29,7 @@ export class Generator {
     );
 
     commandArgsWithRequiredValues.forEach((arg: string, key: number) => {
+      // console.log(this.args.commands); [ "clone", "test" ]
       const command: Command | undefined = Util.findCommandFromArgs(
         this.app.commands,
         arg,
@@ -56,8 +58,10 @@ export class Generator {
         this.app.commands,
         arg,
       );
-      if (command && !command.require_command_value) {
-        if (command.word_command) {
+      if (command && command.word_command) {
+        if (command.require_command_value) {
+          this.app[command.word_command] = command.value;
+        }else{
           this.app[command.word_command] = true;
         }
       }
@@ -71,12 +75,18 @@ export class Generator {
     for (const key in this.args.options) {
       const command: Command | undefined = Util.findCommandFromArgs(
         this.app.commands,
-        key,
+        this.args.commands[0],
       );
-      if (command && !command.require_command_value) {
-        if (command.word_command) {
-          this.app[command.word_command] = this.args.options[key];
-        }
+
+      if (command) {
+        command.options.forEach((option:Option) => {
+          if(option.word_option === key || option.letter_option === key){
+            if(command.word_command){
+              option.value = this.args.options[key];
+              this.app[command.word_command] = this.args.options[key];
+            }
+          }
+        });
       }
     }
     return this;
@@ -100,7 +110,7 @@ export class Generator {
           command.action();
         } else if (command.action.length == 1) {
           if (command.word_command) {
-            command.action(this.app[command.word_command]);
+            command.action(command.value);
           }
         }
       }

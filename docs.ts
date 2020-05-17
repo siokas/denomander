@@ -7,5 +7,6 @@ export { Helper } from "./src/Helper.ts";
 export { Kernel } from "./src/Kernel.ts";
 export { Util } from "./src/Util.ts";
 export { Validator } from "./src/Validator.ts";
+export { Option } from "./src/Option.ts";
 export * from "./src/interfaces.ts";
 export * from "./src/types.ts";

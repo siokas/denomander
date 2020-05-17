@@ -1,4 +1,4 @@
-import { red, green, blue } from "../deno_deps.ts";
+import { red, green, blue } from "../deps.ts";
 import Denomander from "../mod.ts";
 
 const program = new Denomander(
@@ -19,17 +19,6 @@ program
   .action((test: any) => {
     console.log("The repo is cloned into: " + test);
   }).description("clone a repo");
-
-program.on("--help", () => {
-  console.log("New Help Screen");
-  console.log("--- --- ---");
-  console.log("-p --port Define port");
-});
-
-program.on("--version", () => {
-  console.log("New Version are coming next week");
-  console.log("v1.5.6");
-});
 
 try {
   program.parse(Deno.args);

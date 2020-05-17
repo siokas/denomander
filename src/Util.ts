@@ -1,4 +1,4 @@
-import { green, yellow, red, bold } from "../deno_deps.ts";
+import { green, yellow, red, bold } from "../deps.ts";
 import { Command } from "./Command.ts";
 import { Helper } from "./Helper.ts";
 import { Arguments } from "./Arguments.ts";
@@ -206,7 +206,7 @@ export class Util {
     let found = false;
 
     options.forEach((option: Option) => {
-      if (option.word_option === arg) {
+      if (option.word_option === arg || option.letter_option === arg) {
         found = true;
       }
     });

@@ -1,4 +1,4 @@
-import { assertEquals, test } from "../deno_deps.ts";
+import { assertEquals, test } from "../deps.ts";
 import { Denomander } from "../src/Denomander.ts";
 
 test("app_option", function () {
@@ -71,15 +71,18 @@ test("app_on_command", function () {
 
 test("action_command", function () {
   const program = new Denomander();
-  const args = ["clone", "test"];
+  const args = ["clone", "githubtest"];
 
   let result = "";
 
-  program.command("clone [foldername]").action((foldername: string) => {
+  program
+  .command("clone [foldername]")
+  .action((foldername: any) => {
+      console.log('.....................' + foldername)
     result = foldername;
   });
 
   program.parse(args);
 
-  assertEquals(result, "test");
+  assertEquals(result, "githubtest");
 });
