@@ -1,4 +1,4 @@
-/* Export every available functionality to generate the docs from "https://doc.deno.land" */
+/** Export every available functionality to generate the docs from "https://doc.deno.land" */
 export { Arguments } from "./src/Arguments.ts";
 export { Command } from "./src/Command.ts";
 export { Denomander } from "./src/Denomander.ts";

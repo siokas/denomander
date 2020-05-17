@@ -23,34 +23,34 @@ export abstract class Kernel {
    */
   [key: string]: any
 
-  /* Holds all the commands */
+  /** Holds all the commands */
   public commands: Array<Command> = [];
 
-  /* Holds all the available actions */
+  /** Holds all the available actions */
   public available_actions: Array<Command> = [];
 
-  /* Holds all the available .on() commands */
+  /** Holds all the available .on() commands */
   public available_on_commands: Array<OnCommand> = [];
 
-  /* Temporary array for .on() commands */
+  /** Temporary array for .on() commands */
   public temp_on_commands: Array<TempOnCommand> = [];
 
-  /* If the user has defined a custom help */
+  /** If the user has defined a custom help */
   public isHelpConfigured = false;
 
-  /* If the user has defined a custom version */
+  /** If the user has defined a custom version */
   public isVersionConfigured = false;
 
-  /* The arguments object instance */
+  /** The arguments object instance */
   public args: Arguments | undefined;
 
-  /* The name of the app */
+  /** The name of the app */
   public _app_name: string;
 
-  /* The description of the app */
+  /** The description of the app */
   public _app_description: string;
 
-  /* The version of the app */
+  /** The version of the app */
   public _app_version: string;
 
   /** The base command is needed to hold the default options like --help, --version */
@@ -58,10 +58,10 @@ export abstract class Kernel {
     { value: "_", description: "Base Command" },
   );
 
-  /* Arguments passed by the user during runtime */
+  /** Arguments passed by the user during runtime */
   protected _args: CustomArgs = {};
 
-  /* Constructor of AppDetails object */
+  /** Constructor of AppDetails object */
   constructor(app_details?: AppDetails) {
     if (app_details) {
       this._app_name = app_details.app_name;
@@ -74,37 +74,37 @@ export abstract class Kernel {
     }
   }
 
-  /* Getter of the app name */
+  /** Getter of the app name */
   public get app_name(): string {
     return this._app_name;
   }
 
-  /* Setter of the app name */
+  /** Setter of the app name */
   public set app_name(name: string) {
     this._app_name = name;
   }
 
-  /* Getter of the app description*/
+  /** Getter of the app description*/
   public get app_description(): string {
     return this._app_description;
   }
 
-  /* Setter of the app description */
+  /** Setter of the app description */
   public set app_description(description: string) {
     this._app_description = description;
   }
 
-  /* Getter of the app version */
+  /** Getter of the app version */
   public get app_version(): string {
     return this._app_version;
   }
 
-  /* Setter of the app version */
+  /** Setter of the app version */
   public set app_version(version: string) {
     this._app_version = version;
   }
 
-  /* Do some necessary setup (ex. set the --version option and detect some things) */
+  /** Do some necessary setup (ex. set the --version option and detect some things) */
   protected setup(): Kernel {
     return this
       .setVersionOption()
@@ -112,7 +112,7 @@ export abstract class Kernel {
       .detectDefaultOptions();
   }
 
-  /* Generates the app variables and runs the necessary callback functions */
+  /** Generates the app variables and runs the necessary callback functions */
   protected generate(): Kernel {
     if (this.args) {
       const generator = new Generator(this, this.args);
@@ -126,7 +126,7 @@ export abstract class Kernel {
     return this;
   }
 
-  /* Validates all types of Commands */
+  /** Validates all types of Commands */
   protected validate(): Kernel {
     if (this.args) {
       const validation = new Validator({
@@ -146,7 +146,7 @@ export abstract class Kernel {
     return this;
   }
 
-  /* Executes default commands (--help, --version) */
+  /** Executes default commands (--help, --version) */
   protected execute(): Kernel {
     if (this.args) {
       this.args.commands.forEach((argCommand) => {
@@ -172,7 +172,7 @@ export abstract class Kernel {
     return this;
   }
 
-  /* Passes the details and commands to prints the help screen */
+  /** Passes the details and commands to prints the help screen */
   protected printDefaultHelp(): void {
     const app_details: AppDetails = {
       app_name: this._app_name,
@@ -183,7 +183,7 @@ export abstract class Kernel {
     Util.print_help(app_details, this.commands, this.BASE_COMMAND);
   }
 
-  /* Setup the default version option */
+  /** Setup the default version option */
   protected setVersionOption(): Kernel {
     if (!this.isVersionConfigured) {
       this.BASE_COMMAND.addOption(
@@ -193,7 +193,7 @@ export abstract class Kernel {
 
     return this;
   }
-  /* Detects if there are no args and prints the help screen */
+  /** Detects if there are no args and prints the help screen */
   protected detectEmptyArgs(): Kernel {
     if (this.args && Util.emptyArgs(this.args)) {
       this.printDefaultHelp();
@@ -221,7 +221,7 @@ export abstract class Kernel {
     return this;
   }
 
-  /* The starting point of the program */
+  /** The starting point of the program */
   protected run(): Kernel {
     return this
       .setup()

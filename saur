@@ -1,8 +1,0 @@
-#!/usr/bin/env deno
-
-import {run} from "./runfile.ts"
-import {Saur} from "./console.ts"
-
-await run('./console.ts');
-Saur.parse();
-

@@ -5,13 +5,13 @@ import { Option } from "./Option.ts";
 /* Command class */
 export class Command {
   public declaration = "";
-  /* If the command has a required value to be passed from the user*/
+  /** If the command has a required value to be passed from the user*/
   public require_command_value = false;
 
-  /*  Holds the short flag (-p). One letter command */
+  /** Holds the short flag (-p). One letter command */
   private _word_command?: string;
 
-  /* Holds the object's options initiated in constructor */
+  /** Holds the object's options initiated in constructor */
   private params: CommandParams;
 
   /** Holds all the options of the current command */
@@ -20,7 +20,7 @@ export class Command {
   /** Holds all the required options of the current command */
   public requiredOptions: Array<Option> = [];
 
-  /* Constructor of Command object */
+  /** Constructor of Command object */
   constructor(params: CommandParams) {
     this.params = Object.assign({
       description: "",
@@ -91,7 +91,7 @@ export class Command {
     return text;
   }
 
-  /* Getter of the command value*/
+  /** Getter of the command value*/
   get value(): string {
     return this.params.value;
   }
@@ -101,32 +101,32 @@ export class Command {
     this.params.value = value;
   }
 
-  /* Getter of the command description */
+  /** Getter of the command description */
   get description(): string {
     return this.params.description || "";
   }
 
-  /* Setter of the command description */
+  /** Setter of the command description */
   set description(description: string) {
     this.params.description = description;
   }
 
-  /* Getter of the long flag (word command) */
+  /** Getter of the long flag (word command) */
   get word_command(): string | undefined {
     return this._word_command;
   }
 
-  /* Setter of the long flag (word command) */
+  /** Setter of the long flag (word command) */
   set word_command(word_command: string | undefined) {
     this._word_command = word_command;
   }
 
-  /* Getter of the command action (callback function) */
+  /** Getter of the command action (callback function) */
   get action(): Function {
     return this.params.action || Function;
   }
 
-  /* Setter of the command action (callback function) */
+  /** Setter of the command action (callback function) */
   set action(callback: Function) {
     this.params.action = callback;
   }
