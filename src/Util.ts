@@ -39,6 +39,11 @@ export class Util {
   /** Print the help screen for a specific command */
   public static printCommandHelp(command: Command) {
     console.log();
+    if (command.description) {
+      console.log(yellow(bold("Description:")));
+      console.log(command.description);
+      console.log();
+    }
     console.log(yellow(bold("Command Usage:")));
     console.log(command.usage + " {options}");
     console.log();
