@@ -149,6 +149,7 @@ In order to change the default commands (help, version) just call the correspond
 -  [ ] More examples
 -  [ ] Easy Error Customization
 -  [ ] Documentation
+-  [ ] Add more tests
 
 ## Used
 

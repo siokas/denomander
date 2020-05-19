@@ -10,7 +10,7 @@ test("validation_command_with_required_value", function () {
     () => {
       program.command("clone [repo]", "Clone the repo").parse(args);
     },
-    CustomError.ValidationError,
+    Error,
     CustomError.VALIDATION_REQUIRED_VALUE_NOT_FOUND.message,
   );
 });
@@ -24,7 +24,7 @@ test("validation_required_option", function () {
       program.command("serve").requiredOption("-a --address", "Define address")
         .parse(args);
     },
-    CustomError.ValidationError,
+    Error,
     CustomError.VALIDATION_REQUIRED_OPTIONS_NOT_FOUND.message,
   );
 });
@@ -39,7 +39,7 @@ test("validation_command_not_defined", function () {
         .command("new [filename]", "Generate a new file")
         .parse(command_args);
     },
-    CustomError.ValidationError,
+    Error,
     CustomError.VALIDATION_COMMAND_NOT_FOUND.message,
   );
 });
@@ -55,7 +55,7 @@ test("validation_option_not_defined", function () {
         .option("-p --port", "Define port number")
         .parse(optionArgs);
     },
-    CustomError.ValidationError,
+    Error,
     CustomError.VALIDATION_OPTION_NOT_FOUND.message,
   );
 });
