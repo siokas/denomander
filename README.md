@@ -147,6 +147,7 @@ In order to change the default commands (help, version) just call the correspond
 
 -  [ ] Custom option processing
 -  [ ] More examples
+-  [ ] Easy Error Customization
 -  [ ] Documentation
 
 ## Used

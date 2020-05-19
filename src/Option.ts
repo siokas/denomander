@@ -9,12 +9,6 @@ import { Command } from "./Command.ts";
   * @class Option
  */
 export class Option {
-  /** Holds the short flag (-p). One letter command */
-  private _letter_option?: string;
-
-  /** Holds the long flag (--port). One letter command */
-  private _word_option: string = "";
-
   /** Holds the flags as defined (unparsed) */
   public flags: string;
 
@@ -26,6 +20,12 @@ export class Option {
 
   /** If the option is required */
   public isRequired: boolean;
+  
+  /** Holds the short flag (-p). One letter command */
+  private _letter_option?: string;
+
+  /** Holds the long flag (--port). One letter command */
+  private _word_option: string = "";
 
   /** The value of the option */
   protected _value: any;
@@ -46,7 +46,7 @@ export class Option {
   }
 
   /** The command that belongs to it */
-  belongsTo(command: Command) {
+  public belongsTo(command: Command) {
     this.command = command;
   }
 
@@ -91,14 +91,6 @@ export class Option {
       default:
         break;
     }
-  }
-
-  /** Set new flags and description for this option */
-  public reset(flags: string, description: string) {
-    this.flags = flags;
-    this.description = description;
-
-    this.splitFlags();
   }
 
   /** Getter of the the short flag (one letter command) */
