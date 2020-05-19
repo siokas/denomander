@@ -10,56 +10,30 @@ import {
   ValidationResult,
   TempOnCommand,
   ValidationRules,
+  OnCommand,
 } from "./types.ts";
+import { Option } from "./Option.ts";
+import { Helper } from "./Helper.ts";
 
-/**
- * It is responsible for validating the arguments and throw the related error
- * 
- * @export
- * @class Validator
- * @implements ValidatorContract
- */
+/** It is responsible for validating the arguments and throw the related error */
 export class Validator implements ValidatorContract {
-  /**
-   * Holds the app instance
-   * 
-   * @public
-   * @type {Kernel}
-   */
+  /** Holds the app instance */
   public app: Kernel;
 
-  /**
-   * Holds the Arguments instance
-   * 
-   * @public
-   * @type {Arguments}
-   */
+  /** Holds the Arguments instance */
   public args: Arguments;
 
-  /**
-   * The array of rules for validation
-   * 
-   * @public
-   * @type {Array<ValidationRules>}
-   */
+  /** The array of rules for validation */
   public rules: Array<ValidationRules>;
 
-  /**
-   * Constructor of the Validator object
-   * 
-   * @param {ValidatorOptions} options
-   */
+  /** Constructor of the Validator object */
   constructor(options: ValidatorOptions) {
     this.app = options.app;
     this.args = options.args;
     this.rules = options.rules;
   }
 
-  /**
-   * It starts the validation process and throws the first error
-   * 
-   * @public
-   */
+  /** It starts the validation process and throws the first error */
   public validate() {
     const failed = this.failed();
     if (failed.length) {
@@ -67,12 +41,7 @@ export class Validator implements ValidatorContract {
     }
   }
 
-  /**
-   * It maps through all validations and returns the ones that didn't pass
-   * 
-   * @protected
-   * @returns {Array<ValidationResult>}
-   */
+  /** It maps through all validations and returns the ones that didn't pass */
   protected failed(): Array<ValidationResult> {
     const failed = this.runValidations().filter((validation) => {
       return !validation.passed;
@@ -81,12 +50,7 @@ export class Validator implements ValidatorContract {
     return failed;
   }
 
-  /**
-   * It runs all the validations passed as ValidationRules
-   * 
-   * @protected
-   * @returns {Array<ValidationResult>}
-   */
+  /** It runs all the validations passed as ValidationRules */
   protected runValidations(): Array<ValidationResult> {
     return this.rules.map((rule: ValidationRules) => {
       switch (rule) {
@@ -98,18 +62,15 @@ export class Validator implements ValidatorContract {
           return this.validateRequiredValues();
         case ValidationRules.ON_COMMANDS:
           return this.validateOnCommands();
+        case ValidationRules.BASE_COMMAND_OPTIONS:
+          return this.validateBaseCommandOptions();
         default:
           return { passed: false, error: CustomError.VALIDATION_INVALID_RULE };
       }
     });
   }
 
-  /**
-   * Validates if there are non decleared arguments
-   * 
-   * @protected 
-   * @returns {Array<ValidationResult>}
-   */
+  /** Validates if there are non decleared arguments */
   protected validateNonDeclearedArgs(): ValidationResult {
     const commandArgs: ValidationResult = this
       .nonDeclearedCommandArgs();
@@ -127,46 +88,34 @@ export class Validator implements ValidatorContract {
     return { passed: true };
   }
 
-  /**
-   * Validates if the required options are defined
-   * 
-   * @protected 
-   * @returns {Array<ValidationResult>}
-   */
+  /** Validates if the required options are defined */
   protected validateRequiredOptions(): ValidationResult {
-    if (
-      !Util.optionArgsContainDefaultOptions(
-        this.args.all,
-        this.app.available_default_options,
-      )
-    ) {
-      if (Util.availableRequiredOptions(this.app)) {
-        const found = this.app.available_requiredOptions.filter(
-          (command: Command) => {
-            return Util.isOptionInArgs(command, this.args.options) == true;
-          },
-        );
+    let result: ValidationResult = { passed: true };
 
-        if (found.length) {
-          return { passed: true };
+    this.args.commands.forEach((argCommand) => {
+      const command: Command | undefined = Util.findCommandFromArgs(
+        this.app.commands,
+        argCommand,
+      );
+
+      if (command && command.hasRequiredOptions()) {
+        const found = command.requiredOptions.filter((option: Option) => {
+          return Util.optionIsInArgs(option, this.args);
+        });
+
+        if (!found.length) {
+          result = {
+            passed: false,
+            error: CustomError.VALIDATION_REQUIRED_OPTIONS_NOT_FOUND,
+          };
         }
-
-        return {
-          passed: false,
-          error: CustomError.VALIDATION_REQUIRED_OPTIONS_NOT_FOUND,
-        };
       }
-    }
+    });
 
-    return { passed: true };
+    return result;
   }
 
-  /**
-   * Validates all the commands which needs required values to be defined
-   * 
-   * @protected 
-   * @returns {Array<ValidationResult>}
-   */
+  /** Validates all the commands which needs required values to be defined */
   protected validateRequiredValues(): ValidationResult {
     if (this.args.commands.length > 0) {
       const commandArgsWithRequiredValues = Util.commandArgsWithRequiredValues(
@@ -180,45 +129,38 @@ export class Validator implements ValidatorContract {
           error: CustomError.VALIDATION_REQUIRED_VALUE_NOT_FOUND,
         };
       }
-
-      const generator = new Generator(this.app, this.args);
-      generator.requiredOptionValues();
     }
 
     return { passed: true };
   }
 
-  /**
-   * Validates the .on() commands and stacks them in the available commands
-   * 
-   * @protected 
-   * @returns {Array<ValidationResult>}
-   */
+  /** Validates the .on() commands and stacks them in the available commands */
   protected validateOnCommands(): ValidationResult {
-    this.app.temp_on_commands.forEach((temp: TempOnCommand) => {
+    let result: ValidationResult = { passed: true };
+
+    this.app.on_commands.forEach((onCommand: OnCommand) => {
       const command: Command | undefined = Util.findCommandFromArgs(
         this.app.commands,
-        temp.arg,
+        onCommand.arg,
       );
 
-      if (command) {
-        this.app.available_on_commands.push(
-          { command: command, callback: temp.callback },
-        );
-      } else {
-        return { passed: false, error: CustomError.VALIDATION_ARG_NOT_FOUND };
+      const option: Option | undefined = Util.findOptionFromArgs(
+        this.app.BASE_COMMAND.options,
+        Helper.noDashesTrimSpaces(onCommand.arg),
+      );
+
+      if (!command && !option) {
+        result = {
+          passed: false,
+          error: CustomError.VALIDATION_COMMAND_NOT_FOUND,
+        };
       }
     });
 
-    return { passed: true };
+    return result;
   }
 
-  /**
-   * Validates the .action() parameters and sends them to the callback
-   * 
-   * @protected 
-   * @returns {Array<ValidationResult>}
-   */
+  /** Validates the .action() parameters and sends them to the callback */
   protected validateActionParams(): ValidationResult {
     let result: ValidationResult = { passed: true };
 
@@ -242,12 +184,7 @@ export class Validator implements ValidatorContract {
     return result;
   }
 
-  /**
-   * Validates if there are non decleared commands
-   * 
-   * @protected 
-   * @returns {Array<ValidationResult>}
-   */
+  /** Validates if there are non decleared commands */
   protected nonDeclearedCommandArgs(): ValidationResult {
     let result: ValidationResult = { passed: true };
 
@@ -256,7 +193,7 @@ export class Validator implements ValidatorContract {
       if (!found) {
         result = {
           passed: false,
-          error: CustomError.VALIDATION_ARG_NOT_FOUND,
+          error: CustomError.VALIDATION_COMMAND_NOT_FOUND,
         };
       }
     });
@@ -264,24 +201,56 @@ export class Validator implements ValidatorContract {
     return result;
   }
 
-  /**
-   * Validates if there are non decleared options
-   * 
-   * @protected 
-   * @returns {Array<ValidationResult>}
-   */
+  /** Validates if there are non decleared options */
   protected nonDeclearedOptionArgs(): ValidationResult {
     let result: ValidationResult = { passed: true };
+
+    this.args.commands.forEach((argCommand) => {
+      const command: Command | undefined = Util.findCommandFromArgs(
+        this.app.commands,
+        argCommand,
+      );
+
+      if (command) {
+        for (const key in this.args.options) {
+          const found_in_base_commands = Util.argIsInAvailableOptions(
+            this.app.BASE_COMMAND.options,
+            key,
+          );
+          const found_in_all_commands = Util.argIsInAvailableOptions(
+            command.options,
+            key,
+          );
+
+          if (!found_in_base_commands && !found_in_all_commands) {
+            result = {
+              passed: false,
+              error: CustomError.VALIDATION_OPTION_NOT_FOUND,
+            };
+          }
+        }
+      }
+    });
+
+    return result;
+  }
+
+  protected validateBaseCommandOptions(): ValidationResult {
+    let result: ValidationResult = { passed: true };
+
     for (const key in this.args.options) {
-      const found = Util.argIsInAvailableCommands(this.app.commands, key);
-      if (!found) {
+      const option: Option | undefined = Util.findOptionFromArgs(
+        this.app.BASE_COMMAND.options,
+        key,
+      );
+
+      if (!option) {
         result = {
           passed: false,
-          error: CustomError.VALIDATION_ARG_NOT_FOUND,
+          error: CustomError.VALIDATION_OPTION_NOT_FOUND,
         };
       }
     }
-
     return result;
   }
 }

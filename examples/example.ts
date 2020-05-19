@@ -1,6 +1,5 @@
-import { red, green, blue, bold } from "https://deno.land/std/fmt/colors.ts";
-import { serve } from "https://deno.land/std/http/server.ts";
-import Denomander from "./mod.ts";
+import { red, green, blue } from "../deps.ts";
+import Denomander from "../mod.ts";
 
 const program = new Denomander(
   {
@@ -11,38 +10,31 @@ const program = new Denomander(
 );
 
 program
+  .baseOption("-q --quiet", "Do not output any message")
+  .globalOption("-c --color", "Define the output color");
+
+program
   .command("serve", "Start the server")
+  .alias("superserve", "the-big-three")
   .requiredOption("-p --port", "Define the port")
-  .option("-c --color", "Define the color of the output");
+  .action(() => {
+    colored_output("http://localhost:" + program.port);
+  });
 
 program
   .command("clone [foldername]")
   .action((test: any) => {
-    console.log("The repo is cloned into: " + test);
+    colored_output("The repo is cloned into: " + test);
   }).description("clone a repo");
 
-program.on("--help", () => {
-  console.log("New Help Screen");
-  console.log("--- --- ---");
-  console.log("-p --port Define port");
-});
-
-program.on("--version", () => {
-  console.log("New Version are coming next week");
-  console.log("v1.5.6");
+program.on('quiet', () => {
+  console.log('Enable Quiet Mode...');
 });
 
 try {
   program.parse(Deno.args);
 } catch (error) {
   console.log(error);
-}
-
-if (program.serve) {
-  let port = program.port || 8080;
-  const s = serve({ port: port });
-
-  colored_output("http://localhost:" + port);
 }
 
 function colored_output(text: string) {

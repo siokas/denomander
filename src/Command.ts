@@ -1,81 +1,76 @@
 import { Helper } from "./Helper.ts";
-import { CommandOptions } from "./types.ts";
-/**
-  * Command class 
-  * 
-  * @export
-  * @class Command
- */
+import { CommandOption, CommandParams } from "./types.ts";
+import { Option } from "./Option.ts";
+
+/* Command class */
 export class Command {
-  /**
-   * If the command has a required value
-   * to be passed from the user.
-   * 
-   * @public
-   * @type {boolean}
-   */
+  public declaration = "";
+  /** If the command has a required value to be passed from the user*/
   public require_command_value = false;
 
-  /**
-    * Holds the short flag (-p)
-    * One letter command.
-    *
-    * @private
-    * @type {string}
-   */
-  private _letter_command?: string;
-
-  /**
-    * Holds the short flag (-p)
-    * One letter command.
-    *
-    * @private
-    * @type {string}
-   */
+  /** Holds the short flag (-p). One letter command */
   private _word_command?: string;
 
-  /**
-   * Holds the object's options
-   * initiated in constructor.
-   * 
-   * @private
-   * @type {CommandOptions}
-   */
-  private options: CommandOptions;
+  /** Holds the object's options initiated in constructor */
+  private params: CommandParams;
 
-  /**
-   * Constructor of Command object.
-   * 
-   * @param {CommandOptions} options
-   */
-  constructor(options: CommandOptions) {
-    this.options = Object.assign({
+  /** Holds all the options of the current command */
+  public options: Array<Option> = [];
+
+  /** Holds all the required options of the current command */
+  public requiredOptions: Array<Option> = [];
+
+  /** Holds all the aliases of the current command */
+  public aliases: Array<string> = [];
+
+  /** Constructor of Command object */
+  constructor(params: CommandParams) {
+    this.params = Object.assign({
       description: "",
-      is_required: false,
-      type: "option",
       action: () => {},
-    }, options);
+    }, params);
 
-    if (!this.options.value) {
+    this.addOption({
+      flags: "-h --help",
+      description: "Help Screen",
+    });
+
+    if (!this.params.value) {
       throw new ReferenceError("You have to specify the command");
     }
 
-    if (this.options.type == "option") {
-      this.generateOption();
+    this.declaration = this.params.value;
+    this.generateCommand();
+  }
+
+  /** Instantiates a new Option object and pushes it to options[] array */
+  addOption(params: CommandOption): Option {
+    let option: Option;
+
+    if (params.isRequired) {
+      option = new Option(params.flags, params.description, this, true);
+      this.options.push(option);
+      this.requiredOptions.push(option);
     } else {
-      this.generateCommand();
+      option = new Option(params.flags, params.description, this);
+      this.options.push(option);
     }
+
+    return option;
+  }
+
+  addAlias(alias: string): Command {
+    this.aliases.push(alias);
+
+    return this;
   }
 
   /**
    * It splits the word command and
    * detects if there is a require command value.
-   * 
-   * @private
-   * @returns void
    */
   private generateCommand() {
-    const splitedValue = this.options.value.split(" ");
+    const splitedValue = this.params.value.split(" ");
 
     switch (splitedValue.length) {
       case 1:
@@ -91,185 +86,62 @@ export class Command {
     }
   }
 
-  /**
-   * It splits the pre declared commands
-   * and stores the word_command.
-   * 
-   * @private
-   * @returns void
-   */
-  private generateOption() {
-    const splitedValue: Array<string> = this.splitValue(this.options.value);
-
-    switch (splitedValue.length) {
-      case 1:
-        if (Helper.stripDashes(splitedValue[0]).length === 1) {
-          this._letter_command = Helper.stripDashes(splitedValue[0]);
-        } else {
-          this._word_command = Helper.stripDashes(splitedValue[0]);
-        }
-        break;
-
-      case 2:
-        if (
-          Helper.stripDashes(Helper.trimString(splitedValue[0])).length === 1
-        ) {
-          this._letter_command = Helper.stripDashes(
-            Helper.trimString(splitedValue[0]),
-          );
-
-          if (
-            Helper.stripDashes(Helper.trimString(splitedValue[1])).length > 1
-          ) {
-            this._word_command = Helper.stripDashes(
-              Helper.trimString(splitedValue[1]),
-            );
-          }
-        } else {
-          this._word_command = Helper.stripDashes(
-            Helper.trimString(splitedValue[0]),
-          );
-        }
-        break;
-
-      default:
-        break;
-    }
+  /** Detects if the current instance has required options */
+  public hasRequiredOptions(): boolean {
+    return this.requiredOptions.length > 0;
   }
 
-  /**
-   * It detects if the passed flags
-   * are seperated by comma, pipe or space
-   * and splits them.
-   * 
-   * @private
-   * @returns {Array<string>}
-   * @param {string} value 
-   */
-  private splitValue(value: string): Array<string> {
-    if (value.indexOf(",") !== -1) {
-      return value.split(",");
-    }
-
-    if (value.indexOf("|") !== -1) {
-      return value.split("|");
-    }
-
-    return value.split(" ");
+  /** Detects if the command has aliases */
+  public hasAlias(): boolean {
+    return this.aliases.length > 0;
   }
 
-  /**
-   * Getter of the command value
-   * 
-   * @public
-   * @returns {string}
-   */
+  /** Gets the usage of the command (used in help screen) */
+  get usage(): string {
+    let text = "";
+    if (this.word_command) {
+      text = this.declaration;
+    }
+    return text;
+  }
+
+  /** Getter of the command value*/
   get value(): string {
-    return this.options.value;
+    return this.params.value;
   }
 
-  /**
-   * Setter of the command value
-   * 
-   * @public
-   * @param {string} value
-   * @returns void
-   */
+  /** Setter of the command value*/
   set value(value: string) {
-    this.options.value = value;
+    this.params.value = value;
   }
 
-  /**
-   * Getter of the command description
-   * 
-   * @public
-   * @returns {string}
-   */
+  /** Getter of the command description */
   get description(): string {
-    return this.options.description || "";
+    return this.params.description || "";
   }
 
-  /**
-   * Setter of the command description
-   * 
-   * @public
-   * @param {string} description
-   * @returns void
-   */
+  /** Setter of the command description */
   set description(description: string) {
-    this.options.description = description;
+    this.params.description = description;
   }
 
-  /**
-   * Getter of the the short flag (one letter command)
-   * 
-   * @public
-   * @returns {string | undefined}
-   */
-  get letter_command(): string | undefined {
-    return this._letter_command;
-  }
-
-  /**
-   * Setter of the short flag (one letter command)
-   * 
-   * @public
-   * @param {string | undefined} letter_command
-   * @returns void
-   */
-  set letter_command(letter_command: string | undefined) {
-    this._letter_command = letter_command;
-  }
-
-  /**
-   * Getter of the long flag (word command)
-   * 
-   * @public
-   * @returns {string | undefined}
-   */
+  /** Getter of the long flag (word command) */
   get word_command(): string | undefined {
     return this._word_command;
   }
 
-  /**
-   * Setter of the long flag (word command)
-   * 
-   * @public
-   * @param {string | undefined} word_command
-   * @returns void
-   */
+  /** Setter of the long flag (word command) */
   set word_command(word_command: string | undefined) {
     this._word_command = word_command;
   }
 
-  /**
-   * Getter of the command action (callback function)
-   * 
-   * @public
-   * @returns {Function | undefined}
-   */
+  /** Getter of the command action (callback function) */
   get action(): Function {
-    return this.options.action || Function;
+    return this.params.action || Function;
   }
 
-  /**
-   * Setter of the command action (callback function)
-   * 
-   * @public
-   * @param {Function} callback
-   * @returns void
-   */
+  /** Setter of the command action (callback function) */
   set action(callback: Function) {
-    this.options.action = callback;
-  }
-
-  /**
-   * Getter of the type of the command
-   * 
-   * @public
-   * @returns {"command" | "option"}
-   */
-  get type(): "command" | "option" {
-    return this.options.type || "option";
+    this.params.action = callback;
   }
 }

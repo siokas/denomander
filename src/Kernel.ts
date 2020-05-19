@@ -5,178 +5,68 @@ import { Generator } from "./Generator.ts";
 import { Util } from "./Util.ts";
 import {
   OnCommand,
-  TempOnCommand,
   CustomArgs,
   AppDetails,
-  CommandTypes,
   ValidationRules,
+  OptionBuilder,
+  AliasCommandBuilder,
 } from "./types.ts";
+import { Option } from "./Option.ts";
 
 /**
   * It is the core of the app. It is responsible for almost everything.
   * The executeProgram() is the starting point of the app.
-  * 
-  * @export
-  * @class Kernel
  */
-export class Kernel {
+export abstract class Kernel {
   /**
    * Multiple variables that will be defined during runtime,
    * holding the values of the commands passed from the user
-   * 
-   * @public
-   * @type string | boolean
    */
   [key: string]: any
 
-  /**
-    * Holds all the commands
-    *
-    * @public
-    * @type Array<Command>
-   */
+  /** Holds all the commands */
   public commands: Array<Command> = [];
 
-  /**
-    * Holds all the available required options
-    *
-    * @public
-    * @type {Array<Command>}
-   */
-  public available_requiredOptions: Array<Command> = [];
+  /** Holds all the global options */
+  public globalOptions: Array<OptionBuilder> = [];
 
-  /**
-    * Holds all the available commands
-    *
-    * @public
-    * @type {Array<Command>}
-   */
-  public available_commands: Array<Command> = [];
-
-  /**
-    * Holds all the available options
-    *
-    * @public
-    * @type {Array<Command>}
-   */
-  public available_options: Array<Command> = [];
-
-  /**
-    * Holds the available default options.
-    * (help, version)
-    *
-    * @public
-    * @type {Array<Command>}
-   */
-  public available_default_options: Array<Command> = [];
-
-  /**
-    * Holds all the available actions
-    *
-    * @public
-    * @type {Array<Command>}
-   */
+  /** Holds all the available actions */
   public available_actions: Array<Command> = [];
 
-  /**
-    * Holds all the available .on() commands
-    *
-    * @public
-    * @type {Array<OnCommand>}
-   */
-  public available_on_commands: Array<OnCommand> = [];
+  /** Holds all the available .on() commands */
+  public on_commands: Array<OnCommand> = [];
 
-  /**
-    * Temporary array for .on() commands
-    *
-    * @public
-    * @type {Array<TempOnCommand>}
-   */
-  public temp_on_commands: Array<TempOnCommand> = [];
+  public aliases: Array<AliasCommandBuilder> = [];
 
-  /**
-   * The Command instance of the --version option
-   * 
-   * @public
-   * @type {Command}
-   */
-  public version_command: Command = new Command({
-    value: "-V --version",
-    description: "Print the current version",
-  });
-
-  /**
-   * The Command instance of the --help option
-   * 
-   * @public
-   * @type {Command}
-   */
-  public help_command: Command = new Command({
-    value: "-h --help",
-    description: "Print command line options (currently set)",
-  });
-
-  /**
-   * If the user has defined a custom help
-   * 
-   * @public
-   * @type {boolean}
-   */
+  /** If the user has defined a custom help */
   public isHelpConfigured = false;
 
-  /**
-   * If the user has defined a custom version
-   * 
-   * @public
-   * @type {boolean}
-   */
+  /** If the user has defined a custom version */
   public isVersionConfigured = false;
 
-  /**
-   * The arguments object instance
-   * 
-   * @public
-   * @type {Arguments}
-   */
+  /** The arguments object instance */
   public args: Arguments | undefined;
 
-  /**
-   * The name of the app.
-   * 
-   * @public
-   * @type {string}
-   */
+  /** The name of the app */
   public _app_name: string;
 
-  /**
-   * The description of the app.
-   * 
-   * @public
-   * @type {string}
-   */
+  /** The description of the app */
   public _app_description: string;
 
-  /**
-   * The version of the app.
-   * 
-   * @public
-   * @type {string}
-   */
+  /** The version of the app */
   public _app_version: string;
 
-  /**
-    * Arguments passed by the user during runtime
-    *
-    * @protected
-    * @type {CustomArgs}
-   */
+  public versionOption: Option;
+
+  /** The base command is needed to hold the default options like --help, --version */
+  public BASE_COMMAND: Command = new Command(
+    { value: "_", description: "Base Command" },
+  );
+
+  /** Arguments passed by the user during runtime */
   protected _args: CustomArgs = {};
 
-  /**
-   * Constructor of AppDetails object.
-   * 
-   * @param {AppDetails} app_details 
-   */
+  /** Constructor of AppDetails object */
   constructor(app_details?: AppDetails) {
     if (app_details) {
       this._app_name = app_details.app_name;
@@ -187,229 +77,150 @@ export class Kernel {
       this._app_description = "My Description";
       this._app_version = "0.0.1";
     }
+
+    this.versionOption = this.BASE_COMMAND.addOption(
+      { flags: "-V --version", description: "Version" },
+    );
   }
 
-  /**
-   * Getter of the app name
-   * 
-   * @public
-   * @return {string}
-   */
+  /** Getter of the app name */
   public get app_name(): string {
     return this._app_name;
   }
 
-  /**
-   * Setter of the app name
-   * 
-   * @public
-   * @param {string} name
-   * @return void
-   */
+  /** Setter of the app name */
   public set app_name(name: string) {
     this._app_name = name;
   }
 
-  /**
-   * Getter of the app description
-   * 
-   * @public
-   * @return {string}
-   */
+  /** Getter of the app description*/
   public get app_description(): string {
     return this._app_description;
   }
 
-  /**
-   * Setter of the app description
-   * 
-   * @public
-   * @param {string} description
-   * @return void
-   */
+  /** Setter of the app description */
   public set app_description(description: string) {
     this._app_description = description;
   }
 
-  /**
-   * Getter of the app version
-   * 
-   * @public
-   * @return {string}
-   */
+  /** Getter of the app version */
   public get app_version(): string {
     return this._app_version;
   }
 
-  /**
-   * Setter of the app version
-   * 
-   * @public
-   * @param {string} version
-   * @return void
-   */
+  /** Setter of the app version */
   public set app_version(version: string) {
     this._app_version = version;
   }
 
-  /**
-   * Generate the default options
-   * (help, version)
-   * 
-   * @protected
-   * @returns {Kernel}
-   */
+  /** Do some necessary setup */
   protected setup(): Kernel {
-    return this.helpOption().versionOption().detectEmptyArgs();
+    return this
+      .detectEmptyArgs()
+      .detectDefaultOptions()
+      .detectBaseCommandOptions()
+      .setupGlobalOptions();
   }
 
-  /**
-   * It generates the app variables and running the necessary callback functions
-   */
-  protected generate() {
+  /** Generates the app variables and runs the necessary callback functions */
+  protected generate(): Kernel {
     if (this.args) {
       const generator = new Generator(this, this.args);
-      generator.commandValues()
-        .optionValues()
+      generator
         .onCommands()
+        .defaultCommands()
+        .requiredOptionValues()
+        .commandValues()
+        .optionValues()
         .actionCommands();
     }
     return this;
   }
 
-  /**
-   * Validates all types of Commands
-   * 
-   * @protected
-   * @returns {Kernel}
-   */
-  protected validate(): Kernel {
-    if (this.args) {
-      const validation = new Validator({
-        app: this,
-        args: this.args,
-        rules: [
-          ValidationRules.REQUIRED_VALUES,
-          ValidationRules.REQUIRED_OPTIONS,
-          ValidationRules.NON_DECLEARED_ARGS,
-          ValidationRules.ON_COMMANDS,
-        ],
-      });
-
-      validation.validate();
-    }
-
-    return this;
-  }
-
-  /**
-   * Executes default commands (--help, --version)
-   * 
-   * @protected
-   * @returns {Kernel}
-   * @throws {Error("Too much parameters")}
-   */
+  /** Executes default commands (--help, --version) */
   protected execute(): Kernel {
-    if (this.args) {
-      if (
-        Util.isCommandInArgs(this.help_command, this.args) &&
-        !Util.containCommandInOnCommandArray(
-          this.help_command,
-          this.available_on_commands,
-        )
-      ) {
-        this.printHelp();
-      }
-
-      if (
-        Util.isCommandInArgs(this.version_command, this.args) &&
-        !Util.containCommandInOnCommandArray(
-          this.version_command,
-          this.available_on_commands,
-        )
-      ) {
-        console.log("v" + this._app_version);
-      }
-    }
-
     return this;
   }
 
-  /**
-   * Print the help screen
-   * 
-   * @protected
-   */
-  protected printHelp(): void {
+  /** Passes the details and commands to prints the help screen */
+  protected printDefaultHelp(): void {
     const app_details: AppDetails = {
       app_name: this._app_name,
       app_description: this._app_description,
       app_version: this._app_version,
     };
 
-    const command_types: CommandTypes = {
-      default_options: this.available_default_options,
-      required_options: this.available_requiredOptions,
-      options: this.available_options,
-      commands: this.available_commands,
-    };
-
-    Util.print_help(app_details, command_types);
+    Util.print_help(app_details, this.commands, this.BASE_COMMAND);
   }
 
-  /**
-   * Setup the default help option
-   * 
-   * @protected
-   * @returns {Kernel}
-   */
-  protected helpOption(): Kernel {
-    if (!this.isHelpConfigured) {
-      this.commands.push(this.help_command);
-      this.available_default_options.push(this.help_command);
-    }
-
-    return this;
-  }
-
-  /**
-   * Setup the default version option
-   * 
-   * @protected
-   * @returns {Kernel}
-   */
-  protected versionOption(): Kernel {
-    if (!this.isVersionConfigured) {
-      this.commands.push(this.version_command);
-      this.available_default_options.push(this.version_command);
-    }
-
-    return this;
-  }
-  /**
-   * It detects if there are no args and prints the help screen
-   * 
-   * @protected
-   */
+  /** Detects if there are no args and prints the help screen */
   protected detectEmptyArgs(): Kernel {
     if (this.args && Util.emptyArgs(this.args)) {
-      this.printHelp();
+      this.printDefaultHelp();
       Deno.exit(0);
     }
     return this;
   }
 
-  /**
-   * It starts the program
-   * 
-   * @protected
-   * @returns {Kernel}
-   */
+  /** Detects the default options and prints the corresponding message */
+  protected detectDefaultOptions(): Kernel {
+    if (this.args && this.args.commands.length == 0) {
+      this.BASE_COMMAND.options.forEach((option) => {
+        if (Util.optionIsInArgs(option, this.args!)) {
+          if (option.word_option == "help") {
+            this.printDefaultHelp();
+            Deno.exit(0);
+          }
+
+          if (option === this.versionOption) {
+            console.log("v" + this.app_version);
+            Deno.exit(0);
+          }
+        }
+      });
+    }
+
+    return this;
+  }
+
+  protected detectBaseCommandOptions(): Kernel {
+    if (this.args && this.args.commands.length == 0) {
+      new Validator(
+        {
+          app: this,
+          args: this.args,
+          rules: [
+            ValidationRules.BASE_COMMAND_OPTIONS,
+          ],
+        },
+      ).validate();
+
+      this.BASE_COMMAND.options.forEach((option) => {
+        option.value = Util.setOptionValue(option, this.args!);
+
+        this[option.word_option] = option.value;
+      });
+    }
+
+    return this;
+  }
+
+  protected setupGlobalOptions(): Kernel {
+    this.globalOptions.forEach((option: OptionBuilder) => {
+      this.commands.forEach((command: Command) => {
+        command.addOption(
+          { flags: option.value, description: option.description },
+        );
+      });
+    });
+
+    return this;
+  }
+
+  /** The starting point of the program */
   protected run(): Kernel {
     return this
       .setup()
-      .validate()
-      .generate()
-      .execute();
+      .generate();
   }
 }

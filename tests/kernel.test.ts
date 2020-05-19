@@ -1,8 +1,8 @@
-import { assertEquals, test } from "../deno_deps.ts";
-import { Kernel } from "../src/Kernel.ts";
+import { assertEquals, test } from "../deps.ts";
+import Denomander from "../mod.ts";
 
 test("app_detail_accessors", function () {
-  const program = new Kernel();
+  const program = new Denomander();
   assertEquals(program.app_name, "My App"); // Default app name if not provided in constructor
   assertEquals(program.app_description, "My Description"); // Default description if not provided in constructor
   assertEquals(program.app_version, "0.0.1"); // Default version if not provided in constructor
@@ -18,7 +18,7 @@ test("app_detail_accessors", function () {
 });
 
 test("app_detail_accessors_passing_values_in_constructor", function () {
-  const program = new Kernel({
+  const program = new Denomander({
     app_name: "New App",
     app_description: "New Description",
     app_version: "10.1.8",
