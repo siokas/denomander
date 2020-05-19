@@ -6,7 +6,7 @@ Lizard.command("clone [url]", clone)
     "this is a description",
   );
 
-function clone(url:string) {
+function clone(url: string) {
   console.log("clone from ..." + url);
 }
 

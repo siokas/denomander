@@ -1,4 +1,4 @@
-import {Lizard} from "./lizard.ts";
+import { Lizard } from "./lizard.ts";
 
 async function run(file: string) {
   return new Promise(async (resolve, reject) => {
@@ -28,5 +28,5 @@ async function run(file: string) {
   });
 }
 
-await run('./lizard.ts');
+await run("./lizard.ts");
 Lizard.parse();

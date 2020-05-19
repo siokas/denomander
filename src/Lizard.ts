@@ -1,4 +1,3 @@
-
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
 
@@ -18,8 +17,8 @@ export class Lizard {
 
   describe(text: string) {
     const command: Command = this.app.commands.slice(-1)[0];
-    if(command){
-        command.description = text;
+    if (command) {
+      command.description = text;
     }
     return this;
   }
@@ -27,8 +26,8 @@ export class Lizard {
   option(flags: string, description: string) {
     const command: Command = this.app.commands.slice(-1)[0];
 
-    if(command){
-        command.addOption({flags, description});
+    if (command) {
+      command.addOption({ flags, description });
     }
     return this;
   }
@@ -36,8 +35,8 @@ export class Lizard {
   requiredOption(flags: string, description: string) {
     const command: Command = this.app.commands.slice(-1)[0];
 
-    if(command){
-        command.addOption({flags, description, isRequired: true});
+    if (command) {
+      command.addOption({ flags, description, isRequired: true });
     }
     return this;
   }
