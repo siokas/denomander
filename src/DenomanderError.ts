@@ -1,8 +1,4 @@
 export class DenomanderError extends Error {
-  public static fromJSON(d: Object): DenomanderError {
-    return Object.assign(new DenomanderError(), d);
-  }
-
   public static getErrorMessages() {
     return {
       INVALID_RULE: "Invalid Rule",
