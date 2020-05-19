@@ -27,8 +27,8 @@ program
     colored_output("The repo is cloned into: " + test);
   }).description("clone a repo");
 
-program.on('quiet', () => {
-  console.log('Enable Quiet Mode...');
+program.on("quiet", () => {
+  console.log("Enable Quiet Mode...");
 });
 
 try {

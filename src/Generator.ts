@@ -165,7 +165,7 @@ export class Generator {
         this.app.available_actions.push(command);
       }
 
-      if (option) {
+      if (option && Util.optionIsInArgs(option, this.args)) {
         if (this.args.options[option.word_option]) {
           onCommand.callback(this.args.options[option.word_option]);
         }
