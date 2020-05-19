@@ -9,7 +9,6 @@ import { Command } from "./Command.ts";
   * @class Option
  */
 export class Option {
-  
   /** Holds the flags as defined (unparsed) */
   public flags: string;
 
