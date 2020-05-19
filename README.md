@@ -53,6 +53,7 @@ __You may define the option's short and long flags by seperating them with eithe
 
 ```javascript
 program
+  .command("serve", "Start up the server")
   .option("-a, --address", "Define the address")
   .option("-p | --port", "Define the port")
   .parse(Deno.args);
@@ -65,35 +66,24 @@ The implementation of required option is exactly same as the optional option but
 
 ```javascript
 program
-  .option("-a --address", "Define the address")
+  .command("serve", "Start up the server")
   .requiredOption("-p --port", "Define the port")
+  .option("-a --address", "Define the address")
   .parse(Deno.args);
 
   // The port is required so it must have a value
   let address = program.address || "localhost";
   console.log(`Server run on ${address}:${program.port}`);
 ```
-#### Multiple short flags is supported (example from docker exec command)
-
-You have the option to pass more than one short flags.
+### Global Options and Base Command Options
+You have the option to define options which belong to all commands (global option) and options which belong to no command (base command option ex. --help, --version)
 
 ```javascript
 program
-  .option("-i --interactive ", "Keep STDIN open even if not attached")
-  .option("-t --tty", "Allocate a pseudo-TTY")
+  .baseOption("-q --quiet", "Do not output any message")
+  .globalOption("-c --color", "Define the output color")
   .parse(Deno.args);
-
-  if(program.interactive){
-    console.log('Interactive Mode');
-  }
-
-  if(program.tty){
-    console.log('Pseudo-TTY');
-  }
-
-  // deno run example.ts -it 
-  // The previous command passes true in both if statements therfore it prints out both console.log commands
-```           
+```
 
 ### Commands
 There are two ways to implement the command options. The first is to use an action handler by calling the __action()__ method immediately after the command definition passing the callback function and the second is with custom one-line implementation.
@@ -121,6 +111,24 @@ if(program.serve){
 program.parse(Deno.args);
 ```
 
+### Alias
+
+After the command declaration you have the option to declare as many aliases as you want for this spesific command.
+
+```javascript
+program
+ .command("serve", "Start the server")
+ .alias("server", "start-server")
+ .action(()=>{
+   console.log("the server is started");
+ });
+
+program.parse(Deno.args);
+
+// Command action calback is called in all 3 command names (actual command and two aliases)
+```
+
+
 ### Option to change default commands (help, version)
 
 In order to change the default commands (help, version) just call the corresponding method. In case of help pass the command and the description but in case of version you may also pass the actual version of the app and after that the command and the description. 
@@ -131,45 +139,15 @@ In order to change the default commands (help, version) just call the correspond
     "-x --xversion",
     "Display the version of the app"
   );
-
-  program.setHelp(
-    "-c --customhelp",
-    "Custom print help"
-  );
   
   program.parse(args);
 ```
 
-### Custom help and version
-
-To customize the commands call on() method passing the command and the callback function.
-
-> Must be before parse()
-
-```javascript
-program.on("--help", () => {
-  console.log("New Help Screen");
-  console.log("--- --- ---");
-  console.log("-p --port Define port");
-});
-
-program.on("--version", () => {
-  console.log("New version are coming next week");
-  console.log("v1.5.6");
-});
-
-// Last command
-program.parse(args);
-```
-
 ## ToDo
 
--  [X] program.on() method
 -  [ ] Custom option processing
--  [X] Option to change default commands (help, version)
--  [X] description(), action() methods
--  [X] Multiple short flags (-abc)
--  [ ] Long Flag alias
+-  [ ] More examples
+-  [ ] Documentation
 
 ## Used
 
@@ -183,15 +161,7 @@ Apostolos Siokas – [@siokas_](https://twitter.com/siokas_) – apostolossiokas
 
 ## Contributing
 
-1.  Fork it (<https://github.com/yourname/yourproject/fork>)
-
-2.  Create your feature branch (`git checkout -b feature/fooBar`)
-
-3.  Commit your changes (`git commit -am 'Add some fooBar'`)
-
-4.  Push to the branch (`git push origin feature/fooBar`)
-
-5.  Create a new Pull Request
+Any kind of contribution is welcome!
 
 ## License
 
