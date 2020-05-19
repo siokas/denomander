@@ -9,6 +9,7 @@ import { Command } from "./Command.ts";
   * @class Option
  */
 export class Option {
+  
   /** Holds the flags as defined (unparsed) */
   public flags: string;
 
@@ -20,7 +21,7 @@ export class Option {
 
   /** If the option is required */
   public isRequired: boolean;
-  
+
   /** Holds the short flag (-p). One letter command */
   private _letter_option?: string;
 
@@ -48,6 +49,14 @@ export class Option {
   /** The command that belongs to it */
   public belongsTo(command: Command) {
     this.command = command;
+  }
+
+  /** Set new flags and description for this option */
+  public reset(flags: string, description: string) {
+    this.flags = flags;
+    this.description = description;
+
+    this.splitFlags();
   }
 
   /**
