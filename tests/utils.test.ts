@@ -23,23 +23,23 @@ test("find_command_from_args", function () {
   }
 });
 
-// test("remove_command_from_array", function () {
-//   const helpCommand = new Command(
-//     { value: "-h --help", description: "Helper of the app" },
-//   );
+test("remove_command_from_array", function () {
+  const cloneCommand = new Command(
+    { value: "clone", description: "Clone Command" },
+  );
 
-//   const versionCommand = new Command(
-//     { value: "-v --version", description: "Version of the app" },
-//   );
+  const pullCommand = new Command(
+    { value: "pull", description: "Pull Command" },
+  );
 
-//   const commands_before: Array<Command> = [helpCommand, versionCommand];
-//   const commands_after: Array<Command> = [helpCommand];
+  const commands_before: Array<Command> = [cloneCommand, pullCommand];
+  const commands_after: Array<Command> = [cloneCommand];
 
-//   assertEquals(
-//     Util.removeCommandFromArray(commands_before, "version"),
-//     commands_after,
-//   );
-// });
+  assertEquals(
+    Util.removeCommandFromArray(commands_before, "pull"),
+    commands_after,
+  );
+});
 
 test("arrays_have_matching_command", function () {
   const helpCommand = new Command(
@@ -58,14 +58,14 @@ test("arrays_have_matching_command", function () {
   );
 });
 
-test("contain_command_in_on_commands_array", function () {
-  const helpCommand = new Command(
-    { value: "-h --help", description: "Helper of the app" },
-  );
+// test("contain_command_in_on_commands_array", function () {
+//   const helpCommand = new Command(
+//     { value: "-h --help", description: "Helper of the app" },
+//   );
 
-  const array1: Array<OnCommand> = [
-    { command: helpCommand, callback: () => {} },
-  ];
+//   const array1: Array<OnCommand> = [
+//     { command: helpCommand, callback: () => {} },
+//   ];
 
-  assertEquals(Util.containCommandInOnCommandArray(helpCommand, array1), true);
-});
+//   assertEquals(Util.containCommandInOnCommandArray(helpCommand, array1), true);
+// });

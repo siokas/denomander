@@ -10,24 +10,31 @@ const program = new Denomander(
 );
 
 program
+  .baseOption("-q --quiet", "Do not output any message")
+  .globalOption("-c --color", "Define the output color");
+
+program
   .command("serve", "Start the server")
+  .alias("superserve", "the-big-three")
   .requiredOption("-p --port", "Define the port")
-  .option("-c --color", "Define the color of the output");
+  .action(() => {
+    colored_output("http://localhost:" + program.port);
+  });
 
 program
   .command("clone [foldername]")
   .action((test: any) => {
-    console.log("The repo is cloned into: " + test);
+    colored_output("The repo is cloned into: " + test);
   }).description("clone a repo");
+
+program.on('quiet', () => {
+  console.log('Enable Quiet Mode...');
+});
 
 try {
   program.parse(Deno.args);
 } catch (error) {
   console.log(error);
-}
-
-if (program.serve) {
-  colored_output("http://localhost:" + program.port);
 }
 
 function colored_output(text: string) {

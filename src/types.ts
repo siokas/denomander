@@ -11,7 +11,7 @@ export type AppDetails = {
 
 /** Defines the .on() command options */
 export type OnCommand = {
-  command: Command;
+  arg: string;
   callback: Function;
 };
 
@@ -59,6 +59,24 @@ export type CommandOption = {
   isRequired?: boolean;
 };
 
+/** Defines the version setter */
+export type VersionType = {
+  flags: string;
+  description: string;
+  version?: string;
+};
+
+/** Defines the option builder (used in global options) */
+export type OptionBuilder = {
+  value: string;
+  description: string;
+};
+
+export type AliasCommandBuilder = {
+  command: string;
+  alias: string;
+};
+
 /* Enum containing the Validation Rules */
 export enum ValidationRules {
   REQUIRED_OPTIONS,
@@ -66,4 +84,5 @@ export enum ValidationRules {
   NON_DECLEARED_ARGS,
   ON_COMMANDS,
   ACTIONS,
+  BASE_COMMAND_OPTIONS,
 }

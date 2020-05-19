@@ -1,6 +1,5 @@
 /* General helper functions */
 export class Helper {
-  
   /** It removes dashes from a string */
   public static stripDashes(text: string): string {
     return text.replace(/-/g, "");
@@ -14,5 +13,9 @@ export class Helper {
   /** It trims of the empty spaces from the given string */
   public static trimString(text: string): string {
     return text.replace(/\s/g, "");
+  }
+
+  public static noDashesTrimSpaces(text: string) {
+    return Helper.stripDashes(Helper.trimString(text));
   }
 }

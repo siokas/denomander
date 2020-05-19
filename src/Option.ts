@@ -93,6 +93,14 @@ export class Option {
     }
   }
 
+  /** Set new flags and description for this option */
+  public reset(flags: string, description: string) {
+    this.flags = flags;
+    this.description = description;
+
+    this.splitFlags();
+  }
+
   /** Getter of the the short flag (one letter command) */
   get letter_option(): string | undefined {
     return this._letter_option;

@@ -29,13 +29,21 @@ test("app_required_option", function () {
 test("app_command", function () {
   const program = new Denomander();
   const args = ["new", "myFileName"];
-  const args2 = ["new"];
+
+  let result = "";
 
   program
-    .command("new [filename]", "Generate a new file")
+    .command("new [filename]", "Generate a new file");
+
+  program.on("new", (filename: any) => {
+    result = filename;
+    console.log("siokas -> " + filename);
+  });
+
+  program
     .parse(args);
 
-  assertEquals(program.new, "myFileName");
+  assertEquals(result, "myFileName");
 });
 
 // test("app_change_default_option_command", function () {
@@ -76,11 +84,10 @@ test("action_command", function () {
   let result = "";
 
   program
-  .command("clone [foldername]")
-  .action((foldername: any) => {
-      console.log('.....................' + foldername)
-    result = foldername;
-  });
+    .command("clone [foldername]")
+    .action((foldername: any) => {
+      result = foldername;
+    });
 
   program.parse(args);
 

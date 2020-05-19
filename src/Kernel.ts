@@ -5,10 +5,11 @@ import { Generator } from "./Generator.ts";
 import { Util } from "./Util.ts";
 import {
   OnCommand,
-  TempOnCommand,
   CustomArgs,
   AppDetails,
   ValidationRules,
+  OptionBuilder,
+  AliasCommandBuilder,
 } from "./types.ts";
 import { Option } from "./Option.ts";
 
@@ -26,14 +27,16 @@ export abstract class Kernel {
   /** Holds all the commands */
   public commands: Array<Command> = [];
 
+  /** Holds all the global options */
+  public globalOptions: Array<OptionBuilder> = [];
+
   /** Holds all the available actions */
   public available_actions: Array<Command> = [];
 
   /** Holds all the available .on() commands */
-  public available_on_commands: Array<OnCommand> = [];
+  public on_commands: Array<OnCommand> = [];
 
-  /** Temporary array for .on() commands */
-  public temp_on_commands: Array<TempOnCommand> = [];
+  public aliases: Array<AliasCommandBuilder> = [];
 
   /** If the user has defined a custom help */
   public isHelpConfigured = false;
@@ -52,6 +55,8 @@ export abstract class Kernel {
 
   /** The version of the app */
   public _app_version: string;
+
+  public versionOption: Option;
 
   /** The base command is needed to hold the default options like --help, --version */
   public BASE_COMMAND: Command = new Command(
@@ -72,6 +77,10 @@ export abstract class Kernel {
       this._app_description = "My Description";
       this._app_version = "0.0.1";
     }
+
+    this.versionOption = this.BASE_COMMAND.addOption(
+      { flags: "-V --version", description: "Version" },
+    );
   }
 
   /** Getter of the app name */
@@ -104,12 +113,13 @@ export abstract class Kernel {
     this._app_version = version;
   }
 
-  /** Do some necessary setup (ex. set the --version option and detect some things) */
+  /** Do some necessary setup */
   protected setup(): Kernel {
     return this
-      .setVersionOption()
       .detectEmptyArgs()
-      .detectDefaultOptions();
+      .detectDefaultOptions()
+      .detectBaseCommandOptions()
+      .setupGlobalOptions();
   }
 
   /** Generates the app variables and runs the necessary callback functions */
@@ -117,58 +127,18 @@ export abstract class Kernel {
     if (this.args) {
       const generator = new Generator(this, this.args);
       generator
+        .onCommands()
+        .defaultCommands()
         .requiredOptionValues()
         .commandValues()
         .optionValues()
-        .onCommands()
         .actionCommands();
     }
     return this;
   }
 
-  /** Validates all types of Commands */
-  protected validate(): Kernel {
-    if (this.args) {
-      const validation = new Validator({
-        app: this,
-        args: this.args,
-        rules: [
-          ValidationRules.REQUIRED_VALUES,
-          ValidationRules.NON_DECLEARED_ARGS,
-          ValidationRules.ON_COMMANDS,
-          ValidationRules.REQUIRED_OPTIONS,
-        ],
-      });
-
-      validation.validate();
-    }
-
-    return this;
-  }
-
   /** Executes default commands (--help, --version) */
   protected execute(): Kernel {
-    if (this.args) {
-      this.args.commands.forEach((argCommand) => {
-        const command = Util.findCommandFromArgs(this.commands, argCommand);
-
-        if (command) {
-          command.options.forEach((option: Option) => {
-            option.value = Util.setOptionValue(option, this.args!);
-
-            if (Util.optionIsInArgs(option, this.args!)) {
-              if (option.word_option == "help") {
-                Util.printCommandHelp(command!);
-                Deno.exit(0);
-              }
-
-              this[option.word_option] = option.value;
-            }
-          });
-        }
-      });
-    }
-
     return this;
   }
 
@@ -183,16 +153,6 @@ export abstract class Kernel {
     Util.print_help(app_details, this.commands, this.BASE_COMMAND);
   }
 
-  /** Setup the default version option */
-  protected setVersionOption(): Kernel {
-    if (!this.isVersionConfigured) {
-      this.BASE_COMMAND.addOption(
-        { flags: "-V --version", description: "Version" },
-      );
-    }
-
-    return this;
-  }
   /** Detects if there are no args and prints the help screen */
   protected detectEmptyArgs(): Kernel {
     if (this.args && Util.emptyArgs(this.args)) {
@@ -209,10 +169,12 @@ export abstract class Kernel {
         if (Util.optionIsInArgs(option, this.args!)) {
           if (option.word_option == "help") {
             this.printDefaultHelp();
+            Deno.exit(0);
           }
 
-          if (option.word_option == "version") {
+          if (option === this.versionOption) {
             console.log("v" + this.app_version);
+            Deno.exit(0);
           }
         }
       });
@@ -221,12 +183,44 @@ export abstract class Kernel {
     return this;
   }
 
+  protected detectBaseCommandOptions(): Kernel {
+    if (this.args && this.args.commands.length == 0) {
+      new Validator(
+        {
+          app: this,
+          args: this.args,
+          rules: [
+            ValidationRules.BASE_COMMAND_OPTIONS,
+          ],
+        },
+      ).validate();
+
+      this.BASE_COMMAND.options.forEach((option) => {
+        option.value = Util.setOptionValue(option, this.args!);
+
+        this[option.word_option] = option.value;
+      });
+    }
+
+    return this;
+  }
+
+  protected setupGlobalOptions(): Kernel {
+    this.globalOptions.forEach((option: OptionBuilder) => {
+      this.commands.forEach((command: Command) => {
+        command.addOption(
+          { flags: option.value, description: option.description },
+        );
+      });
+    });
+
+    return this;
+  }
+
   /** The starting point of the program */
   protected run(): Kernel {
     return this
       .setup()
-      .execute()
-      .validate()
       .generate();
   }
 }

@@ -4,7 +4,6 @@ import { CustomArgs } from "./types.ts";
 
 /** It parses the arguments and splits them into commands and options */
 export class Arguments implements ArgumentsContract {
-
   /** Aruments from Deno.args (unparsed) */
   protected unparsed_args: Array<string>;
 

@@ -3,12 +3,11 @@ import { Command } from "./Command.ts";
 import { Helper } from "./Helper.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
-import { CustomArgs, OnCommand, CommandTypes, AppDetails } from "./types.ts";
+import { CustomArgs, AppDetails } from "./types.ts";
 import { Option } from "./Option.ts";
 
 /** Specific functionality */
 export class Util {
-
   /** It prints out the help doc */
   public static print_help(
     app_details: AppDetails,
@@ -45,9 +44,9 @@ export class Util {
     console.log();
     if (command.hasRequiredOptions()) {
       console.log(yellow(bold("Required Options:")));
-      command.requiredOptions.forEach((option) => {
-        console.log(option.flags + " \t " + option.description);
-      });
+      command.requiredOptions.forEach((option) =>
+        console.log(option.flags + " \t " + option.description)
+      );
       console.log();
     }
     console.log(yellow(bold("Options:")));
@@ -56,6 +55,11 @@ export class Util {
         console.log(option.flags + " \t " + option.description);
       }
     });
+    console.log();
+    if (command.hasAlias()) {
+      console.log(yellow(bold("Aliases:")));
+      command.aliases.forEach((alias) => console.log(alias));
+    }
   }
 
   /** Detects if option is in args */
@@ -86,10 +90,30 @@ export class Util {
     arg: string,
   ): Command | undefined {
     return array.find((command: Command) => {
-      if (
-        command.word_command === Helper.stripDashes(arg)
-      ) {
+      if (command.word_command === Helper.stripDashes(arg)) {
         return command;
+      }
+      if (command.hasAlias()) {
+        let aliasFound = command.aliases.find((alias) => {
+          if (alias === Helper.stripDashes(arg)) {
+            return alias;
+          }
+        });
+        if (aliasFound) {
+          return command;
+        }
+      }
+    });
+  }
+
+  /** It returns the command instance if founded in given arguments */
+  public static findOptionFromArgs(
+    array: Array<Option>,
+    arg: string,
+  ): Option | undefined {
+    return array.find((option: Option) => {
+      if (option.word_option === arg || option.letter_option === arg) {
+        return option;
       }
     });
   }
@@ -116,7 +140,7 @@ export class Util {
     let found = false;
 
     for (const key in args.options) {
-      if ((command.word_command === key)) {
+      if (command.word_command === key) {
         found = true;
       }
     }
@@ -124,6 +148,14 @@ export class Util {
     args.commands.forEach((arg: string) => {
       if (command.word_command === arg) {
         found = true;
+      }
+
+      if (command.hasAlias()) {
+        command.aliases.forEach((alias) => {
+          if (alias === arg) {
+            found = true;
+          }
+        });
       }
     });
 
@@ -193,6 +225,13 @@ export class Util {
       if (command.word_command === arg) {
         found = true;
       }
+      if (command.hasAlias()) {
+        command.aliases.forEach((alias) => {
+          if (alias === Helper.stripDashes(arg)) {
+            found = true;
+          }
+        });
+      }
     });
 
     return found;
@@ -226,19 +265,6 @@ export class Util {
     const matching: Array<Command> = array1.filter((element: Command) =>
       array2.includes(command)
     );
-
-    return matching.length === 0 ? false : true;
-  }
-
-  /**
-   * Detects if the given command is included
-   * in the given array of .OnCommands
-   */
-  public static containCommandInOnCommandArray(
-    command: Command,
-    array: Array<OnCommand>,
-  ): Boolean {
-    const matching = array.filter((element) => element.command === command);
 
     return matching.length === 0 ? false : true;
   }
@@ -280,6 +306,10 @@ export class Util {
   /** Detects if there are available required options */
   public static availableRequiredOptions(app: Kernel): boolean {
     return app.available_requiredOptions.length > 0;
+  }
+
+  public static cloneCommand(instance: Command, alias: string): Command {
+    return Object.assign(new Command({ value: alias }), instance);
   }
 
   /**

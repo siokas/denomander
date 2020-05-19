@@ -10,12 +10,13 @@ import {
   ValidationResult,
   TempOnCommand,
   ValidationRules,
+  OnCommand,
 } from "./types.ts";
 import { Option } from "./Option.ts";
+import { Helper } from "./Helper.ts";
 
 /** It is responsible for validating the arguments and throw the related error */
 export class Validator implements ValidatorContract {
-  
   /** Holds the app instance */
   public app: Kernel;
 
@@ -61,6 +62,8 @@ export class Validator implements ValidatorContract {
           return this.validateRequiredValues();
         case ValidationRules.ON_COMMANDS:
           return this.validateOnCommands();
+        case ValidationRules.BASE_COMMAND_OPTIONS:
+          return this.validateBaseCommandOptions();
         default:
           return { passed: false, error: CustomError.VALIDATION_INVALID_RULE };
       }
@@ -126,9 +129,6 @@ export class Validator implements ValidatorContract {
           error: CustomError.VALIDATION_REQUIRED_VALUE_NOT_FOUND,
         };
       }
-
-      const generator = new Generator(this.app, this.args);
-      generator.requiredOptionValues();
     }
 
     return { passed: true };
@@ -136,25 +136,28 @@ export class Validator implements ValidatorContract {
 
   /** Validates the .on() commands and stacks them in the available commands */
   protected validateOnCommands(): ValidationResult {
-    this.app.temp_on_commands.forEach((temp: TempOnCommand) => {
+    let result: ValidationResult = { passed: true };
+
+    this.app.on_commands.forEach((onCommand: OnCommand) => {
       const command: Command | undefined = Util.findCommandFromArgs(
         this.app.commands,
-        temp.arg,
+        onCommand.arg,
       );
 
-      if (command) {
-        this.app.available_on_commands.push(
-          { command: command, callback: temp.callback },
-        );
-      } else {
-        return {
+      const option: Option | undefined = Util.findOptionFromArgs(
+        this.app.BASE_COMMAND.options,
+        Helper.noDashesTrimSpaces(onCommand.arg),
+      );
+
+      if (!command && !option) {
+        result = {
           passed: false,
           error: CustomError.VALIDATION_COMMAND_NOT_FOUND,
         };
       }
     });
 
-    return { passed: true };
+    return result;
   }
 
   /** Validates the .action() parameters and sends them to the callback */
@@ -210,9 +213,16 @@ export class Validator implements ValidatorContract {
 
       if (command) {
         for (const key in this.args.options) {
-          const found = Util.argIsInAvailableOptions(command.options, key);
+          const found_in_base_commands = Util.argIsInAvailableOptions(
+            this.app.BASE_COMMAND.options,
+            key,
+          );
+          const found_in_all_commands = Util.argIsInAvailableOptions(
+            command.options,
+            key,
+          );
 
-          if (!found) {
+          if (!found_in_base_commands && !found_in_all_commands) {
             result = {
               passed: false,
               error: CustomError.VALIDATION_OPTION_NOT_FOUND,
@@ -222,6 +232,25 @@ export class Validator implements ValidatorContract {
       }
     });
 
+    return result;
+  }
+
+  protected validateBaseCommandOptions(): ValidationResult {
+    let result: ValidationResult = { passed: true };
+
+    for (const key in this.args.options) {
+      const option: Option | undefined = Util.findOptionFromArgs(
+        this.app.BASE_COMMAND.options,
+        key,
+      );
+
+      if (!option) {
+        result = {
+          passed: false,
+          error: CustomError.VALIDATION_OPTION_NOT_FOUND,
+        };
+      }
+    }
     return result;
   }
 }

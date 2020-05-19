@@ -1,4 +1,4 @@
-import { assertEquals, test } from "../deno_deps.ts";
+import { assertEquals, test } from "../deps.ts";
 import {
   Helper,
 } from "../src/Helper.ts";

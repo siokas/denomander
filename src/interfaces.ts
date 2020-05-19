@@ -8,8 +8,6 @@ export interface PublicAPI {
   description(description: string): Denomander;
   action(callback: Function): Denomander;
   on(arg: string, callback: Function): Denomander;
-  setHelp(command: string, description: string): Denomander;
-  setVersion(version: string, command: string, description: string): Denomander;
   parse(args: Array<string>): void;
 }
 

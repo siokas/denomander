@@ -20,6 +20,9 @@ export class Command {
   /** Holds all the required options of the current command */
   public requiredOptions: Array<Option> = [];
 
+  /** Holds all the aliases of the current command */
+  public aliases: Array<string> = [];
+
   /** Constructor of Command object */
   constructor(params: CommandParams) {
     this.params = Object.assign({
@@ -41,16 +44,23 @@ export class Command {
   }
 
   /** Instantiates a new Option object and pushes it to options[] array */
-  addOption(params: CommandOption): Command {
+  addOption(params: CommandOption): Option {
+    let option: Option;
+
     if (params.isRequired) {
-      const option = new Option(params.flags, params.description, this, true);
+      option = new Option(params.flags, params.description, this, true);
       this.options.push(option);
       this.requiredOptions.push(option);
     } else {
-      this.options.push(
-        new Option(params.flags, params.description, this),
-      );
+      option = new Option(params.flags, params.description, this);
+      this.options.push(option);
     }
+
+    return option;
+  }
+
+  addAlias(alias: string): Command {
+    this.aliases.push(alias);
 
     return this;
   }
@@ -71,8 +81,6 @@ export class Command {
         this._word_command = Helper.stripDashes(splitedValue[0]);
         if (Helper.containsBrackets(splitedValue[1])) {
           this.require_command_value = true;
-          // console.log(splitedValue)
-          // this.value = 
         }
         break;
     }
@@ -83,6 +91,12 @@ export class Command {
     return this.requiredOptions.length > 0;
   }
 
+  /** Detects if the command has aliases */
+  public hasAlias(): boolean {
+    return this.aliases.length > 0;
+  }
+
+  /** Gets the usage of the command (used in help screen) */
   get usage(): string {
     let text = "";
     if (this.word_command) {
