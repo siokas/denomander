@@ -1,7 +1,7 @@
 import { Lizard, program } from "https://deno.land/x/denomander/mod.ts";
 
 Lizard.appDetails({
-  app_name: "--Lizy",
+  app_name: "Lizy",
   app_description: "A new Lizard App",
   app_version: "1.0.0",
 });
