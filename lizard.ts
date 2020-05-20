@@ -24,5 +24,4 @@ function clone(url: string) {
   console.log("clone from ..." + url);
 }
 
-Lizard.parse();
 export {Lizard};
