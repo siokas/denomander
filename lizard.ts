@@ -12,16 +12,18 @@ Lizard.command("clone [url]", clone)
     "this is a description",
   );
 
-  Lizard.command("pull [repo]", (repo:string) => {
-    if(program.force){
-      console.log(`pull from ${repo} with force`);
-    }else{
-      console.log('Just pull from ' + repo);
-    }
-  }).requiredOption("-f --force", "With force").describe("This is a pull command");
+Lizard.command("pull [repo]", (repo: string) => {
+  if (program.force) {
+    console.log(`pull from ${repo} with force`);
+  } else {
+    console.log("Just pull from " + repo);
+  }
+}).requiredOption("-f --force", "With force").describe(
+  "This is a pull command",
+);
 
 function clone(url: string) {
   console.log("clone from ..." + url);
 }
 
-export {Lizard};
+export { Lizard };

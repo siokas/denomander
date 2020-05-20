@@ -1,3 +1,3 @@
-import {Lizard} from "./lizard.ts";
+import { Lizard } from "./lizard.ts";
 
 Lizard.parse();
