@@ -7,7 +7,7 @@
 
 _Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces. It is inspired from [commander.js](https://github.com/tj/commander.js) by [tj](https://github.com/tj) which is the node's version.
 
-> [__Lizard__ 🦎](https://github.com/siokas/denomander/wiki/Lizard): There is a new, much simpler and much cleaner, way to define you cli commands and options. It is called [__Lizard__ 🦎](https://github.com/siokas/denomander/wiki/Lizard) and it is inspired by Laravel's Artisan commands. So you just install the lizard tool and create a lizard.ts file in your project's root folder with all your commands and options! [For more, follow the instructions...](https://github.com/siokas/denomander/wiki/Lizard)
+> [__Lizard__ 🦎](https://github.com/siokas/denomander/wiki/Lizard-%F0%9F%A6%8E): There is a new, much simpler and much cleaner, way to define you cli commands and options. It is called [__Lizard__ 🦎](https://github.com/siokas/denomander/wiki/Lizard-%F0%9F%A6%8E) and it is inspired by Laravel's Artisan commands. So you just install the lizard tool and create a lizard.ts file in your project's root folder with all your commands and options! [For more, follow the instructions...](https://github.com/siokas/denomander/wiki/Lizard-%F0%9F%A6%8E)
 
 > Denomander is a [Deno](https://deno.land) project so it needs to have deno installed in your system. 
 > If you don't there is a Dockerfile in the root of the project to create an image running deno
