@@ -1,7 +1,7 @@
 import { Lizard, program } from "./mod.ts";
 
 Lizard.appDetails({
-  app_name: "Lizy",
+  app_name: "--Lizy",
   app_description: "A new Lizard App",
   app_version: "1.0.0",
 });
@@ -12,12 +12,17 @@ Lizard.command("clone [url]", clone)
     "this is a description",
   );
 
-Lizard.command("serve", () => {
-  console.log(program.port);
-}).requiredOption("-p --port", "ppp");
+  Lizard.command("pull [repo]", (repo:string) => {
+    if(program.force){
+      console.log(`pull from ${repo} with force`);
+    }else{
+      console.log('Just pull from ' + repo);
+    }
+  }).requiredOption("-f --force", "With force").describe("This is a pull command");
 
 function clone(url: string) {
   console.log("clone from ..." + url);
 }
 
-export { Lizard };
+Lizard.parse();
+export {Lizard};

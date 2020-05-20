@@ -52,6 +52,4 @@ async function evaluate() {
     }
   });
 }
-run("lizard.ts").then(()=>{
-  evaluate();
-});
+await run("lizard.ts")
