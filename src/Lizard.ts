@@ -10,7 +10,7 @@ export class Lizard {
     this.app = app;
   }
 
-  appDetails(app_details:AppDetails){
+  appDetails(app_details: AppDetails) {
     this.app.app_name = app_details.app_name;
     this.app.app_description = app_details.app_description;
     this.app.app_version = app_details.app_version;
@@ -18,19 +18,19 @@ export class Lizard {
     return this;
   }
 
-  appName(name:string){
+  appName(name: string) {
     this.app.app_name = name;
 
     return this;
   }
 
-  appDescription(description:string){
+  appDescription(description: string) {
     this.app.app_description = description;
 
     return this;
   }
 
-  appVersion(version:string){
+  appVersion(version: string) {
     this.app.app_version = version;
 
     return this;
