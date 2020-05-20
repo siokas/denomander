@@ -1,5 +1,5 @@
-const currentWorkingDirectory = Deno.cwd();
-const Denomander = await import(currentWorkingDirectory + "/lizard.ts");
+const realPath = await Deno.realPath("./lizard.ts");
+const Denomander = await import(realPath);
 
 async function run(file: string) {
   return new Promise(async (resolve, reject) => {
