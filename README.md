@@ -152,6 +152,7 @@ In order to change the default commands (help, version) just call the correspond
 -  [ ] Easy Error Customization
 -  [ ] Documentation
 -  [ ] Add more tests
+-  [ ] Chanage --help default output
 
 ## Used
 
