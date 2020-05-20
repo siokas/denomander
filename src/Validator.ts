@@ -3,7 +3,6 @@ import { Util } from "./Util.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
-import { Generator } from "./Generator.ts";
 import { ValidatorContract } from "./interfaces.ts";
 import {
   ValidatorOptions,

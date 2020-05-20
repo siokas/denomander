@@ -8,20 +8,20 @@ import { Option } from "./Option.ts";
 import { Validator } from "./Validator.ts";
 
 /** It is responsible for generating the app variables and running the necessary callback functions */
-export class Generator {
+export class Executor {
   /** The Arguments instance holding all the arguments passed by the user */
   protected args: Arguments;
 
   /** The instance of the main app */
   protected app: Kernel;
 
-  /** Constructor of Generator object. */
+  /** Constructor of Executor object. */
   constructor(app: Kernel, args: Arguments) {
     this.app = app;
     this.args = args;
   }
 
-  public defaultCommands(): Generator {
+  public defaultCommands(): Executor {
     if (this.args) {
       this.args.commands.forEach((argCommand) => {
         const command = Util.findCommandFromArgs(this.app.commands, argCommand);
@@ -47,7 +47,7 @@ export class Generator {
   }
 
   /** It generates the required option app variables. (ex. program.message="initial commit") */
-  public requiredOptionValues(): Generator {
+  public requiredOptionValues(): Executor {
     new Validator({
       app: this.app,
       args: this.args,
@@ -84,7 +84,7 @@ export class Generator {
   }
 
   /** It generates the command app variables (ex. program.clone="url...") */
-  public commandValues(): Generator {
+  public commandValues(): Executor {
     new Validator({
       app: this.app,
       args: this.args,
@@ -111,7 +111,7 @@ export class Generator {
   }
 
   /** It generates the option app variables (ex. program.force=true) */
-  public optionValues(): Generator {
+  public optionValues(): Executor {
     new Validator({
       app: this.app,
       args: this.args,
@@ -140,7 +140,7 @@ export class Generator {
   }
 
   /** It calls the .on() method callback functions */
-  public onCommands(): Generator {
+  public onCommands(): Executor {
     new Validator({
       app: this.app,
       args: this.args,
@@ -180,7 +180,7 @@ export class Generator {
   }
 
   /** It calls the .action() method calback function and passes the nessesery parameters */
-  public actionCommands(): Generator {
+  public actionCommands(): Executor {
     this.app.available_actions.forEach((command: Command) => {
       if (Util.isCommandInArgs(command, this.args!)) {
         if (command.action.length == 0) {

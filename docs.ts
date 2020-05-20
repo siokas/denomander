@@ -2,7 +2,7 @@
 export { Arguments } from "./src/Arguments.ts";
 export { Command } from "./src/Command.ts";
 export { Denomander } from "./src/Denomander.ts";
-export { Generator } from "./src/Generator.ts";
+export { Executor } from "./src/Executor.ts";
 export { Helper } from "./src/Helper.ts";
 export { Kernel } from "./src/Kernel.ts";
 export { Util } from "./src/Util.ts";

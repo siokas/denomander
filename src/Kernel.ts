@@ -1,7 +1,7 @@
 import { Command } from "./Command.ts";
 import { Validator } from "./Validator.ts";
 import { Arguments } from "./Arguments.ts";
-import { Generator } from "./Generator.ts";
+import { Executor } from "./Executor.ts";
 import { Util } from "./Util.ts";
 import {
   OnCommand,
@@ -122,11 +122,10 @@ export abstract class Kernel {
       .setupGlobalOptions();
   }
 
-  /** Generates the app variables and runs the necessary callback functions */
-  protected generate(): Kernel {
+  /** Executes default commands (--help, --version) */
+  protected execute(): Kernel {
     if (this.args) {
-      const generator = new Generator(this, this.args);
-      generator
+      new Executor(this, this.args)
         .onCommands()
         .defaultCommands()
         .requiredOptionValues()
@@ -134,11 +133,6 @@ export abstract class Kernel {
         .optionValues()
         .actionCommands();
     }
-    return this;
-  }
-
-  /** Executes default commands (--help, --version) */
-  protected execute(): Kernel {
     return this;
   }
 
@@ -221,6 +215,6 @@ export abstract class Kernel {
   protected run(): Kernel {
     return this
       .setup()
-      .generate();
+      .execute();
   }
 }
