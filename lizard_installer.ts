@@ -1,4 +1,5 @@
-import { Lizard } from "./lizard.ts";
+const currentWorkingDirectory = Deno.cwd();
+const Denomander = await import(currentWorkingDirectory + '/lizard.ts');
 
 async function run(file: string) {
   return new Promise(async (resolve, reject) => {
@@ -28,5 +29,5 @@ async function run(file: string) {
   });
 }
 
-await run("./lizard.ts");
-Lizard.parse();
+await run("lizard.ts");
+Denomander.Lizard.parse();
