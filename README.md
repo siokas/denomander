@@ -39,6 +39,7 @@ To set an option just call the __option()__ method passing __a) the sort and the
 
 ```javascript
 program
+  .command("serve", "Simple Server")
   .option("-a --address", "Define the address")
   .option("-p --port", "Define the port")
   .parse(Deno.args);
