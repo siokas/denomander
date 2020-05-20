@@ -1,4 +1,4 @@
-import { Lizard, program } from "./mod.ts";
+import { Lizard, program } from "https://deno.land/x/denomander/mod.ts";
 
 Lizard.appDetails({
   app_name: "--Lizy",
