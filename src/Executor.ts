@@ -21,6 +21,7 @@ export class Executor {
     this.args = args;
   }
 
+  /** It prints the help screen and creates public app properties based on the name of the option */
   public defaultCommands(): Executor {
     if (this.args) {
       this.args.commands.forEach((argCommand) => {
@@ -182,12 +183,14 @@ export class Executor {
   /** It calls the .action() method calback function and passes the nessesery parameters */
   public actionCommands(): Executor {
     this.app.available_actions.forEach((command: Command) => {
-      if (Util.isCommandInArgs(command, this.args!)) {
-        if (command.action.length == 0) {
-          command.action();
-        } else if (command.action.length == 1) {
-          if (command.word_command) {
-            command.action(command.value);
+      if (this.args) {
+        if (Util.isCommandInArgs(command, this.args)) {
+          if (command.action.length == 0) {
+            command.action();
+          } else if (command.action.length == 1) {
+            if (command.word_command) {
+              command.action(command.value);
+            }
           }
         }
       }

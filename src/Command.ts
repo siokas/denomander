@@ -8,12 +8,6 @@ export class Command {
   /** If the command has a required value to be passed from the user*/
   public require_command_value = false;
 
-  /** Holds the short flag (-p). One letter command */
-  private _word_command?: string;
-
-  /** Holds the object's options initiated in constructor */
-  private params: CommandParams;
-
   /** Holds all the options of the current command */
   public options: Array<Option> = [];
 
@@ -22,6 +16,12 @@ export class Command {
 
   /** Holds all the aliases of the current command */
   public aliases: Array<string> = [];
+
+  /** Holds the short flag (-p). One letter command */
+  private _word_command?: string;
+
+  /** Holds the object's options initiated in constructor */
+  private params: CommandParams;
 
   /** Constructor of Command object */
   constructor(params: CommandParams) {
@@ -44,7 +44,7 @@ export class Command {
   }
 
   /** Instantiates a new Option object and pushes it to options[] array */
-  addOption(params: CommandOption): Option {
+  public addOption(params: CommandOption): Option {
     let option: Option;
 
     if (params.isRequired) {
@@ -59,10 +59,20 @@ export class Command {
     return option;
   }
 
-  addAlias(alias: string): Command {
+  public addAlias(alias: string): Command {
     this.aliases.push(alias);
 
     return this;
+  }
+
+  /** Detects if the current instance has required options */
+  public hasRequiredOptions(): boolean {
+    return this.requiredOptions.length > 0;
+  }
+
+  /** Detects if the command has aliases */
+  public hasAlias(): boolean {
+    return this.aliases.length > 0;
   }
 
   /**
@@ -84,16 +94,6 @@ export class Command {
         }
         break;
     }
-  }
-
-  /** Detects if the current instance has required options */
-  public hasRequiredOptions(): boolean {
-    return this.requiredOptions.length > 0;
-  }
-
-  /** Detects if the command has aliases */
-  public hasAlias(): boolean {
-    return this.aliases.length > 0;
   }
 
   /** Gets the usage of the command (used in help screen) */

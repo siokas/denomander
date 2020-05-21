@@ -1,17 +1,14 @@
 export class Container {
   private static _instance: Container;
-  bindings: any = [];
+  public bindings: any = [];
 
-  constructor() {
-  }
-
-  bind(abstract: string, concrete: any) {
+  public bind(abstract: string, concrete: any) {
     if (this.bindings[abstract] === undefined) {
       this.bindings[abstract] = concrete;
     }
   }
 
-  resolve(abstract: string) {
+  public resolve(abstract: string) {
     return this.bindings[abstract];
   }
 

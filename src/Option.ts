@@ -22,10 +22,10 @@ export class Option {
   public isRequired: boolean;
 
   /** Holds the short flag (-p). One letter command */
-  private _letter_option?: string;
+  protected _letter_option?: string;
 
   /** Holds the long flag (--port). One letter command */
-  private _word_option: string = "";
+  protected _word_option = "";
 
   /** The value of the option */
   protected _value: any;

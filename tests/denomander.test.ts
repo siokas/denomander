@@ -26,39 +26,6 @@ test("app_required_option", function () {
   assertEquals(program.address, "192.168.1.100");
 });
 
-test("app_command", function () {
-  const program = new Denomander();
-  const args = ["new", "myFileName"];
-
-  let result = "";
-
-  program
-    .command("new [filename]", "Generate a new file");
-
-  program.on("new", (filename: any) => {
-    result = filename;
-    console.log("siokas -> " + filename);
-  });
-
-  program
-    .parse(args);
-
-  assertEquals(result, "myFileName");
-});
-
-// test("app_change_default_option_command", function () {
-//   const program = new Denomander();
-//   const args = ["-x"];
-
-//   program.setVersion(
-//     "1.8.1",
-//     "-x --xversion",
-//     "Display the version of the app",
-//   ).parse(args);
-
-//   assertEquals(program.xversion, "1.8.1");
-// });
-
 test("app_on_command", function () {
   const program = new Denomander();
 
@@ -85,7 +52,7 @@ test("action_command", function () {
 
   program
     .command("clone [foldername]")
-    .action((foldername: any) => {
+    .action((foldername: string) => {
       result = foldername;
     });
 
