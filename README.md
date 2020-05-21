@@ -1,8 +1,8 @@
 <p align="center"><img src="https://raw.githubusercontent.com/siokas/siokas.github.io/master/img/denomander.png" width="256"></p>
 <p align="center">
-<a href="https://travis-ci.com/siokas/denomander"><img alt="Travis (.com)" src="https://travis-ci.com/siokas/denomander.svg?branch=master"></a>
-<a href="https://github.styleci.io/repos/245916074"><img src="https://github.styleci.io/repos/245916074/shield?branch=master" alt="StyleCI"></a>
+<img alt="Github Actions" src="https://github.com/siokas/denomander/workflows/DenoCI/badge.svg?branch=master">
 <a href="https://app.codacy.com/manual/apostolossiokas/denomander?utm_source=github.com&utm_medium=referral&utm_content=siokas/denomander&utm_campaign=Badge_Grade_Dashboard"> <img src="https://api.codacy.com/project/badge/Grade/b9b7465c7a7e40b5af20edc6c9eb5cdf"></a>
+<img alt="deno version" src="https://img.shields.io/badge/deno-1.0.0-blue">
 </p>
 
 _Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces. It is inspired from [commander.js](https://github.com/tj/commander.js) by [tj](https://github.com/tj) which is the node's version.
