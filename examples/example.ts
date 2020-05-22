@@ -28,9 +28,12 @@ program
   }).description("clone a repo");
 
 program
-  .command("mv [from] [to]")
-  .action(({ from, to }: any) => {
+  .command("mv [from] [to] [message?]")
+  .action(({ from, to, message }: any) => {
     colored_output(`File is moved from ${from} to ${to}`);
+    if (message) {
+      console.log(message);
+    }
   }).description("clone a repo");
 
 program.on("quiet", () => {

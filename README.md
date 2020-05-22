@@ -91,6 +91,24 @@ program
 ### Commands
 There are two ways to implement the commands. The first is to use an action handler by calling the __action()__ method immediately after the command definition passing the callback function and the second is with custom one-line implementation. __Multiple command arguments are now supported!__
 
+To define a command just call the .command() method and pass the command name (optionally you may also pass the description and a callback function but if not you may define them afterwards in their own methods). After the command you have the option to declare argument(s) inside brackets []. If you want a not required argument just append a question mark (?) after the name of the argument.
+
+```javascript
+program
+ .command("mv [from] [to] [message?]", "Start the server")
+ .action(({from, to, message}:any)=>{
+   // Do your actions here
+   console.log(`File is moved from ${from} to ${to}`);
+   if(message){
+     console.log("message")
+   }
+ });
+
+program.parse(Deno.args);
+
+// Command action calback is called in all 3 command names (actual command and two aliases)
+```
+
 #### Action Handler
 
 > The argument(s) passed in the callback function is now an object so you may destructure the object and take your variable which has the same name with your command declaration!
