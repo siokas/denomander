@@ -116,21 +116,28 @@ export class Validator implements ValidatorContract {
 
   /** Validates all the commands which needs required values to be defined */
   protected validateRequiredValues(): ValidationResult {
+    let result: ValidationResult = { passed: true };
     if (this.args.commands.length > 0) {
-      const commandArgsWithRequiredValues = Util.commandArgsWithRequiredValues(
-        this.args,
-        this.app,
-      );
+      this.args.commands.forEach((argCommand) => {
+        const command: Command | undefined = Util.findCommandFromArgs(
+          this.app.commands,
+          argCommand,
+        );
 
-      if (commandArgsWithRequiredValues.length >= this.args.commands.length) {
-        return {
-          passed: false,
-          error: CustomError.VALIDATION_REQUIRED_VALUE_NOT_FOUND,
-        };
-      }
+        if (command && command.hasRequiredArguments()) {
+          if (
+            command.countRequiredCommandArguments() >= this.args.commands.length
+          ) {
+            result = {
+              passed: false,
+              error: CustomError.VALIDATION_REQUIRED_VALUE_NOT_FOUND,
+            };
+          }
+        }
+      });
     }
 
-    return { passed: true };
+    return result;
   }
 
   /** Validates the .on() commands and stacks them in the available commands */

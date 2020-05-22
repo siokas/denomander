@@ -1,5 +1,5 @@
 import { Helper } from "./Helper.ts";
-import { CommandOption, CommandParams } from "./types.ts";
+import { CommandOption, CommandParams, CommandArgument } from "./types.ts";
 import { Option } from "./Option.ts";
 
 /* Command class */
@@ -13,6 +13,9 @@ export class Command {
 
   /** Holds all the required options of the current command */
   public requiredOptions: Array<Option> = [];
+
+  /** Holds all the command arguments of the current command */
+  public command_arguments: Array<CommandArgument> = [];
 
   /** Holds all the aliases of the current command */
   public aliases: Array<string> = [];
@@ -65,6 +68,10 @@ export class Command {
     return this;
   }
 
+  public hasOptions(): boolean {
+    return this.options.length > 1; // All commands befault has --help as first option
+  }
+
   /** Detects if the current instance has required options */
   public hasRequiredOptions(): boolean {
     return this.requiredOptions.length > 0;
@@ -75,6 +82,15 @@ export class Command {
     return this.aliases.length > 0;
   }
 
+  public countRequiredCommandArguments(): number {
+    return this.command_arguments.filter((commandArg) => commandArg.isRequired)
+      .length;
+  }
+
+  public hasRequiredArguments(): boolean {
+    return this.countRequiredCommandArguments() > 0;
+  }
+
   /**
    * It splits the word command and
    * detects if there is a require command value.
@@ -82,17 +98,31 @@ export class Command {
   private generateCommand() {
     const splitedValue = this.params.value.split(" ");
 
-    switch (splitedValue.length) {
-      case 1:
-        this._word_command = Helper.stripDashes(splitedValue[0]);
-        break;
-
-      case 2:
-        this._word_command = Helper.stripDashes(splitedValue[0]);
-        if (Helper.containsBrackets(splitedValue[1])) {
-          this.require_command_value = true;
+    if (splitedValue.length == 1) {
+      this._word_command = Helper.stripDashes(splitedValue[0]);
+    } else {
+      this._word_command = Helper.stripDashes(splitedValue[0]);
+      splitedValue.splice(0, 1);
+      splitedValue.forEach((value) => {
+        if (Helper.containsBrackets(value)) {
+          // Command Here
+          if (Helper.containsQuestionMark(value)) {
+            this.command_arguments.push(
+              {
+                argument: Helper.stripBrackets(Helper.stripQuestionMark(value)),
+                isRequired: false,
+              },
+            );
+          } else {
+            this.command_arguments.push(
+              { argument: Helper.stripBrackets(value), isRequired: true },
+            );
+          }
         }
-        break;
+        if (Helper.containsCurlyBrackets(value)) {
+          // Options Here
+        }
+      });
     }
   }
 

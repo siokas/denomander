@@ -2,7 +2,7 @@ import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
 import { Util } from "./Util.ts";
-import { OnCommand, ValidationRules } from "./types.ts";
+import { OnCommand, ValidationRules, CommandArgument } from "./types.ts";
 import { Helper } from "./Helper.ts";
 import { Option } from "./Option.ts";
 import { Validator } from "./Validator.ts";
@@ -47,43 +47,6 @@ export class Executor {
     return this;
   }
 
-  /** It generates the required option app variables. (ex. program.message="initial commit") */
-  public requiredOptionValues(): Executor {
-    new Validator({
-      app: this.app,
-      args: this.args,
-      rules: [
-        ValidationRules.REQUIRED_OPTIONS,
-      ],
-    }).validate();
-
-    const commandArgsWithRequiredValues = Util.commandArgsWithRequiredValues(
-      this.args,
-      this.app,
-    );
-
-    commandArgsWithRequiredValues.forEach((arg: string, key: number) => {
-      const command: Command | undefined = Util.findCommandFromArgs(
-        this.app.commands,
-        arg,
-      );
-
-      if (command) {
-        command.value = this.args.commands[key + 1];
-        if (command.word_command) {
-          this.app[command.word_command] = command.value;
-        }
-        this.app.commands = Util.removeCommandFromArray(
-          this.app.commands,
-          this.args.commands[key + 1],
-        );
-        delete this.args.commands[key + 1];
-      }
-    });
-
-    return this;
-  }
-
   /** It generates the command app variables (ex. program.clone="url...") */
   public commandValues(): Executor {
     new Validator({
@@ -94,17 +57,22 @@ export class Executor {
       ],
     }).validate();
 
-    this.args.commands.forEach((arg: string) => {
+    this.args.commands.forEach((arg: string, key: number) => {
       const command: Command | undefined = Util.findCommandFromArgs(
         this.app.commands,
         arg,
       );
       if (command && command.word_command) {
-        if (command.require_command_value) {
-          this.app[command.word_command] = command.value;
-        } else {
-          this.app[command.word_command] = true;
-        }
+        this.app[command.word_command] = true;
+
+        command.command_arguments.forEach((commandArg: CommandArgument) => {
+          commandArg.value = this.args.commands[key + 1];
+          this.args.commands.splice(key + 1, 1);
+
+          if (commandArg.value) {
+            this.app[commandArg.argument] = commandArg.value;
+          }
+        });
       }
     });
 
@@ -118,6 +86,7 @@ export class Executor {
       args: this.args,
       rules: [
         ValidationRules.NON_DECLEARED_ARGS,
+        ValidationRules.REQUIRED_OPTIONS,
       ],
     }).validate();
     for (const key in this.args.options) {
@@ -185,12 +154,15 @@ export class Executor {
     this.app.available_actions.forEach((command: Command) => {
       if (this.args) {
         if (Util.isCommandInArgs(command, this.args)) {
-          if (command.action.length == 0) {
+          if (command.command_arguments.length == 0) {
             command.action();
-          } else if (command.action.length == 1) {
-            if (command.word_command) {
-              command.action(command.value);
-            }
+          } else {
+            let params: any = {};
+            command.command_arguments.forEach((commandArg: CommandArgument) => {
+              params[commandArg.argument] = commandArg.value;
+            });
+
+            command.action(params);
           }
         }
       }

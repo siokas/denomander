@@ -128,8 +128,8 @@ export abstract class Kernel {
       new Executor(this, this.args)
         .onCommands()
         .defaultCommands()
-        .requiredOptionValues()
         .commandValues()
+        // .requiredOptionValues()
         .optionValues()
         .actionCommands();
     }

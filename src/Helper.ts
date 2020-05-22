@@ -6,9 +6,29 @@ export class Helper {
       text.substr(2, text.length - 1);
   }
 
+  /** It removes dashes from a string */
+  public static stripBrackets(text: string): string {
+    return text.replace(/\[/g, "").replace(/\]/g, "");
+  }
+
+  /** It removes dashes from a string */
+  public static stripQuestionMark(text: string): string {
+    return text.replace(/\?/g, "");
+  }
+
   /** Detects if a strign contains brackets */
   public static containsBrackets(text: string): boolean {
     return text.match(/\[(.*?)\]/) ? true : false;
+  }
+
+  /** Detects if a strign contains curly brackets */
+  public static containsCurlyBrackets(text: string): boolean {
+    return text.match(/\{(.*?)\}/) ? true : false;
+  }
+
+  /** Detects if a strign contains curly brackets */
+  public static containsQuestionMark(text: string): boolean {
+    return text.match(/\?/) ? true : false;
   }
 
   /** It trims of the empty spaces from the given string */

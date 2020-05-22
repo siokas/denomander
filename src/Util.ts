@@ -3,7 +3,7 @@ import { Command } from "./Command.ts";
 import { Helper } from "./Helper.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
-import { CustomArgs, AppDetails } from "./types.ts";
+import { CustomArgs, AppDetails, CommandArgument } from "./types.ts";
 import { Option } from "./Option.ts";
 
 /** Specific functionality */
@@ -45,19 +45,33 @@ export class Util {
       console.log();
     }
     console.log(yellow(bold("Command Usage:")));
-    console.log(command.usage + " {options}");
+    if (command.hasOptions()) {
+      console.log(command.usage + " {Options}");
+    } else {
+      console.log(command.usage);
+    }
     console.log();
+
+    if (command.command_arguments.length > 0) {
+      console.log(yellow(bold("Arguments:")));
+      command.command_arguments.forEach((commandArg: CommandArgument) => {
+        console.log(
+          green(`${commandArg.argument}${commandArg.isRequired ? "" : "?"}`),
+        );
+      });
+      console.log();
+    }
     if (command.hasRequiredOptions()) {
       console.log(yellow(bold("Required Options:")));
       command.requiredOptions.forEach((option) =>
-        console.log(option.flags + " \t " + option.description)
+        console.log(green(option.flags) + " \t " + option.description)
       );
       console.log();
     }
     console.log(yellow(bold("Options:")));
     command.options.forEach((option) => {
       if (!option.isRequired) {
-        console.log(option.flags + " \t " + option.description);
+        console.log(green(option.flags) + " \t " + option.description);
       }
     });
     console.log();

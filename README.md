@@ -89,14 +89,17 @@ program
 ```
 
 ### Commands
-There are two ways to implement the command options. The first is to use an action handler by calling the __action()__ method immediately after the command definition passing the callback function and the second is with custom one-line implementation.
+There are two ways to implement the commands. The first is to use an action handler by calling the __action()__ method immediately after the command definition passing the callback function and the second is with custom one-line implementation. __Multiple command arguments are now supported!__
 
 #### Action Handler
+
+> The argument(s) passed in the callback function is now an object so you may destructure the object and take your variable which has the same name with your command declaration!
+
 ```javascript
 program
   .command("clone [foldername]")
   .description("clone a repo")
-  .action((foldername) => {
+  .action(({foldername}:any) => {
     console.log("The repo is cloned into: " + foldername);
   });
 
@@ -150,10 +153,11 @@ In order to change the default commands (help, version) just call the correspond
 
 -  [ ] Custom option processing
 -  [ ] More examples
+-  [ ] More tests
 -  [ ] Easy Error Customization
 -  [ ] Documentation
--  [ ] Add more tests
 -  [ ] Chanage --help default output
+-  [X] Command with multiple arguments
 
 ## Used
 

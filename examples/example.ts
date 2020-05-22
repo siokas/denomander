@@ -23,8 +23,14 @@ program
 
 program
   .command("clone [foldername]")
-  .action((test: any) => {
-    colored_output("The repo is cloned into: " + test);
+  .action(({ foldername }: any) => {
+    colored_output("The repo is cloned into: " + foldername);
+  }).description("clone a repo");
+
+program
+  .command("mv [from] [to]")
+  .action(({ from, to }: any) => {
+    colored_output(`File is moved from ${from} to ${to}`);
   }).description("clone a repo");
 
 program.on("quiet", () => {

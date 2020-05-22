@@ -77,6 +77,12 @@ export type AliasCommandBuilder = {
   alias: string;
 };
 
+export type CommandArgument = {
+  argument: string;
+  value?: any;
+  isRequired: boolean;
+};
+
 /* Enum containing the Validation Rules */
 export enum ValidationRules {
   REQUIRED_OPTIONS,

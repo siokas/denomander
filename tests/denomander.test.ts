@@ -52,7 +52,7 @@ test("action_command", function () {
 
   program
     .command("clone [foldername]")
-    .action((foldername: string) => {
+    .action(({ foldername }: any) => {
       result = foldername;
     });
 
