@@ -167,12 +167,45 @@ In order to change the default commands (help, version) just call the correspond
   program.parse(args);
 ```
 
+## Customize error messages
+
+There are two ways to change the error messages. You may pass a fourth argument in new Denomander() constructor (errors object) or you may call the .errorMessages() method again passing the error messages in object.
+1.
+```javascript
+const program = new Denomander(
+  {
+    app_name: "My MY App",
+    app_description: "My MY Description",
+    app_version: "1.0.1",
+    errors: {
+      INVALID_RULE: "Invalid Rule",
+      OPTION_NOT_FOUND: "Option not found!",
+      COMMAND_NOT_FOUND: "Command not found!",
+      REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
+      REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
+      TOO_MANY_PARAMS: "You have passed too many parameters",
+    }
+  },
+);
+```
+2.
+```javascript
+program.errorMessages({
+  INVALID_RULE: "Invalid Rule",
+  OPTION_NOT_FOUND: "Option not found!",
+  COMMAND_NOT_FOUND: "Command not found!",
+  REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
+  REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
+  TOO_MANY_PARAMS: "You have passed too many parameters",
+});
+```
+
 ## ToDo
 
 -  [ ] Custom option processing
 -  [ ] More examples
 -  [ ] More tests
--  [ ] Easy Error Customization
+-  [X] Easy Error Customization
 -  [ ] Documentation
 -  [ ] Chanage --help default output
 -  [X] Command with multiple arguments

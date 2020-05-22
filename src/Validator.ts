@@ -1,4 +1,3 @@
-import * as CustomError from "../custom_errors.ts";
 import { Util } from "./Util.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
@@ -64,7 +63,10 @@ export class Validator implements ValidatorContract {
         case ValidationRules.BASE_COMMAND_OPTIONS:
           return this.validateBaseCommandOptions();
         default:
-          return { passed: false, error: CustomError.VALIDATION_INVALID_RULE };
+          return {
+            passed: false,
+            error: new Error(this.app.errors.INVALID_RULE),
+          };
       }
     });
   }
@@ -105,7 +107,7 @@ export class Validator implements ValidatorContract {
         if (!found.length) {
           result = {
             passed: false,
-            error: CustomError.VALIDATION_REQUIRED_OPTIONS_NOT_FOUND,
+            error: new Error(this.app.errors.REQUIRED_OPTION_NOT_FOUND),
           };
         }
       }
@@ -130,7 +132,7 @@ export class Validator implements ValidatorContract {
           ) {
             result = {
               passed: false,
-              error: CustomError.VALIDATION_REQUIRED_VALUE_NOT_FOUND,
+              error: new Error(this.app.errors.REQUIRED_VALUE_NOT_FOUND),
             };
           }
         }
@@ -158,7 +160,7 @@ export class Validator implements ValidatorContract {
       if (!command && !option) {
         result = {
           passed: false,
-          error: CustomError.VALIDATION_COMMAND_NOT_FOUND,
+          error: new Error(this.app.errors.COMMAND_NOT_FOUND),
         };
       }
     });
@@ -181,7 +183,7 @@ export class Validator implements ValidatorContract {
         } else {
           result = {
             passed: false,
-            error: CustomError.VALIDATION_TOO_MANY_PARAMS,
+            error: new Error(this.app.errors.TOO_MANY_PARAMS),
           };
         }
       }
@@ -199,7 +201,7 @@ export class Validator implements ValidatorContract {
       if (!found) {
         result = {
           passed: false,
-          error: CustomError.VALIDATION_COMMAND_NOT_FOUND,
+          error: new Error(this.app.errors.COMMAND_NOT_FOUND),
         };
       }
     });
@@ -231,7 +233,7 @@ export class Validator implements ValidatorContract {
           if (!found_in_base_commands && !found_in_all_commands) {
             result = {
               passed: false,
-              error: CustomError.VALIDATION_OPTION_NOT_FOUND,
+              error: new Error(this.app.errors.OPTION_NOT_FOUND),
             };
           }
         }
@@ -253,7 +255,7 @@ export class Validator implements ValidatorContract {
       if (!option) {
         result = {
           passed: false,
-          error: CustomError.VALIDATION_OPTION_NOT_FOUND,
+          error: new Error(this.app.errors.OPTION_NOT_FOUND),
         };
       }
     }

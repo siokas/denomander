@@ -10,6 +10,7 @@ import {
   ValidationRules,
   OptionBuilder,
   AliasCommandBuilder,
+  DenomanderErrors,
 } from "./types.ts";
 import { Option } from "./Option.ts";
 
@@ -66,12 +67,24 @@ export abstract class Kernel {
   /** Arguments passed by the user during runtime */
   protected _args: CustomArgs = {};
 
+  public errors: DenomanderErrors = {
+    INVALID_RULE: "Invalid Rule",
+    OPTION_NOT_FOUND: "Option not found!",
+    COMMAND_NOT_FOUND: "Command not found!",
+    REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
+    REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
+    TOO_MANY_PARAMS: "You have passed too many parameters",
+  };
+
   /** Constructor of AppDetails object */
   constructor(app_details?: AppDetails) {
     if (app_details) {
       this._app_name = app_details.app_name;
       this._app_description = app_details.app_description;
       this._app_version = app_details.app_version;
+      if (app_details.errors) {
+        this.errors = app_details.errors;
+      }
     } else {
       this._app_name = "My App";
       this._app_description = "My Description";
@@ -113,6 +126,10 @@ export abstract class Kernel {
     this._app_version = version;
   }
 
+  public errorMessages(errors: DenomanderErrors) {
+    this.errors = errors;
+  }
+
   /** Do some necessary setup */
   protected setup(): Kernel {
     return this
@@ -129,7 +146,6 @@ export abstract class Kernel {
         .onCommands()
         .defaultCommands()
         .commandValues()
-        // .requiredOptionValues()
         .optionValues()
         .actionCommands();
     }

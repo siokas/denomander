@@ -7,6 +7,7 @@ export type AppDetails = {
   app_name: string;
   app_description: string;
   app_version: string;
+  errors?: DenomanderErrors;
 };
 
 /** Defines the .on() command options */
@@ -81,6 +82,15 @@ export type CommandArgument = {
   argument: string;
   value?: any;
   isRequired: boolean;
+};
+
+export type DenomanderErrors = {
+  INVALID_RULE: string;
+  OPTION_NOT_FOUND: string;
+  COMMAND_NOT_FOUND: string;
+  REQUIRED_OPTION_NOT_FOUND: string;
+  REQUIRED_VALUE_NOT_FOUND: string;
+  TOO_MANY_PARAMS: string;
 };
 
 /* Enum containing the Validation Rules */

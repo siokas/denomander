@@ -3,7 +3,6 @@ import { Command } from "./Command.ts";
 import { Kernel } from "./Kernel.ts";
 import { PublicAPI } from "./interfaces.ts";
 import { VersionType } from "./types.ts";
-import { DenomanderError } from "./DenomanderError.ts";
 
 /** The main class */
 export class Denomander extends Kernel implements PublicAPI {

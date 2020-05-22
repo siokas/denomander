@@ -6,6 +6,14 @@ const program = new Denomander(
     app_name: "My MY App",
     app_description: "My MY Description",
     app_version: "1.0.1",
+    errors: {
+      INVALID_RULE: "Invalid Rule",
+      OPTION_NOT_FOUND: "Option not found!",
+      COMMAND_NOT_FOUND: "Command not found!",
+      REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
+      REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
+      TOO_MANY_PARAMS: "You have passed too many parameters",
+    },
   },
 );
 
