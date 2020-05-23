@@ -36,8 +36,6 @@ export class Executor {
                 Util.printCommandHelp(command!);
                 Deno.exit(0);
               }
-
-              this.app[option.word_option] = option.value;
             }
           });
         }
@@ -100,7 +98,11 @@ export class Executor {
           if (option.word_option === key || option.letter_option === key) {
             if (command.word_command) {
               option.value = this.args.options[key];
-              this.app[command.word_command] = this.args.options[key];
+              if (option.callback) {
+                option.value = option.callback(option.value);
+              }
+              this.app[option.word_option] = option.value;
+              this.app[command.word_command] = option.value;
             }
           }
         });

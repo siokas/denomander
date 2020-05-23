@@ -1,6 +1,7 @@
 import { Helper } from "./Helper.ts";
 import { Util } from "./Util.ts";
 import { Command } from "./Command.ts";
+import { OptionParameters } from "./types.ts";
 
 /**
   * Option class 
@@ -21,6 +22,9 @@ export class Option {
   /** If the option is required */
   public isRequired: boolean;
 
+  /** The custom option processing function */
+  public callback: Function | undefined;
+
   /** Holds the short flag (-p). One letter command */
   protected _letter_option?: string;
 
@@ -31,16 +35,14 @@ export class Option {
   protected _value: any;
 
   /** Constructor of Command object */
-  constructor(
-    flags: string,
-    description: string,
-    command: Command,
-    isRequired = false,
-  ) {
-    this.flags = flags;
-    this.description = description;
-    this.command = command;
-    this.isRequired = isRequired;
+  constructor(params: OptionParameters) {
+    this.flags = params.flags;
+    this.description = params.description;
+    this.command = params.command;
+    this.isRequired = params.isRequired || false;
+    if (params.callback) {
+      this.callback = params.callback;
+    }
 
     this.splitFlags();
   }
