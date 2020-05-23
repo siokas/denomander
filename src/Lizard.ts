@@ -61,21 +61,33 @@ export class Lizard {
   }
 
   /** Define an option that belongs to the latest defined command */
-  public option(flags: string, description: string) {
+  public option(flags: string, description: string, callback?: Function) {
     const command: Command = this.app.commands.slice(-1)[0];
 
     if (command) {
-      command.addOption({ flags, description });
+      if (callback) {
+        command.addOption({ flags, description, callback });
+      } else {
+        command.addOption({ flags, description });
+      }
     }
     return this;
   }
 
   /** Define a required option that belongs to the latest defined command */
-  public requiredOption(flags: string, description: string) {
+  public requiredOption(
+    flags: string,
+    description: string,
+    callback?: Function,
+  ) {
     const command: Command = this.app.commands.slice(-1)[0];
 
     if (command) {
-      command.addOption({ flags, description, isRequired: true });
+      if (callback) {
+        command.addOption({ flags, description, callback, isRequired: true });
+      } else {
+        command.addOption({ flags, description, isRequired: true });
+      }
     }
     return this;
   }

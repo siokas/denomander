@@ -51,11 +51,47 @@ export class Command {
     let option: Option;
 
     if (params.isRequired) {
-      option = new Option(params.flags, params.description, this, true);
+      if (params.callback) {
+        option = new Option(
+          {
+            flags: params.flags,
+            description: params.description,
+            command: this,
+            isRequired: true,
+            callback: params.callback,
+          },
+        );
+      } else {
+        option = new Option(
+          {
+            flags: params.flags,
+            description: params.description,
+            command: this,
+            isRequired: true,
+          },
+        );
+      }
       this.options.push(option);
       this.requiredOptions.push(option);
     } else {
-      option = new Option(params.flags, params.description, this);
+      if (params.callback) {
+        option = new Option(
+          {
+            flags: params.flags,
+            description: params.description,
+            command: this,
+            callback: params.callback,
+          },
+        );
+      } else {
+        option = new Option(
+          {
+            flags: params.flags,
+            description: params.description,
+            command: this,
+          },
+        );
+      }
       this.options.push(option);
     }
 
