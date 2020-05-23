@@ -88,6 +88,35 @@ program
   .parse(Deno.args);
 ```
 
+### Custom option processing
+
+You may specify a function to do custom processing of option values. The callback function recieves a parameter of the pre-processed value.
+
+```javascript
+function parseInteger(value: string): number {
+  return parseInt(value);
+}
+
+function upercase(text: string): string {
+  return text.toUpperCase();
+}
+
+program
+  .command("multiply", "Multiply x and y options")
+  .option("-x --xnumber", "First Number", parseInteger)
+  .option("-y --ynumber", "First Number", parseInteger)
+  .action(() => {
+    console.log(program.xnumber * program.ynumber);
+  });
+
+program
+  .command("commit", "Commit Description")
+  .requiredOption("-m --message", "Commit Message", upercase)
+  .action(() => {
+    console.log(program.message);
+  });
+```
+
 ### Commands
 There are two ways to implement the commands. The first is to use an action handler by calling the __action()__ method immediately after the command definition passing the callback function and the second is with custom one-line implementation. __Multiple command arguments are now supported!__
 
@@ -202,7 +231,7 @@ program.errorMessages({
 
 ## ToDo
 
--  [ ] Custom option processing
+-  [X] Custom option processing
 -  [ ] More examples
 -  [ ] More tests
 -  [X] Easy Error Customization
