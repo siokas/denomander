@@ -106,20 +106,22 @@ export class Util {
   /** It returns the command instance if founded in given arguments */
   public static findCommandFromArgs(
     array: Array<Command>,
-    arg: string,
+    arg: string | number,
   ): Command | undefined {
     return array.find((command: Command) => {
-      if (command.word_command === Helper.stripDashes(arg)) {
-        return command;
-      }
-      if (command.hasAlias()) {
-        let aliasFound = command.aliases.find((alias) => {
-          if (alias === Helper.stripDashes(arg)) {
-            return alias;
-          }
-        });
-        if (aliasFound) {
+      if (typeof arg === "string") {
+        if (command.word_command === Helper.stripDashes(arg)) {
           return command;
+        }
+        if (command.hasAlias()) {
+          let aliasFound = command.aliases.find((alias) => {
+            if (alias === Helper.stripDashes(arg)) {
+              return alias;
+            }
+          });
+          if (aliasFound) {
+            return command;
+          }
         }
       }
     });

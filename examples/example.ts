@@ -23,7 +23,7 @@ program
 
 program
   .command("serve", "Start the server")
-  .alias("superserve", "the-big-three")
+  .alias("superserve", "master-server")
   .requiredOption("-p --port", "Define the port")
   .action(() => {
     colored_output("http://localhost:" + program.port);
@@ -42,7 +42,7 @@ program
     if (message) {
       console.log(message);
     }
-  }).description("clone a repo");
+  }).description("move file");
 
 program.on("quiet", () => {
   console.log("Enable Quiet Mode...");

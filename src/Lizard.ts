@@ -15,7 +15,7 @@ export class Lizard {
   }
 
   /** Setup all the details of the app at once (name, description, version) */
-  public appDetails(app_details: AppDetails) {
+  public appDetails(app_details: AppDetails): Lizard {
     this.app.app_name = app_details.app_name;
     this.app.app_description = app_details.app_description;
     this.app.app_version = app_details.app_version;
@@ -24,35 +24,35 @@ export class Lizard {
   }
 
   /** Setup the name of the app */
-  public appName(name: string) {
+  public appName(name: string): Lizard {
     this.app.app_name = name;
 
     return this;
   }
 
   /** Setup the description of the app */
-  public appDescription(description: string) {
+  public appDescription(description: string): Lizard {
     this.app.app_description = description;
 
     return this;
   }
 
   /** Setup the version of the app */
-  public appVersion(version: string) {
+  public appVersion(version: string): Lizard {
     this.app.app_version = version;
 
     return this;
   }
 
   /** Define a command */
-  public command(name: string, callback: Function) {
+  public command(name: string, callback: Function): Lizard {
     this.app.command(name).action(callback);
     this.allCommands.push(name);
     return this;
   }
 
   /** Define a description for the previous defined command */
-  public describe(text: string) {
+  public describe(text: string): Lizard {
     const command: Command = this.app.commands.slice(-1)[0];
     if (command) {
       command.description = text;
@@ -61,7 +61,11 @@ export class Lizard {
   }
 
   /** Define an option that belongs to the latest defined command */
-  public option(flags: string, description: string, callback?: Function) {
+  public option(
+    flags: string,
+    description: string,
+    callback?: Function,
+  ): Lizard {
     const command: Command = this.app.commands.slice(-1)[0];
 
     if (command) {
@@ -79,7 +83,7 @@ export class Lizard {
     flags: string,
     description: string,
     callback?: Function,
-  ) {
+  ): Lizard {
     const command: Command = this.app.commands.slice(-1)[0];
 
     if (command) {
@@ -89,6 +93,16 @@ export class Lizard {
         command.addOption({ flags, description, isRequired: true });
       }
     }
+    return this;
+  }
+
+  public alias(...aliases: Array<string>): Lizard {
+    const command: Command = this.app.commands.slice(-1)[0];
+
+    if (command) {
+      aliases.forEach((alias) => command.addAlias(alias));
+    }
+
     return this;
   }
 
