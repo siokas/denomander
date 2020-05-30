@@ -1,12 +1,12 @@
-import { Lizard, program } from "./mod.ts";
+import { Lizard, program } from "https://deno.land/x/denomander/mod.ts";
 
 Lizard.appDetails({
-  app_name: "Lizyxs",
+  app_name: "Lizy",
   app_description: "A new Lizard App",
-  app_version: "81.0.0",
+  app_version: "1.0.0",
 });
 
-Lizard.command("clone [url]", clone).alias("spar")
+Lizard.command("clone [url]", clone)
   .option("-c, --color", "the color")
   .option("-d, --dcolor", "the color")
   .describe(
