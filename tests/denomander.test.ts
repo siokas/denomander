@@ -100,16 +100,16 @@ test("alias", function () {
   assertEquals(result, "githubtest");
 });
 
-test("command_argument_parse_number_0", function() {
+test("command_argument_parse_number_0", function () {
   const program = new Denomander();
   const args = ["foo", "0"];
 
   let result = 1;
 
   program.command("foo [bar]", "Foo")
-  .action(({bar}:any) =>{
-    result = bar;
-  });
+    .action(({ bar }: any) => {
+      result = bar;
+    });
 
   program.parse(args);
 

@@ -16,7 +16,9 @@ test("command_option", function () {
     description: "Create a new file",
   });
 
-  command.addOption({ flags: "-p --port", description: "Description goes here"});
+  command.addOption(
+    { flags: "-p --port", description: "Description goes here" },
+  );
 
   assertEquals(command.hasOptions(), true);
   assertEquals(command.options[0].word_option, "help");
@@ -30,7 +32,13 @@ test("command_required_option", function () {
     description: "Create a new file",
   });
 
-  command.addOption({ flags: "-p --port", description: "Description goes here", isRequired: true});
+  command.addOption(
+    {
+      flags: "-p --port",
+      description: "Description goes here",
+      isRequired: true,
+    },
+  );
 
   assertEquals(command.hasOptions(), true);
   assertEquals(command.options[0].word_option, "help");
