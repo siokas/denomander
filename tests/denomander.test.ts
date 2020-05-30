@@ -60,3 +60,42 @@ test("action_command", function () {
 
   assertEquals(result, "githubtest");
 });
+
+test("option_processing", function () {
+  const program = new Denomander();
+  const args = ["upper", "--message=test"];
+
+  let uppercaseMessage = "";
+  const uppercase = (text: string): string => {
+    return text.toUpperCase();
+  };
+
+  program
+    .command("upper", "Make string uprcase")
+    .requiredOption("-m --message", "Message to convert", uppercase)
+    .action(() => {
+      uppercaseMessage = program.message;
+    });
+
+  program.parse(args);
+
+  assertEquals(uppercaseMessage, "TEST");
+});
+
+test("alias", function () {
+  const program = new Denomander();
+  const args = ["aliasClone", "githubtest"];
+
+  let result = "";
+
+  program
+    .command("clone [foldername]")
+    .alias("aliasClone")
+    .action(({ foldername }: any) => {
+      result = foldername;
+    });
+
+  program.parse(args);
+
+  assertEquals(result, "githubtest");
+});
