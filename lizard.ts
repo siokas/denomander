@@ -13,7 +13,7 @@ Lizard.command("clone [url]", clone)
     "this is a description",
   );
 
-Lizard.command("pull [repo]", (repo: string) => {
+Lizard.command("pull [repo]", ({ repo }: any) => {
   if (program.force) {
     console.log(`pull from ${repo} with force`);
   } else {
@@ -23,7 +23,7 @@ Lizard.command("pull [repo]", (repo: string) => {
   "This is a pull command",
 );
 
-function clone(url: string) {
+function clone({ url }: any) {
   console.log("clone from ..." + url);
 }
 
