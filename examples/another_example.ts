@@ -18,10 +18,10 @@ function upercase(text: string): string {
 
 program
   .command("add [title]", "Multiply x and y options")
-  .action((note:any) => {
+  .action((note: any) => {
     //   const [title, body] = note.split(":");
-      console.log(note.title);
-  })
+    console.log(note.title);
+  });
 
 try {
   program.parse(Deno.args);
