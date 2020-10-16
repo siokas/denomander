@@ -1,4 +1,4 @@
-import { red, green, blue } from "../deps.ts";
+import { blue, green, red } from "../deps.ts";
 import Denomander from "../mod.ts";
 
 const program = new Denomander(
