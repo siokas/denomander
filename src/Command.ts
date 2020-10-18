@@ -1,5 +1,5 @@
 import { Helper } from "./Helper.ts";
-import { CommandOption, CommandParams, CommandArgument } from "./types.ts";
+import { CommandArgument, CommandOption, CommandParams } from "./types.ts";
 import { Option } from "./Option.ts";
 
 /* Command class */
