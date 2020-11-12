@@ -4,11 +4,11 @@ import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
 import { ValidatorContract } from "./interfaces.ts";
 import {
-  ValidatorOptions,
-  ValidationResult,
-  TempOnCommand,
-  ValidationRules,
   OnCommand,
+  TempOnCommand,
+  ValidationResult,
+  ValidationRules,
+  ValidatorOptions,
 } from "./types.ts";
 import { Option } from "./Option.ts";
 import { Helper } from "./Helper.ts";

@@ -2,7 +2,7 @@ import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
 import { Util } from "./Util.ts";
-import { OnCommand, ValidationRules, CommandArgument } from "./types.ts";
+import { CommandArgument, OnCommand, ValidationRules } from "./types.ts";
 import { Helper } from "./Helper.ts";
 import { Option } from "./Option.ts";
 import { Validator } from "./Validator.ts";

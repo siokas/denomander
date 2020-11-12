@@ -1,7 +1,5 @@
 import { assertEquals, test } from "../deps.ts";
-import {
-  Helper,
-} from "../src/Helper.ts";
+import { Helper } from "../src/Helper.ts";
 
 test("strip_dashes", function () {
   assertEquals(Helper.stripDashes("--test"), "test");

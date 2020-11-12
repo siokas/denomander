@@ -4,13 +4,13 @@ import { Arguments } from "./Arguments.ts";
 import { Executor } from "./Executor.ts";
 import { Util } from "./Util.ts";
 import {
-  OnCommand,
-  CustomArgs,
-  AppDetails,
-  ValidationRules,
-  OptionBuilder,
   AliasCommandBuilder,
+  AppDetails,
+  CustomArgs,
   DenomanderErrors,
+  OnCommand,
+  OptionBuilder,
+  ValidationRules,
 } from "./types.ts";
 import { Option } from "./Option.ts";
 

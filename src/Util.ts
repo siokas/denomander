@@ -1,9 +1,9 @@
-import { green, yellow, red, bold } from "../deps.ts";
+import { bold, green, red, yellow } from "../deps.ts";
 import { Command } from "./Command.ts";
 import { Helper } from "./Helper.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
-import { CustomArgs, AppDetails, CommandArgument } from "./types.ts";
+import { AppDetails, CommandArgument, CustomArgs } from "./types.ts";
 import { Option } from "./Option.ts";
 
 /** Specific functionality */
