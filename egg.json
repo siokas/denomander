@@ -1,10 +1,10 @@
 {
-                                "name": "denomander",
-                                "description": "Deno command-line interfaces made easy",
-                                "homepage": "https://github.com/siokas/denomander",
-                                "files": [
-                                  "./**/*.ts",
-                                  "README.md"
-                                ],
-                                "entry": "./mod.ts"
-                              }
+  "name": "denomander",
+  "description": "Deno command-line interfaces made easy",
+  "homepage": "https://github.com/siokas/denomander",
+  "files": [
+    "./**/*.ts",
+    "README.md"
+  ],
+  "entry": "./mod.ts"
+}
