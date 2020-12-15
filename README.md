@@ -2,7 +2,7 @@
 <p align="center">
 <img alt="Github Actions" src="https://github.com/siokas/denomander/workflows/DenoCI/badge.svg?branch=master">
 <a href="https://app.codacy.com/manual/apostolossiokas/denomander?utm_source=github.com&utm_medium=referral&utm_content=siokas/denomander&utm_campaign=Badge_Grade_Dashboard"> <img src="https://api.codacy.com/project/badge/Grade/b9b7465c7a7e40b5af20edc6c9eb5cdf"></a>
-<img alt="deno version" src="https://img.shields.io/badge/deno-1.0.0-blue">
+<img alt="deno version" src="https://img.shields.io/badge/deno-1.6.1-blue">
 </p>
 
 _Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces. It is inspired from [commander.js](https://github.com/tj/commander.js) by [tj](https://github.com/tj) which is the node's version.
@@ -16,8 +16,14 @@ _Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces
 
 ## Installation
 
+Using Deno Land
 ```javascript
 import Denomander from "https://deno.land/x/denomander/mod.ts";
+```
+
+Using Nest Land
+```javascript
+import Denomander from "https://x.nest.land/denomander@0.63.2/mod.ts";
 ```
 
 ## Usage example
