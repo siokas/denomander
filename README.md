@@ -1,5 +1,6 @@
 <p align="center"><img src="https://raw.githubusercontent.com/siokas/siokas.github.io/master/img/denomander.png" width="256"></p>
 <p align="center">
+<img alt="Github Actions" src="https://github.com/siokas/denomander/workflows/DenoCI/badge.svg?branch=master">
 <img alt="deno version" src="https://img.shields.io/badge/deno-1.6.1-blue">
 <a href="https://nest.land/package/denomander"><img src="https://nest.land/badge.svg" alt="Published on nest.land" /></a>
 </p>
