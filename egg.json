@@ -2,6 +2,7 @@
   "name": "denomander",
   "description": "Deno command-line interfaces made easy",
   "homepage": "https://github.com/siokas/denomander",
+  "version": "0.7.0",
   "files": [
     "./**/*.ts",
     "README.md"
