@@ -114,7 +114,7 @@ export class Util {
           return command;
         }
         if (command.hasAlias()) {
-          let aliasFound = command.aliases.find((alias) => {
+          const aliasFound = command.aliases.find((alias) => {
             if (alias === Helper.stripDashes(arg)) {
               return alias;
             }
