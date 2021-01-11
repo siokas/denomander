@@ -1,0 +1,453 @@
+Arguments:
+  publish
+
+Deno version:
+  deno: 1.6.3
+  v8: 8.8.294
+  typescript: 4.1.3
+
+Eggs version:
+  0.3.4
+
+Platform:
+  x86_64-apple-darwin
+
+2021-01-11T10:04:37.557Z [DEBUG]    Raw config: {
+  name: "denomander",
+  entry: "./mod.ts",
+  description: "Deno command-line interfaces made easy",
+  homepage: "https://github.com/siokas/denomander",
+  unstable: true,
+  unlisted: false,
+  version: "0.7.02",
+  releaseType: "patch",
+  files: [ "./mod.ts", "./deps.ts", "./bootstrap.ts", "./src/**/*", "./README.md" ],
+  ignore: [ ".git" ],
+  checkFormat: "deno fmt",
+  checkTests: "deno test",
+  checkInstallation: true,
+  check: true
+}
+2021-01-11T10:04:37.559Z [DEBUG]    Ignore: {
+  accepts: [],
+  denies: [ /^\.git[^/]*\/+(?:[^/]*(?:\/|$)+)*$/, /^\.vscode\/+(?:[^/]*(?:\/|$)+)*$/ ],
+  extends: []
+}
+2021-01-11T10:04:37.582Z [DEBUG]    Matched files: [
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/mod.ts",
+    path: "./mod.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 128,
+      mtime: 2020-11-12T14:47:05.400Z,
+      atime: 2020-11-12T14:52:44.346Z,
+      birthtime: 2020-11-12T14:47:05.399Z,
+      dev: 16777220,
+      ino: 4494548531,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/mod.ts",
+    path: "./mod.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 128,
+      mtime: 2020-11-12T14:47:05.400Z,
+      atime: 2020-11-12T14:52:44.346Z,
+      birthtime: 2020-11-12T14:47:05.399Z,
+      dev: 16777220,
+      ino: 4494548531,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/deps.ts",
+    path: "./deps.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 332,
+      mtime: 2020-12-14T23:47:58.457Z,
+      atime: 2020-12-14T23:58:43.591Z,
+      birthtime: 2020-11-12T14:47:05.406Z,
+      dev: 16777220,
+      ino: 4494548541,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/bootstrap.ts",
+    path: "./bootstrap.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 198,
+      mtime: 2020-11-12T14:47:05.398Z,
+      atime: 2020-12-14T23:47:39.974Z,
+      birthtime: 2020-11-12T14:47:05.398Z,
+      dev: 16777220,
+      ino: 4494548528,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Arguments.ts",
+    path: "./src/Arguments.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 1466,
+      mtime: 2020-05-23T12:29:32.048Z,
+      atime: 2020-11-10T14:28:09.075Z,
+      birthtime: 2020-05-23T12:29:32.048Z,
+      dev: 16777220,
+      ino: 4347606043,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Command.ts",
+    path: "./src/Command.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 5603,
+      mtime: 2020-11-12T14:47:05.400Z,
+      atime: 2020-11-12T14:52:44.346Z,
+      birthtime: 2020-11-12T14:47:05.400Z,
+      dev: 16777220,
+      ino: 4494548532,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 16
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Container.ts",
+    path: "./src/Container.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 422,
+      mtime: 2020-05-23T12:29:32.050Z,
+      atime: 2020-11-10T14:28:09.121Z,
+      birthtime: 2020-05-23T12:29:32.049Z,
+      dev: 16777220,
+      ino: 4347606045,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Denomander.ts",
+    path: "./src/Denomander.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 3315,
+      mtime: 2021-01-11T10:00:02.148Z,
+      atime: 2021-01-11T10:00:03.567Z,
+      birthtime: 2020-05-23T12:29:32.050Z,
+      dev: 16777220,
+      ino: 4347606046,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Executor.ts",
+    path: "./src/Executor.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 5206,
+      mtime: 2020-11-12T14:47:05.401Z,
+      atime: 2020-11-12T14:52:44.346Z,
+      birthtime: 2020-11-12T14:47:05.400Z,
+      dev: 16777220,
+      ino: 4494548533,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 16
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Helper.ts",
+    path: "./src/Helper.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 1296,
+      mtime: 2020-05-23T12:29:32.051Z,
+      atime: 2020-11-10T14:28:08.976Z,
+      birthtime: 2020-05-23T12:29:32.051Z,
+      dev: 16777220,
+      ino: 4347606048,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Kernel.ts",
+    path: "./src/Kernel.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 6200,
+      mtime: 2020-11-12T14:47:05.401Z,
+      atime: 2020-11-12T14:52:44.347Z,
+      birthtime: 2020-11-12T14:47:05.401Z,
+      dev: 16777220,
+      ino: 4494548534,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 16
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Lizard.ts",
+    path: "./src/Lizard.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 2945,
+      mtime: 2020-05-30T18:39:55.220Z,
+      atime: 2020-11-10T14:28:09.119Z,
+      birthtime: 2020-05-30T18:39:55.219Z,
+      dev: 16777220,
+      ino: 4348162738,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Option.ts",
+    path: "./src/Option.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 3385,
+      mtime: 2020-05-23T12:29:32.053Z,
+      atime: 2020-11-10T14:28:08.973Z,
+      birthtime: 2020-05-23T12:29:32.053Z,
+      dev: 16777220,
+      ino: 4347606051,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Util.ts",
+    path: "./src/Util.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 8912,
+      mtime: 2020-12-22T10:51:43.801Z,
+      atime: 2020-12-22T10:57:30.696Z,
+      birthtime: 2020-11-12T14:47:05.401Z,
+      dev: 16777220,
+      ino: 4494548535,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 24
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Validator.ts",
+    path: "./src/Validator.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 7578,
+      mtime: 2020-12-22T10:51:48.412Z,
+      atime: 2020-12-22T10:51:50.414Z,
+      birthtime: 2020-11-12T14:47:05.402Z,
+      dev: 16777220,
+      ino: 4494548536,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 16
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/interfaces.ts",
+    path: "./src/interfaces.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 834,
+      mtime: 2020-05-23T12:29:32.056Z,
+      atime: 2020-11-10T14:28:09.014Z,
+      birthtime: 2020-05-23T12:29:32.055Z,
+      dev: 16777220,
+      ino: 4347606054,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/types.ts",
+    path: "./src/types.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 2295,
+      mtime: 2020-05-30T18:39:55.222Z,
+      atime: 2020-11-10T14:28:11.127Z,
+      birthtime: 2020-05-30T18:39:55.222Z,
+      dev: 16777220,
+      ino: 4348162740,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/README.md",
+    path: "./README.md",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 9070,
+      mtime: 2021-01-11T09:58:49.080Z,
+      atime: 2021-01-11T09:58:49.555Z,
+      birthtime: 2021-01-11T09:58:49.080Z,
+      dev: 16777220,
+      ino: 4544073507,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 24
+    }
+  }
+]
+2021-01-11T10:04:37.847Z [INFO]     Source files are formatted.
+2021-01-11T10:04:38.044Z [INFO]     Tests passed successfully.
+2021-01-11T10:04:39.274Z [INFO]     No errors detected when installing the module.
+2021-01-11T10:04:39.275Z [DEBUG]    Config: {
+  name: "denomander",
+  entry: "./mod.ts",
+  description: "Deno command-line interfaces made easy",
+  homepage: "https://github.com/siokas/denomander",
+  unstable: true,
+  unlisted: false,
+  version: "0.7.02",
+  releaseType: "patch",
+  files: [ "./mod.ts", "./deps.ts", "./bootstrap.ts", "./src/**/*", "./README.md" ],
+  ignore: [ ".git" ],
+  checkFormat: "deno fmt",
+  checkTests: "deno test",
+  checkInstallation: true,
+  check: true
+}
+2021-01-11T10:04:40.637Z [CRITICAL] An unexpected error occurred: "Invalid Version: null" "TypeError: Invalid Version: null\n    at new SemVer (mod.ts:378:13)\n    at Module.compare (mod.ts:748:10)\n    at Command.publish [as fn] (publish.ts:322:20)\n    at async Command.execute (command.ts:785:9)\n    at async Command.parse (command.ts:720:14)\n    at async Command.parse (command.ts:677:14)\n    at async eggs.ts:74:23"

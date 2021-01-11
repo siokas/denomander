@@ -1,11 +1,24 @@
 {
   "name": "denomander",
+  "entry": "./mod.ts",
   "description": "Deno command-line interfaces made easy",
   "homepage": "https://github.com/siokas/denomander",
-  "version": "0.7.0",
+  "unstable": true,
+  "unlisted": false,
+  "version": "0.7.02",
+  "releaseType": "patch",
   "files": [
-    "./**/*.ts",
-    "README.md"
+      "./mod.ts",
+      "./deps.ts",
+      "./bootstrap.ts",
+      "./src/**/*",
+      "./README.md"
   ],
-  "entry": "./mod.ts"
+  "ignore": [
+      ".git"
+  ],
+  "checkFormat": "deno fmt",
+  "checkTests": "deno test",
+  "checkInstallation": true,
+  "check": false
 }
