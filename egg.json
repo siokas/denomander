@@ -5,20 +5,20 @@
   "homepage": "https://github.com/siokas/denomander",
   "unstable": true,
   "unlisted": false,
-  "version": "0.7.02",
+  "version": "0.8.1",
   "releaseType": "patch",
   "files": [
-      "./mod.ts",
-      "./deps.ts",
-      "./bootstrap.ts",
-      "./src/**/*",
-      "./README.md"
+    "./mod.ts",
+    "./deps.ts",
+    "./bootstrap.ts",
+    "./src/**/*",
+    "./README.md"
   ],
   "ignore": [
-      ".git"
+    ".git"
   ],
   "checkFormat": "deno fmt",
   "checkTests": "deno test",
   "checkInstallation": true,
-  "check": false
+  "check": true
 }

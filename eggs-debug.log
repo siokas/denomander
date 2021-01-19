@@ -12,7 +12,7 @@ Eggs version:
 Platform:
   x86_64-apple-darwin
 
-2021-01-11T10:04:37.557Z [DEBUG]    Raw config: {
+2021-01-19T12:10:46.269Z [DEBUG]    Raw config: {
   name: "denomander",
   entry: "./mod.ts",
   description: "Deno command-line interfaces made easy",
@@ -28,12 +28,16 @@ Platform:
   checkInstallation: true,
   check: true
 }
-2021-01-11T10:04:37.559Z [DEBUG]    Ignore: {
+2021-01-19T12:10:46.271Z [DEBUG]    Ignore: {
   accepts: [],
-  denies: [ /^\.git[^/]*\/+(?:[^/]*(?:\/|$)+)*$/, /^\.vscode\/+(?:[^/]*(?:\/|$)+)*$/ ],
+  denies: [
+    /^\.git[^/]*\/+(?:[^/]*(?:\/|$)+)*$/,
+    /^\.vscode\/+(?:[^/]*(?:\/|$)+)*$/,
+    /^(?:[^/]*(?:\/|$)+)*eggs-debug\.log\/*$/
+  ],
   extends: []
 }
-2021-01-11T10:04:37.582Z [DEBUG]    Matched files: [
+2021-01-19T12:10:46.304Z [DEBUG]    Matched files: [
   {
     fullPath: "/Users/apostolos/Documents/Code/deno/denomander/mod.ts",
     path: "./mod.ts",
@@ -86,8 +90,8 @@ Platform:
       isDirectory: false,
       isSymlink: false,
       size: 332,
-      mtime: 2020-12-14T23:47:58.457Z,
-      atime: 2020-12-14T23:58:43.591Z,
+      mtime: 2021-01-19T10:05:49.121Z,
+      atime: 2021-01-19T12:09:05.650Z,
       birthtime: 2020-11-12T14:47:05.406Z,
       dev: 16777220,
       ino: 4494548541,
@@ -151,9 +155,9 @@ Platform:
       isFile: true,
       isDirectory: false,
       isSymlink: false,
-      size: 5603,
-      mtime: 2020-11-12T14:47:05.400Z,
-      atime: 2020-11-12T14:52:44.346Z,
+      size: 5707,
+      mtime: 2021-01-19T11:36:39.090Z,
+      atime: 2021-01-19T12:09:05.650Z,
       birthtime: 2020-11-12T14:47:05.400Z,
       dev: 16777220,
       ino: 4494548532,
@@ -217,9 +221,9 @@ Platform:
       isFile: true,
       isDirectory: false,
       isSymlink: false,
-      size: 5206,
-      mtime: 2020-11-12T14:47:05.401Z,
-      atime: 2020-11-12T14:52:44.346Z,
+      size: 5467,
+      mtime: 2021-01-19T09:02:03.652Z,
+      atime: 2021-01-19T12:09:05.650Z,
       birthtime: 2020-11-12T14:47:05.400Z,
       dev: 16777220,
       ino: 4494548533,
@@ -261,9 +265,9 @@ Platform:
       isFile: true,
       isDirectory: false,
       isSymlink: false,
-      size: 6200,
-      mtime: 2020-11-12T14:47:05.401Z,
-      atime: 2020-11-12T14:52:44.347Z,
+      size: 6531,
+      mtime: 2021-01-19T10:01:30.766Z,
+      atime: 2021-01-19T12:09:05.651Z,
       birthtime: 2020-11-12T14:47:05.401Z,
       dev: 16777220,
       ino: 4494548534,
@@ -284,11 +288,33 @@ Platform:
       isDirectory: false,
       isSymlink: false,
       size: 2945,
-      mtime: 2020-05-30T18:39:55.220Z,
-      atime: 2020-11-10T14:28:09.119Z,
+      mtime: 2021-01-19T09:27:27.690Z,
+      atime: 2021-01-19T09:27:29.886Z,
       birthtime: 2020-05-30T18:39:55.219Z,
       dev: 16777220,
       ino: 4348162738,
+      mode: 33188,
+      nlink: 1,
+      uid: 501,
+      gid: 20,
+      rdev: 0,
+      blksize: 4096,
+      blocks: 8
+    }
+  },
+  {
+    fullPath: "/Users/apostolos/Documents/Code/deno/denomander/src/Logger.ts",
+    path: "./src/Logger.ts",
+    lstat: {
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+      size: 951,
+      mtime: 2021-01-19T11:36:39.078Z,
+      atime: 2021-01-19T12:09:05.651Z,
+      birthtime: 2021-01-18T19:32:25.281Z,
+      dev: 16777220,
+      ino: 4550358946,
       mode: 33188,
       nlink: 1,
       uid: 501,
@@ -328,8 +354,8 @@ Platform:
       isDirectory: false,
       isSymlink: false,
       size: 8912,
-      mtime: 2020-12-22T10:51:43.801Z,
-      atime: 2020-12-22T10:57:30.696Z,
+      mtime: 2021-01-19T09:44:12.687Z,
+      atime: 2021-01-19T09:44:14.301Z,
       birthtime: 2020-11-12T14:47:05.401Z,
       dev: 16777220,
       ino: 4494548535,
@@ -349,9 +375,9 @@ Platform:
       isFile: true,
       isDirectory: false,
       isSymlink: false,
-      size: 7578,
-      mtime: 2020-12-22T10:51:48.412Z,
-      atime: 2020-12-22T10:51:50.414Z,
+      size: 8477,
+      mtime: 2021-01-19T12:08:28.223Z,
+      atime: 2021-01-19T12:09:05.651Z,
       birthtime: 2020-11-12T14:47:05.402Z,
       dev: 16777220,
       ino: 4494548536,
@@ -361,7 +387,7 @@ Platform:
       gid: 20,
       rdev: 0,
       blksize: 4096,
-      blocks: 16
+      blocks: 24
     }
   },
   {
@@ -393,9 +419,9 @@ Platform:
       isFile: true,
       isDirectory: false,
       isSymlink: false,
-      size: 2295,
-      mtime: 2020-05-30T18:39:55.222Z,
-      atime: 2020-11-10T14:28:11.127Z,
+      size: 2602,
+      mtime: 2021-01-19T10:20:26.837Z,
+      atime: 2021-01-19T12:09:05.651Z,
       birthtime: 2020-05-30T18:39:55.222Z,
       dev: 16777220,
       ino: 4348162740,
@@ -415,12 +441,12 @@ Platform:
       isFile: true,
       isDirectory: false,
       isSymlink: false,
-      size: 9070,
-      mtime: 2021-01-11T09:58:49.080Z,
-      atime: 2021-01-11T09:58:49.555Z,
-      birthtime: 2021-01-11T09:58:49.080Z,
+      size: 9093,
+      mtime: 2021-01-19T10:43:35.167Z,
+      atime: 2021-01-19T12:09:05.650Z,
+      birthtime: 2021-01-11T10:07:32.998Z,
       dev: 16777220,
-      ino: 4544073507,
+      ino: 4544081369,
       mode: 33188,
       nlink: 1,
       uid: 501,
@@ -431,10 +457,10 @@ Platform:
     }
   }
 ]
-2021-01-11T10:04:37.847Z [INFO]     Source files are formatted.
-2021-01-11T10:04:38.044Z [INFO]     Tests passed successfully.
-2021-01-11T10:04:39.274Z [INFO]     No errors detected when installing the module.
-2021-01-11T10:04:39.275Z [DEBUG]    Config: {
+2021-01-19T12:10:46.535Z [INFO]     Source files are formatted.
+2021-01-19T12:10:46.731Z [INFO]     Tests passed successfully.
+2021-01-19T12:10:47.307Z [INFO]     No errors detected when installing the module.
+2021-01-19T12:10:47.307Z [DEBUG]    Config: {
   name: "denomander",
   entry: "./mod.ts",
   description: "Deno command-line interfaces made easy",
@@ -450,4 +476,4 @@ Platform:
   checkInstallation: true,
   check: true
 }
-2021-01-11T10:04:40.637Z [CRITICAL] An unexpected error occurred: "Invalid Version: null" "TypeError: Invalid Version: null\n    at new SemVer (mod.ts:378:13)\n    at Module.compare (mod.ts:748:10)\n    at Command.publish [as fn] (publish.ts:322:20)\n    at async Command.execute (command.ts:785:9)\n    at async Command.parse (command.ts:720:14)\n    at async Command.parse (command.ts:677:14)\n    at async eggs.ts:74:23"
+2021-01-19T12:10:47.526Z [CRITICAL] An unexpected error occurred: "Invalid Version: null" "TypeError: Invalid Version: null\n    at new SemVer (mod.ts:378:13)\n    at Module.compare (mod.ts:748:10)\n    at Command.publish [as fn] (publish.ts:322:20)\n    at async Command.execute (command.ts:785:9)\n    at async Command.parse (command.ts:720:14)\n    at async Command.parse (command.ts:677:14)\n    at async eggs.ts:74:23"

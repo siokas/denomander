@@ -14,16 +14,16 @@ _Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces
 
 ## Installation
 
-Using Nest Land
-
-```javascript
-import Denomander from "https://x.nest.land/denomander@0.7.0/mod.ts";
-```
-
 Using Deno Land
 
 ```javascript
 import Denomander from "https://deno.land/x/denomander/mod.ts";
+```
+
+Using Nest Land
+
+```javascript
+import Denomander from "https://x.nest.land/denomander@0.8.0/mod.ts";
 ```
 
 ## Usage example
