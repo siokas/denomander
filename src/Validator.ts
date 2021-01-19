@@ -2,6 +2,7 @@ import { Util } from "./Util.ts";
 import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
+import { error_log } from "./Logger.ts";
 import { ValidatorContract } from "./interfaces.ts";
 import {
   OnCommand,
@@ -24,18 +25,28 @@ export class Validator implements ValidatorContract {
   /** The array of rules for validation */
   public rules: Array<ValidationRules>;
 
+  /** User have the option to throw the errors */
+  public throw_errors: boolean;
+
   /** Constructor of the Validator object */
   constructor(options: ValidatorOptions) {
     this.app = options.app;
     this.args = options.args;
     this.rules = options.rules;
+    this.throw_errors = options.throw_errors;
   }
 
   /** It starts the validation process and throws the first error */
   public validate() {
     const failed = this.failed();
     if (failed.length) {
-      throw failed[0].error;
+      if (this.throw_errors) {
+        throw failed[0].error;
+      }
+      const error_message = failed[0].error?.message || "";
+      const error_command = failed[0].command;
+      error_log(error_message, error_command);
+      Deno.exit(1);
     }
   }
 
@@ -79,11 +90,19 @@ export class Validator implements ValidatorContract {
       .nonDeclearedOptionArgs();
 
     if (commandArgs.error) {
-      return { passed: false, error: commandArgs.error };
+      return {
+        passed: false,
+        error: commandArgs.error,
+        command: commandArgs.command || "",
+      };
     }
 
     if (optionArgs.error) {
-      return { passed: false, error: optionArgs.error };
+      return {
+        passed: false,
+        error: optionArgs.error,
+        command: optionArgs.command || "",
+      };
     }
 
     return { passed: true };
@@ -100,14 +119,15 @@ export class Validator implements ValidatorContract {
       );
 
       if (command && command.hasRequiredOptions()) {
-        const found = command.requiredOptions.filter((option: Option) => {
-          return Util.optionIsInArgs(option, this.args);
+        const notFound = command.requiredOptions.filter((option: Option) => {
+          return !Util.optionIsInArgs(option, this.args);
         });
 
-        if (!found.length) {
+        if (notFound.length) {
           result = {
             passed: false,
             error: new Error(this.app.errors.REQUIRED_OPTION_NOT_FOUND),
+            command: `(${notFound[0]?.flags})`,
           };
         }
       }
@@ -127,12 +147,16 @@ export class Validator implements ValidatorContract {
         );
 
         if (command && command.hasRequiredArguments()) {
+          const commandRequiredArgs = command.requiredCommandArguments();
           if (
-            command.countRequiredCommandArguments() >= this.args.commands.length
+            commandRequiredArgs.length >= this.args.commands.length
           ) {
+            const command =
+              commandRequiredArgs[commandRequiredArgs.length - 1].argument;
             result = {
               passed: false,
               error: new Error(this.app.errors.REQUIRED_VALUE_NOT_FOUND),
+              command: `[${command}]`,
             };
           }
         }
@@ -161,6 +185,7 @@ export class Validator implements ValidatorContract {
         result = {
           passed: false,
           error: new Error(this.app.errors.COMMAND_NOT_FOUND),
+          command: onCommand.arg,
         };
       }
     });
@@ -202,6 +227,7 @@ export class Validator implements ValidatorContract {
         result = {
           passed: false,
           error: new Error(this.app.errors.COMMAND_NOT_FOUND),
+          command: arg,
         };
       }
     });
@@ -229,11 +255,11 @@ export class Validator implements ValidatorContract {
             command.options,
             key,
           );
-
           if (!found_in_base_commands && !found_in_all_commands) {
             result = {
               passed: false,
               error: new Error(this.app.errors.OPTION_NOT_FOUND),
+              command: `(${key})`,
             };
           }
         }
@@ -256,6 +282,7 @@ export class Validator implements ValidatorContract {
         result = {
           passed: false,
           error: new Error(this.app.errors.OPTION_NOT_FOUND),
+          command: `(${key})`,
         };
       }
     }

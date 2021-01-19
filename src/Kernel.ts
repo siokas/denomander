@@ -8,6 +8,7 @@ import {
   AppDetails,
   CustomArgs,
   DenomanderErrors,
+  KernelAppDetails,
   OnCommand,
   OptionBuilder,
   ValidationRules,
@@ -37,6 +38,7 @@ export abstract class Kernel {
   /** Holds all the available .on() commands */
   public on_commands: Array<OnCommand> = [];
 
+  /** Holds all the command aliases */
   public aliases: Array<AliasCommandBuilder> = [];
 
   /** If the user has defined a custom help */
@@ -46,17 +48,18 @@ export abstract class Kernel {
   public isVersionConfigured = false;
 
   /** The arguments object instance */
-  public args: Arguments | undefined;
+  public args?: Arguments;
 
   /** The name of the app */
-  public _app_name: string;
+  public _app_name?: string;
 
   /** The description of the app */
-  public _app_description: string;
+  public _app_description?: string;
 
   /** The version of the app */
-  public _app_version: string;
+  public _app_version?: string;
 
+  /** The version Option instance */
   public versionOption: Option;
 
   /** The base command is needed to hold the default options like --help, --version */
@@ -67,6 +70,7 @@ export abstract class Kernel {
   /** Arguments passed by the user during runtime */
   protected _args: CustomArgs = {};
 
+  /** Default errors if no errors passed by user */
   public errors: DenomanderErrors = {
     INVALID_RULE: "Invalid Rule",
     OPTION_NOT_FOUND: "Option not found!",
@@ -76,8 +80,11 @@ export abstract class Kernel {
     TOO_MANY_PARAMS: "You have passed too many parameters",
   };
 
+  /** User have the option to throw the errors. by default it is not enabled */
+  public throw_errors = false;
+
   /** Constructor of AppDetails object */
-  constructor(app_details?: AppDetails) {
+  constructor(app_details?: KernelAppDetails) {
     if (app_details) {
       this._app_name = app_details.app_name;
       this._app_description = app_details.app_description;
@@ -85,10 +92,9 @@ export abstract class Kernel {
       if (app_details.errors) {
         this.errors = app_details.errors;
       }
-    } else {
-      this._app_name = "My App";
-      this._app_description = "My Description";
-      this._app_version = "0.0.1";
+      if (app_details.throw_errors) {
+        this.throw_errors = app_details.throw_errors;
+      }
     }
 
     this.versionOption = this.BASE_COMMAND.addOption(
@@ -98,7 +104,7 @@ export abstract class Kernel {
 
   /** Getter of the app name */
   public get app_name(): string {
-    return this._app_name;
+    return this._app_name || "My App";
   }
 
   /** Setter of the app name */
@@ -108,7 +114,7 @@ export abstract class Kernel {
 
   /** Getter of the app description*/
   public get app_description(): string {
-    return this._app_description;
+    return this._app_description || "My Description";
   }
 
   /** Setter of the app description */
@@ -118,7 +124,7 @@ export abstract class Kernel {
 
   /** Getter of the app version */
   public get app_version(): string {
-    return this._app_version;
+    return this._app_version || "0.0.1";
   }
 
   /** Setter of the app version */
@@ -142,7 +148,7 @@ export abstract class Kernel {
   /** Executes default commands (--help, --version) */
   protected execute(): Kernel {
     if (this.args) {
-      new Executor(this, this.args)
+      new Executor(this, this.args, this.throw_errors)
         .onCommands()
         .defaultCommands()
         .commandValues()
@@ -155,9 +161,9 @@ export abstract class Kernel {
   /** Passes the details and commands to prints the help screen */
   protected printDefaultHelp(): void {
     const app_details: AppDetails = {
-      app_name: this._app_name,
-      app_description: this._app_description,
-      app_version: this._app_version,
+      app_name: this.app_name,
+      app_description: this.app_description,
+      app_version: this.app_version,
     };
 
     Util.print_help(app_details, this.commands, this.BASE_COMMAND);
@@ -202,6 +208,7 @@ export abstract class Kernel {
           rules: [
             ValidationRules.BASE_COMMAND_OPTIONS,
           ],
+          throw_errors: this.throw_errors,
         },
       ).validate();
 

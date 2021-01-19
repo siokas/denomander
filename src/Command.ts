@@ -118,9 +118,12 @@ export class Command {
     return this.aliases.length > 0;
   }
 
+  public requiredCommandArguments(): Array<CommandArgument> {
+    return this.command_arguments.filter((commandArg) => commandArg.isRequired);
+  }
+
   public countRequiredCommandArguments(): number {
-    return this.command_arguments.filter((commandArg) => commandArg.isRequired)
-      .length;
+    return this.requiredCommandArguments().length;
   }
 
   public hasRequiredArguments(): boolean {

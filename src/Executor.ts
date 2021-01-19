@@ -9,6 +9,9 @@ import { Validator } from "./Validator.ts";
 
 /** It is responsible for generating the app variables and running the necessary callback functions */
 export class Executor {
+  /** User have the option to throw the errors */
+  public throw_errors: boolean;
+
   /** The Arguments instance holding all the arguments passed by the user */
   protected args: Arguments;
 
@@ -16,9 +19,10 @@ export class Executor {
   protected app: Kernel;
 
   /** Constructor of Executor object. */
-  constructor(app: Kernel, args: Arguments) {
+  constructor(app: Kernel, args: Arguments, throw_errors: boolean) {
     this.app = app;
     this.args = args;
+    this.throw_errors = throw_errors;
   }
 
   /** It prints the help screen and creates public app properties based on the name of the option */
@@ -53,6 +57,7 @@ export class Executor {
       rules: [
         ValidationRules.REQUIRED_VALUES,
       ],
+      throw_errors: this.throw_errors,
     }).validate();
 
     this.args.commands.forEach((arg: string, key: number) => {
@@ -86,6 +91,7 @@ export class Executor {
         ValidationRules.NON_DECLEARED_ARGS,
         ValidationRules.REQUIRED_OPTIONS,
       ],
+      throw_errors: this.throw_errors,
     }).validate();
     for (const key in this.args.options) {
       const command: Command | undefined = Util.findCommandFromArgs(
@@ -119,6 +125,7 @@ export class Executor {
       rules: [
         ValidationRules.ON_COMMANDS,
       ],
+      throw_errors: this.throw_errors,
     }).validate();
 
     this.app.on_commands.forEach((onCommand) => {

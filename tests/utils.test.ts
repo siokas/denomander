@@ -57,15 +57,3 @@ test("arrays_have_matching_command", function () {
     true,
   );
 });
-
-// test("contain_command_in_on_commands_array", function () {
-//   const helpCommand = new Command(
-//     { value: "-h --help", description: "Helper of the app" },
-//   );
-
-//   const array1: Array<OnCommand> = [
-//     { command: helpCommand, callback: () => {} },
-//   ];
-
-//   assertEquals(Util.containCommandInOnCommandArray(helpCommand, array1), true);
-// });

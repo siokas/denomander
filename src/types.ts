@@ -2,12 +2,22 @@ import { Command } from "./Command.ts";
 import { Kernel } from "./Kernel.ts";
 import { Arguments } from "./Arguments.ts";
 
+/** Defines the app detail types. Applied only in Kernel constuctor */
+export type KernelAppDetails = {
+  app_name?: string;
+  app_description?: string;
+  app_version?: string;
+  errors?: DenomanderErrors;
+  throw_errors?: boolean;
+};
+
 /** Defines the app detail types */
 export type AppDetails = {
   app_name: string;
   app_description: string;
   app_version: string;
   errors?: DenomanderErrors;
+  throw_errors?: boolean;
 };
 
 /** Defines the .on() command options */
@@ -44,6 +54,7 @@ export type CommandTypes = {
 export type ValidationResult = {
   passed: boolean;
   error?: Error;
+  command?: string;
 };
 
 /* Defines the validator options for the constructor */
@@ -51,6 +62,7 @@ export type ValidatorOptions = {
   app: Kernel;
   args: Arguments;
   rules: Array<ValidationRules>;
+  throw_errors: boolean;
 };
 
 /** Defines the Command constactor options */

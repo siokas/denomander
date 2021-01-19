@@ -1,8 +1,8 @@
-import { assertThrows, test } from "../deps.ts";
+import { assertEquals, assertThrows, test } from "../deps.ts";
 import { Denomander } from "../src/Denomander.ts";
 
-test("validation_option_not_found", function () {
-  const program = new Denomander();
+test("validation_option_not_found_throws_error", function () {
+  const program = new Denomander({ throw_errors: true });
   const optionArgs = ["serve", "-a", "127.0.0.1"];
 
   assertThrows(
@@ -17,8 +17,8 @@ test("validation_option_not_found", function () {
   );
 });
 
-test("validation_command_not_found", function () {
-  const program = new Denomander();
+test("validation_command_not_found_throws_error", function () {
+  const program = new Denomander({ throw_errors: true });
   const optionArgs = ["wrongCommand", "-p", "80"];
 
   assertThrows(
@@ -33,8 +33,8 @@ test("validation_command_not_found", function () {
   );
 });
 
-test("validation_required_option", function () {
-  const program = new Denomander();
+test("validation_required_option_throws_error", function () {
+  const program = new Denomander({ throw_errors: true });
   const args = ["serve"];
 
   assertThrows(
@@ -47,8 +47,8 @@ test("validation_required_option", function () {
   );
 });
 
-test("validation_command_with_required_argument", function () {
-  const program = new Denomander();
+test("validation_command_with_required_argument_throws_error", function () {
+  const program = new Denomander({ throw_errors: true });
   const args = ["clone"];
 
   assertThrows(
