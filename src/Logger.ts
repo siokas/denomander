@@ -1,25 +1,21 @@
 import { blue, green, red, yellow } from "../deps.ts";
 
-export function log(text: string) {
-  return colored_output(text, "normal");
+/** Prints success message */
+export function success_log(text: string): void {
+  return colored_output(`✅ ${text}`, "green");
 }
 
-export function error_log(text: string, command?: string) {
-  if (command) {
-    const error_text = `❌ Error: ${command} | ${text}`;
-    return colored_output(error_text, "red");
-  }
-  return colored_output("❌ " + text, "red");
+/** Prints warning message */
+export function warning_log(text: string): void {
+  return colored_output(`⚠️ ${text}`, "yellow");
 }
 
-export function success_log(text: string) {
-  return colored_output(text, "green");
+/** Prints error message */
+export function error_log(text: string): void {
+  return colored_output(`❌ ${text}`, "red");
 }
 
-export function warning_log(text: string) {
-  return colored_output("⚠️" + text, "yellow");
-}
-
+/** Handles the output color */
 function colored_output(text: string, color: string = "normal") {
   switch (color) {
     case "red":

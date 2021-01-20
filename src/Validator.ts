@@ -45,7 +45,7 @@ export class Validator implements ValidatorContract {
       }
       const error_message = failed[0].error?.message || "";
       const error_command = failed[0].command;
-      error_log(error_message, error_command);
+      error_log(`Error ${error_command}: ${error_message}`);
       Deno.exit(1);
     }
   }
