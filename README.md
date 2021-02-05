@@ -5,44 +5,54 @@
 <a href="https://nest.land/package/denomander"><img src="https://nest.land/badge.svg" alt="Published on nest.land" /></a>
 </p>
 
-_Denomander_ is a solution for [Deno](https://deno.land) command-line interfaces. It is inspired from [commander.js](https://github.com/tj/commander.js) by [tj](https://github.com/tj) which is the node's version.
+_Denomander_ is a solution for [Deno](https://deno.land) command-line
+interfaces. It is inspired by [tj](https://github.com/tj)'s
+[commander.js](https://github.com/tj/commander.js) for Node.js.
 
-> Denomander is a [Deno](https://deno.land) project so it needs to have deno installed in your system.
-> If you don't there is a Dockerfile in the root of the project to create an image running deno
-> To use it just build the Docker file `docker build -t deno .`
-> Now you can run all the deno commands `docker run --rm -v $PWD:/app/ deno test`
+> Denomander is a [Deno](https://deno.land) project so deno must be
+> [installed](https://deno.land/manual/getting_started/installation).
+
+> Alternatively, there is a Dockerfile in the root of the project to create an
+> image running deno. To use it just build the Docker file `docker build -t deno
+> .` Now you can run all the deno commands `docker run --rm -v $PWD:/app/ deno
+> test`
 
 ## Installation
 
-Using Deno Land
+Using deno.land
 
 ```javascript
 import Denomander from "https://deno.land/x/denomander/mod.ts";
 ```
 
-Using Nest Land
+Using nest.land
 
 ```javascript
 import Denomander from "https://x.nest.land/denomander@0.8.0/mod.ts";
 ```
 
-## Usage example
+## Usage Example
 
-At first initialize the app and optionally you may pass the name, description and version of the app. If not you can change them afterwards by setting the **app_name**, **app_description** and **app_version** variables.
+First, in your deno script, create a *program*, optionally passing a name,
+description and version.  If not you can change them afterwards by setting the
+**app_name**, **app_description** and **app_version** variables.
 
 ```javascript
 const program = new Denomander({
-  app_name: "My MY App",
-  app_description: "My MY Description",
+  app_name: "My App Name",
+  app_description: "My App Description",
   app_version: "1.0.1",
 });
 ```
 
-There are three option types: **commands**, **options** and **required options**.
+There are three option types: **commands**, **options** and **required
+options**.
 
 ### Options
 
-To set an option just call the **option()** method passing **a) the sort and the long flag** seperated by space and **b) the description**. The value can be accessed as properties.
+To set an option just call the **option()** method passing the **short and long
+flags** separated by a space and the **description**. The value can be accessed
+as properties.
 
 ```javascript
 program
@@ -57,7 +67,8 @@ if (program.address) {
 }
 ```
 
-**You may define the option's short and long flags by seperating them with either with a) space, b) comma, or c) | (vertical bar or "pipe")**
+You may define the option's short and long flags by separating them with a
+**space**, **comma** or **| (vertical bar or "pipe")**.
 
 ```javascript
 program
@@ -71,7 +82,8 @@ console.log(`Server is running on ${program.address}:${program.port}`);
 
 ### Required Options
 
-The implementation of required option is exactly same as the optional option but you have to call the **requiredOption()** method instead.
+The implementation of required option is exactly same as the optional option but
+you have to call the **requiredOption()** method instead.
 
 ```javascript
 program
@@ -87,7 +99,9 @@ console.log(`Server run on ${address}:${program.port}`);
 
 ### Global Options and Base Command Options
 
-You have the option to define options which belong to all commands (global option) and options which belong to no command (base command option ex. --help, --version)
+You have the option to define options which belong to all commands (global
+option) and options which belong to no command (base command option ex.
+`--help`, `--version`).
 
 ```javascript
 program
@@ -96,16 +110,17 @@ program
   .parse(Deno.args);
 ```
 
-### Custom option processing
+### Custom Option Processing
 
-You may specify a function to do custom processing of option values. The callback function recieves a parameter of the pre-processed value.
+You may specify a function to do custom processing of option values. The
+callback function receives a parameter of the pre-processed value.
 
 ```javascript
 function parseInteger(value: string): number {
   return parseInt(value);
 }
 
-function upercase(text: string): string {
+function uppercase(text: string): string {
   return text.toUpperCase();
 }
 
@@ -119,7 +134,7 @@ program
 
 program
   .command("commit", "Commit Description")
-  .requiredOption("-m --message", "Commit Message", upercase)
+  .requiredOption("-m --message", "Commit Message", uppercase)
   .action(() => {
     console.log(program.message);
   });
@@ -127,9 +142,16 @@ program
 
 ### Commands
 
-There are two ways to implement the commands. The first is to use an action handler by calling the **action()** method immediately after the command definition passing the callback function and the second is with custom one-line implementation. **Multiple command arguments are now supported!**
+There are two ways to implement the commands. The first is to use an action
+handler by calling the **action()** method immediately after the command
+definition passing the callback function and the second is with custom one-line
+implementation. **Multiple command arguments are now supported!**
 
-To define a command just call the .command() method and pass the command name (optionally you may also pass the description and a callback function but if not you may define them afterwards in their own methods). After the command you have the option to declare argument(s) inside brackets []. If you want a not required argument just append a question mark (?) after the name of the argument.
+To define a command just call the .command() method and pass the command name
+(optionally you may also pass the description and a callback function but if not
+you may define them afterwards in their own methods). After the command you have
+the option to declare argument(s) inside brackets []. If you want a not required
+argument just append a question mark (?) after the name of the argument.
 
 ```javascript
 program
@@ -149,7 +171,9 @@ program.parse(Deno.args);
 
 #### Action Handler
 
-> The argument(s) passed in the callback function is now an object so you may destructure the object and take your variable which has the same name with your command declaration!
+> The argument(s) passed in the callback function is now an object so you may
+destructure the object and take your variable which has the same name with your
+command declaration!
 
 ```javascript
 program
@@ -176,7 +200,8 @@ program.parse(Deno.args);
 
 ### Alias
 
-After the command declaration you have the option to declare as many aliases as you want for this spesific command.
+After the command declaration you have the option to declare as many aliases as
+you want for this spesific command.
 
 ```javascript
 program
@@ -191,9 +216,12 @@ program.parse(Deno.args);
 // Command action calback is called in all 3 command names (actual command and two aliases)
 ```
 
-### Option to change default commands (help, version)
+### Option to Change Default Commands (help, version)
 
-In order to change the default commands (help, version) just call the corresponding method. In case of help pass the command and the description but in case of version you may also pass the actual version of the app and after that the command and the description.
+In order to change the default commands (help, version) just call the
+corresponding method. In case of help pass the command and the description but
+in case of version you may also pass the actual version of the app and after
+that the command and the description.
 
 ```javascript
 program.setVersion("1.8.1", "-x --xversion", "Display the version of the app");
@@ -201,9 +229,11 @@ program.setVersion("1.8.1", "-x --xversion", "Display the version of the app");
 program.parse(args);
 ```
 
-## Customize error messages
+## Customize Error Messages
 
-There are two ways to change the error messages. You may pass a fourth argument in new Denomander() constructor (errors object) or you may call the .errorMessages() method again passing the error messages in object.
+There are two ways to change the error messages. You may pass a fourth argument
+in new `Denomander()` constructor (errors object) or you may call the
+`.errorMessages()` method again passing the error messages in object.
 
 1.
 
@@ -236,9 +266,12 @@ program.errorMessages({
 });
 ```
 
-### Improved error experience. Option to throw the errors
+### Improved Error Experience (Option to Throw Errors)
 
-From v0.8 by default Denomander app does not throw the errors but instead it outputs the error message in the console and exits the app. If you want to throw all the errors just pass the `throw_errors: true` option inside the AppDetails in Denomander constructor
+From v0.8 by default Denomander app does not throw the errors but instead it
+outputs the error message in the console and exits the app. If you want to throw
+all the errors just pass the `throw_errors: true` option inside the AppDetails
+in Denomander constructor.
 
 ```javascript
 const program = new Denomander({
@@ -249,14 +282,14 @@ const program = new Denomander({
 });
 ```
 
-## ToDo
+## TODO
 
 - [x] Custom option processing
 - [ ] More examples
 - [ ] More tests
-- [x] Easy Error Customization
+- [x] Easy error customization
 - [ ] Documentation
-- [ ] Chanage --help default output
+- [ ] Change `--help` default output
 - [x] Command with multiple arguments
 
 ## Used
@@ -267,7 +300,8 @@ const program = new Denomander({
 
 ## Meta
 
-Apostolos Siokas – [@siokas\_](https://twitter.com/siokas_) – apostolossiokas@gmail.com
+Apostolos Siokas – [@siokas\_](https://twitter.com/siokas_) –
+apostolossiokas@gmail.com
 
 ## Contributing
 
@@ -275,6 +309,7 @@ Any kind of contribution is welcome!
 
 ## License
 
-Distributed under the [MIT License](https://github.com/siokas/denomander/blob/master/LICENSE).
+Distributed under the [MIT
+License](https://github.com/siokas/denomander/blob/master/LICENSE).
 
 [https://github.com/siokas/denomander](https://github.com/siokas/denomander)
