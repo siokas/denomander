@@ -71,6 +71,16 @@ export type CommandOption = {
   description: string;
   isRequired?: boolean;
   callback?: Function;
+  defaultValue?: any;
+};
+
+export type OptionParameters = {
+  flags: string;
+  description: string;
+  command: Command;
+  isRequired?: boolean;
+  callback?: Function;
+  defaultValue?: any;
 };
 
 /** Defines the version setter */
@@ -104,14 +114,6 @@ export type DenomanderErrors = {
   REQUIRED_OPTION_NOT_FOUND: string;
   REQUIRED_VALUE_NOT_FOUND: string;
   TOO_MANY_PARAMS: string;
-};
-
-export type OptionParameters = {
-  flags: string;
-  description: string;
-  command: Command;
-  isRequired?: boolean;
-  callback?: Function;
 };
 
 /* Enum containing the Validation Rules */

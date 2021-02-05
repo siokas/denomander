@@ -1,5 +1,10 @@
 import { Helper } from "./Helper.ts";
-import { CommandArgument, CommandOption, CommandParams } from "./types.ts";
+import {
+  CommandArgument,
+  CommandOption,
+  CommandParams,
+  OptionParameters,
+} from "./types.ts";
 import { Option } from "./Option.ts";
 
 /* Command class */
@@ -50,51 +55,20 @@ export class Command {
   public addOption(params: CommandOption): Option {
     let option: Option;
 
-    if (params.isRequired) {
-      if (params.callback) {
-        option = new Option(
-          {
-            flags: params.flags,
-            description: params.description,
-            command: this,
-            isRequired: true,
-            callback: params.callback,
-          },
-        );
-      } else {
-        option = new Option(
-          {
-            flags: params.flags,
-            description: params.description,
-            command: this,
-            isRequired: true,
-          },
-        );
-      }
-      this.options.push(option);
-      this.requiredOptions.push(option);
-    } else {
-      if (params.callback) {
-        option = new Option(
-          {
-            flags: params.flags,
-            description: params.description,
-            command: this,
-            callback: params.callback,
-          },
-        );
-      } else {
-        option = new Option(
-          {
-            flags: params.flags,
-            description: params.description,
-            command: this,
-          },
-        );
-      }
-      this.options.push(option);
-    }
+    const defaultArgs: OptionParameters = {
+      flags: params.flags,
+      description: params.description,
+      command: this,
+      isRequired: params.isRequired,
+      callback: params.callback || undefined,
+      defaultValue: params.defaultValue || undefined,
+    };
 
+    option = new Option(defaultArgs);
+    this.options.push(option);
+    if (params.isRequired) {
+      this.requiredOptions.push(option);
+    }
     return option;
   }
 

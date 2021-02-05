@@ -117,6 +117,22 @@ export class Executor {
     return this;
   }
 
+  public defaultOptionValues(): Executor {
+    this.app.commands.map((command: Command) => {
+      command.options.map((option: Option) => {
+        if (option.hasDefaultValue()) {
+          if (option.callback) {
+            option.value = option.callback(option.defaultValue);
+          } else {
+            option.value = option.defaultValue;
+          }
+          this.app[option.word_option] = option.value;
+        }
+      });
+    });
+    return this;
+  }
+
   /** It calls the .on() method callback functions */
   public onCommands(): Executor {
     new Validator({

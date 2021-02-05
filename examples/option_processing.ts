@@ -31,6 +31,13 @@ program
     console.log(program.message);
   });
 
+program
+  .command("foo", "Foo Test")
+  .option("-d --default", "Default Value", upercase, "bar")
+  .action(() => {
+    console.log(program.default);
+  });
+
 try {
   program.parse(Deno.args);
 } catch (error) {

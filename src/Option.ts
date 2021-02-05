@@ -23,7 +23,10 @@ export class Option {
   public isRequired: boolean;
 
   /** The custom option processing function */
-  public callback: Function | undefined;
+  public callback?: Function;
+
+  /** Holds the default value if passed */
+  public defaultValue?: any;
 
   /** Holds the short flag (-p). One letter command */
   protected _letter_option?: string;
@@ -39,9 +42,13 @@ export class Option {
     this.flags = params.flags;
     this.description = params.description;
     this.command = params.command;
-    this.isRequired = params.isRequired || false;
+    this.isRequired = params.isRequired === true;
     if (params.callback) {
       this.callback = params.callback;
+    }
+    if (params.defaultValue) {
+      this.defaultValue = params.defaultValue;
+      this.value = this.defaultValue;
     }
 
     this.splitFlags();
@@ -101,6 +108,10 @@ export class Option {
       default:
         break;
     }
+  }
+
+  hasDefaultValue(): boolean {
+    return this.defaultValue ? true : false;
   }
 
   /** Getter of the the short flag (one letter command) */

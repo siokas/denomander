@@ -115,3 +115,18 @@ test("command_argument_parse_number_0", function () {
 
   assertEquals(result, 0);
 });
+
+test("default_option_value", function () {
+  const program1 = new Denomander();
+  const program2 = new Denomander();
+  const argsNoOption = ["foo"];
+  const argsWithOption = ["foo", "-d", "2"];
+
+  program1.command("foo").option("-d --default", "Default Value", undefined, 1)
+    .parse(argsNoOption);
+  program2.command("foo").option("-d --default", "Default Value", undefined, 1)
+    .parse(argsWithOption);
+
+  assertEquals(program1.default, 1);
+  assertEquals(program2.default, 2);
+});

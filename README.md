@@ -13,9 +13,7 @@ interfaces. It is inspired by [tj](https://github.com/tj)'s
 > [installed](https://deno.land/manual/getting_started/installation).
 
 > Alternatively, there is a Dockerfile in the root of the project to create an
-> image running deno. To use it just build the Docker file `docker build -t deno
-> .` Now you can run all the deno commands `docker run --rm -v $PWD:/app/ deno
-> test`
+> image running deno. To use it just build the Docker file `docker build -t deno .` Now you can run all the deno commands `docker run --rm -v $PWD:/app/ deno test`
 
 ## Installation
 
@@ -33,8 +31,8 @@ import Denomander from "https://x.nest.land/denomander@0.8.0/mod.ts";
 
 ## Usage Example
 
-First, in your deno script, create a *program*, optionally passing a name,
-description and version.  If not you can change them afterwards by setting the
+First, in your deno script, create a _program_, optionally passing a name,
+description and version. If not you can change them afterwards by setting the
 **app_name**, **app_description** and **app_version** variables.
 
 ```javascript
@@ -140,6 +138,19 @@ program
   });
 ```
 
+### Default Option Value
+
+You may define a default value for options (in case no value is passed by the user, the app returns the specified default value as the value of the option)
+
+```typescript
+program
+  .command("foo", "Foo Test")
+  .option("-d --default", "Default Value", upercase, "bar")
+  .action(() => {
+    console.log(program.default);
+  });
+```
+
 ### Commands
 
 There are two ways to implement the commands. The first is to use an action
@@ -172,8 +183,8 @@ program.parse(Deno.args);
 #### Action Handler
 
 > The argument(s) passed in the callback function is now an object so you may
-destructure the object and take your variable which has the same name with your
-command declaration!
+> destructure the object and take your variable which has the same name with your
+> command declaration!
 
 ```javascript
 program

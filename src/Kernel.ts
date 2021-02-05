@@ -152,6 +152,7 @@ export abstract class Kernel {
         .onCommands()
         .defaultCommands()
         .commandValues()
+        .defaultOptionValues()
         .optionValues()
         .actionCommands();
     }

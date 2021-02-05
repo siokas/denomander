@@ -2,7 +2,7 @@ import { Arguments } from "./Arguments.ts";
 import { Command } from "./Command.ts";
 import { Kernel } from "./Kernel.ts";
 import { PublicAPI } from "./interfaces.ts";
-import { VersionType } from "./types.ts";
+import { CommandOption, VersionType } from "./types.ts";
 
 /** The main class */
 export class Denomander extends Kernel implements PublicAPI {
@@ -19,16 +19,18 @@ export class Denomander extends Kernel implements PublicAPI {
     value: string,
     description: string,
     callback?: Function,
+    defaultValue?: any,
   ): Denomander {
     const command: Command | undefined = this.commands.slice(-1)[0];
 
-    if (command) {
-      if (callback) {
-        command.addOption({ flags: value, description, callback });
-      } else {
-        command.addOption({ flags: value, description });
-      }
-    }
+    const defaultArgs: CommandOption = {
+      flags: value,
+      description,
+      callback: callback || undefined,
+      defaultValue: defaultValue || undefined,
+    };
+
+    command.addOption(defaultArgs);
 
     return this;
   }
