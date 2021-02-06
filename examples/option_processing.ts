@@ -43,9 +43,9 @@ program
   .addOption(new Option({
     flags: "-m --message",
     description: "TEST DESCRIPTIONM",
-  }).default('default message'))
+  }).default("default message"))
   .action(() => {
-    console.log(program.message)
+    console.log(program.message);
   });
 
 const nameOption = new Option({
@@ -53,18 +53,20 @@ const nameOption = new Option({
   description: " Enter your name",
   isRequired: false,
   callback: (name: string) => name.toUpperCase(),
-  defaultValue: "james bond"
+  defaultValue: "james bond",
 });
 
 const ageOption = new Option({
   flags: "-a --age",
-  description: " Enter your age"
+  description: " Enter your age",
 })
   .isRequired(false)
   .callback((age: string) => parseInteger(age))
   .default(30);
 
-program.command("find").addOption(nameOption, ageOption).action(() => console.log(program.name + ' ' + program.age))
+program.command("find").addOption(nameOption, ageOption).action(() =>
+  console.log(program.name + " " + program.age)
+);
 
 try {
   program.parse(Deno.args);

@@ -13,7 +13,9 @@ interfaces. It is inspired by [tj](https://github.com/tj)'s
 > [installed](https://deno.land/manual/getting_started/installation).
 
 > Alternatively, there is a Dockerfile in the root of the project to create an
-> image running deno. To use it just build the Docker file `docker build -t deno .` Now you can run all the deno commands `docker run --rm -v $PWD:/app/ deno test`
+> image running deno. To use it just build the Docker file
+> `docker build -t deno .` Now you can run all the deno commands
+> `docker run --rm -v $PWD:/app/ deno test`
 
 ## Installation
 
@@ -140,7 +142,8 @@ program
 
 ### Default Option Value
 
-You may define a default value for options (in case no value is passed by the user, the app returns the specified default value as the value of the option)
+You may define a default value for options (in case no value is passed by the
+user, the app returns the specified default value as the value of the option)
 
 ```typescript
 program
@@ -183,8 +186,8 @@ program.parse(Deno.args);
 #### Action Handler
 
 > The argument(s) passed in the callback function is now an object so you may
-> destructure the object and take your variable which has the same name with your
-> command declaration!
+> destructure the object and take your variable which has the same name with
+> your command declaration!
 
 ```javascript
 program
@@ -320,7 +323,7 @@ Any kind of contribution is welcome!
 
 ## License
 
-Distributed under the [MIT
-License](https://github.com/siokas/denomander/blob/master/LICENSE).
+Distributed under the
+[MIT License](https://github.com/siokas/denomander/blob/master/LICENSE).
 
 [https://github.com/siokas/denomander](https://github.com/siokas/denomander)

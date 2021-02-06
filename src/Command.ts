@@ -36,7 +36,7 @@ export class Command {
   constructor(params: CommandParams) {
     this.params = Object.assign({
       description: "",
-      action: () => { },
+      action: () => {},
     }, params);
 
     this.addOption({
@@ -58,7 +58,7 @@ export class Command {
       description: customOption._description,
       command: this,
       callback: customOption._callback || undefined,
-      defaultValue: customOption.defaultValue || undefined
+      defaultValue: customOption.defaultValue || undefined,
     };
 
     const option: Option = new Option(optionParams);

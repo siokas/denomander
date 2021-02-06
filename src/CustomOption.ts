@@ -8,64 +8,63 @@ import { CommandOption } from "./types.ts";
   * @class CustomOption
  */
 export class CustomOption {
-    /** Holds the flags as defined (unparsed) */
-    public _flags: string;
+  /** Holds the flags as defined (unparsed) */
+  public _flags: string;
 
-    /** The description of the option */
-    public _description: string;
+  /** The description of the option */
+  public _description: string;
 
-    /** If the option is required */
-    public _isRequired: boolean;
+  /** If the option is required */
+  public _isRequired: boolean;
 
-    /** The custom option processing function */
-    public _callback?: Function;
+  /** The custom option processing function */
+  public _callback?: Function;
 
-    /** Holds the default value if passed */
-    public defaultValue?: any;
+  /** Holds the default value if passed */
+  public defaultValue?: any;
 
-    /** Holds the short flag (-p). One letter command */
-    protected _letter_option?: string;
+  /** Holds the short flag (-p). One letter command */
+  protected _letter_option?: string;
 
-    /** Holds the long flag (--port). One letter command */
-    protected _word_option = "";
+  /** Holds the long flag (--port). One letter command */
+  protected _word_option = "";
 
-    /** Constructor of Command object */
-    constructor(params: CommandOption) {
-        this._flags = params.flags;
-        this._description = params.description;
-        this._isRequired = params.isRequired === true;
-        if (params.callback) {
-            this._callback = params.callback;
-        }
-        if (params.defaultValue) {
-            this.defaultValue = params.defaultValue;
-        }
+  /** Constructor of Command object */
+  constructor(params: CommandOption) {
+    this._flags = params.flags;
+    this._description = params.description;
+    this._isRequired = params.isRequired === true;
+    if (params.callback) {
+      this._callback = params.callback;
     }
-
-    /** Set the default value if not setted in constructor */
-    public default(defaultValue: any): CustomOption {
-        this.defaultValue = defaultValue;
-        return this;
+    if (params.defaultValue) {
+      this.defaultValue = params.defaultValue;
     }
+  }
 
-    public callback(callback: Function): CustomOption {
-        this._callback = callback;
-        return this;
-    }
+  /** Set the default value if not setted in constructor */
+  public default(defaultValue: any): CustomOption {
+    this.defaultValue = defaultValue;
+    return this;
+  }
 
-    public flags(flags: string): CustomOption {
-        this._flags = flags
-        return this;
-    }
+  public callback(callback: Function): CustomOption {
+    this._callback = callback;
+    return this;
+  }
 
-    public description(description: string): CustomOption {
-        this._description = description;
-        return this;
-    }
+  public flags(flags: string): CustomOption {
+    this._flags = flags;
+    return this;
+  }
 
-    public isRequired(isRequired: boolean): CustomOption {
-        this._isRequired = isRequired;
-        return this;
-    }
+  public description(description: string): CustomOption {
+    this._description = description;
+    return this;
+  }
 
+  public isRequired(isRequired: boolean): CustomOption {
+    this._isRequired = isRequired;
+    return this;
+  }
 }
