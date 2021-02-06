@@ -3,6 +3,8 @@ import { Command } from "./Command.ts";
 import { Kernel } from "./Kernel.ts";
 import { PublicAPI } from "./interfaces.ts";
 import { CommandOption, VersionType } from "./types.ts";
+import { Option } from "./Option.ts";
+import { CustomOption } from "./CustomOption.ts";
 
 /** The main class */
 export class Denomander extends Kernel implements PublicAPI {
@@ -12,6 +14,13 @@ export class Denomander extends Kernel implements PublicAPI {
     this.args.parse();
 
     this.run();
+  }
+
+  public addOption(...options: Array<CustomOption>): Denomander {
+    const command: Command | undefined = this.commands.slice(-1)[0];
+    options.map((option: CustomOption) => command.addCustomOption(option));
+
+    return this;
   }
 
   /** Implements the option command */
@@ -124,7 +133,7 @@ export class Denomander extends Kernel implements PublicAPI {
   public alias(...aliases: Array<string>): Denomander {
     const command: Command = this.commands.slice(-1)[0];
     if (command) {
-      aliases.forEach((alias) => command.addAlias(alias));
+      aliases.map((alias) => command.addAlias(alias));
     }
 
     return this;

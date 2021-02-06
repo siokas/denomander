@@ -6,6 +6,7 @@ import {
   OptionParameters,
 } from "./types.ts";
 import { Option } from "./Option.ts";
+import { CustomOption } from "./CustomOption.ts";
 
 /* Command class */
 export class Command {
@@ -35,7 +36,7 @@ export class Command {
   constructor(params: CommandParams) {
     this.params = Object.assign({
       description: "",
-      action: () => {},
+      action: () => { },
     }, params);
 
     this.addOption({
@@ -49,6 +50,22 @@ export class Command {
 
     this.declaration = this.params.value;
     this.generateCommand();
+  }
+
+  public addCustomOption(customOption: CustomOption) {
+    const optionParams = {
+      flags: customOption._flags,
+      description: customOption._description,
+      command: this,
+      callback: customOption._callback || undefined,
+      defaultValue: customOption.defaultValue || undefined
+    };
+
+    const option: Option = new Option(optionParams);
+    this.options.push(option);
+    if (option.isRequired) {
+      this.requiredOptions.push(option);
+    }
   }
 
   /** Instantiates a new Option object and pushes it to options[] array */

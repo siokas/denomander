@@ -1,5 +1,5 @@
 import { assertEquals, test } from "../deps.ts";
-import { Denomander } from "../src/Denomander.ts";
+import Denomander, { Option } from "../mod.ts";
 
 test("app_option", function () {
   const program = new Denomander();
@@ -129,4 +129,20 @@ test("default_option_value", function () {
 
   assertEquals(program1.default, 1);
   assertEquals(program2.default, 2);
+});
+
+test("custom_option_object", function () {
+  const program = new Denomander();
+  const args = ["foo", "-m", "test"];
+
+  const messageOption = new Option({
+    flags: "-m --message",
+    description: "A nice description!",
+    isRequired: false,
+    callback: (message: string) => message.toUpperCase(),
+  });
+
+  program.command("foo").addOption(messageOption).parse(args);
+
+  assertEquals(program.message, "TEST");
 });

@@ -1,4 +1,4 @@
-import Denomander from "../mod.ts";
+import Denomander, { Option } from "../mod.ts";
 
 const program = new Denomander(
   {
@@ -37,6 +37,34 @@ program
   .action(() => {
     console.log(program.default);
   });
+
+program
+  .command("test")
+  .addOption(new Option({
+    flags: "-m --message",
+    description: "TEST DESCRIPTIONM",
+  }).default('default message'))
+  .action(() => {
+    console.log(program.message)
+  });
+
+const nameOption = new Option({
+  flags: "-n --name",
+  description: " Enter your name",
+  isRequired: false,
+  callback: (name: string) => name.toUpperCase(),
+  defaultValue: "james bond"
+});
+
+const ageOption = new Option({
+  flags: "-a --age",
+  description: " Enter your age"
+})
+  .isRequired(false)
+  .callback((age: string) => parseInteger(age))
+  .default(30);
+
+program.command("find").addOption(nameOption, ageOption).action(() => console.log(program.name + ' ' + program.age))
 
 try {
   program.parse(Deno.args);
