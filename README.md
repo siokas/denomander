@@ -28,7 +28,7 @@ import Denomander from "https://deno.land/x/denomander/mod.ts";
 Using nest.land
 
 ```typescript
-import Denomander from "https://x.nest.land/denomander@0.8.0/mod.ts";
+import Denomander from "https://x.nest.land/denomander/mod.ts";
 ```
 
 ## Usage Example
