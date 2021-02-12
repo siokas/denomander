@@ -53,12 +53,13 @@ export class Command {
   }
 
   public addCustomOption(customOption: CustomOption) {
-    const optionParams = {
+    const optionParams: OptionParameters = {
       flags: customOption._flags,
       description: customOption._description,
       command: this,
       callback: customOption._callback || undefined,
       defaultValue: customOption.defaultValue || undefined,
+      choises: customOption.all_choises || undefined,
     };
 
     const option: Option = new Option(optionParams);

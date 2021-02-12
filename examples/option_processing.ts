@@ -68,6 +68,15 @@ program.command("find").addOption(nameOption, ageOption).action(() =>
   console.log(program.name + " " + program.age)
 );
 
+const fruits = new Option({
+  flags: "-f --fruits",
+  description: "Choose one of accepted choises",
+}).choises(["apple", "banana", "orange"]);
+
+program.command("choose").addOption(fruits).action(() => {
+  console.log(`You choose ${program.fruits}`);
+});
+
 try {
   program.parse(Deno.args);
 } catch (error) {

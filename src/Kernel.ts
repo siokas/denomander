@@ -78,6 +78,7 @@ export abstract class Kernel {
     REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
     REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
     TOO_MANY_PARAMS: "You have passed too many parameters",
+    OPTION_CHOISE: "Invalid option choise!",
   };
 
   /** User have the option to throw the errors. by default it is not enabled */

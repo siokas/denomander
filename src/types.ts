@@ -55,6 +55,7 @@ export type ValidationResult = {
   passed: boolean;
   error?: Error;
   command?: string;
+  rest?: string;
 };
 
 /* Defines the validator options for the constructor */
@@ -72,6 +73,7 @@ export type CommandOption = {
   isRequired?: boolean;
   callback?: Function;
   defaultValue?: any;
+  choises?: Array<any>;
 };
 
 export type OptionParameters = {
@@ -81,6 +83,7 @@ export type OptionParameters = {
   isRequired?: boolean;
   callback?: Function;
   defaultValue?: any;
+  choises?: Array<any>;
 };
 
 /** Defines the version setter */
@@ -114,6 +117,7 @@ export type DenomanderErrors = {
   REQUIRED_OPTION_NOT_FOUND: string;
   REQUIRED_VALUE_NOT_FOUND: string;
   TOO_MANY_PARAMS: string;
+  OPTION_CHOISE: string;
 };
 
 /* Enum containing the Validation Rules */
@@ -124,4 +128,5 @@ export enum ValidationRules {
   ON_COMMANDS,
   ACTIONS,
   BASE_COMMAND_OPTIONS,
+  OPTION_CHOISES,
 }

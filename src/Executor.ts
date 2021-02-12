@@ -90,6 +90,7 @@ export class Executor {
       rules: [
         ValidationRules.NON_DECLEARED_ARGS,
         ValidationRules.REQUIRED_OPTIONS,
+        ValidationRules.OPTION_CHOISES,
       ],
       throw_errors: this.throw_errors,
     }).validate();

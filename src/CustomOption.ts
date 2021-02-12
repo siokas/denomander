@@ -23,6 +23,8 @@ export class CustomOption {
   /** Holds the default value if passed */
   public defaultValue?: any;
 
+  public all_choises?: Array<any>;
+
   /** Holds the short flag (-p). One letter command */
   protected _letter_option?: string;
 
@@ -65,6 +67,11 @@ export class CustomOption {
 
   public isRequired(isRequired: boolean): CustomOption {
     this._isRequired = isRequired;
+    return this;
+  }
+
+  public choises(choises: Array<any>): CustomOption {
+    this.all_choises = choises;
     return this;
   }
 }

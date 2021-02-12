@@ -63,15 +63,35 @@ export class Util {
     }
     if (command.hasRequiredOptions()) {
       console.log(yellow(bold("Required Options:")));
-      command.requiredOptions.forEach((option) =>
-        console.log(green(option.flags) + " \t " + option.description)
-      );
+      command.requiredOptions.forEach((option) => {
+        let helpText = green(option.flags) + " \t " + option.description +
+          " \t ";
+
+        if (option.hasDefaultValue()) {
+          helpText = helpText + `(default: ${option.defaultValue})`;
+        }
+
+        if (option.choises) {
+          helpText = helpText + `(choises: ${option.choises.toString()})`;
+        }
+        console.log(helpText);
+      });
       console.log();
     }
     console.log(yellow(bold("Options:")));
     command.options.forEach((option) => {
       if (!option.isRequired) {
-        console.log(green(option.flags) + " \t " + option.description);
+        let helpText = green(option.flags) + " \t " + option.description +
+          " \t ";
+
+        if (option.hasDefaultValue()) {
+          helpText = helpText + `(default: ${option.defaultValue})`;
+        }
+
+        if (option.choises) {
+          helpText = helpText + `(choises: ${option.choises.toString()})`;
+        }
+        console.log(helpText);
       }
     });
     console.log();

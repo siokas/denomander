@@ -45,7 +45,10 @@ export class Validator implements ValidatorContract {
       }
       const error_message = failed[0].error?.message || "";
       const error_command = failed[0].command;
-      error_log(`Error ${error_command}: ${error_message}`);
+      const error_rest_message = failed[0].rest || "";
+      error_log(
+        `Error ${error_command}: ${error_message} ${error_rest_message}`,
+      );
       Deno.exit(1);
     }
   }
@@ -73,6 +76,8 @@ export class Validator implements ValidatorContract {
           return this.validateOnCommands();
         case ValidationRules.BASE_COMMAND_OPTIONS:
           return this.validateBaseCommandOptions();
+        case ValidationRules.OPTION_CHOISES:
+          return this.validateOptionChoises();
         default:
           return {
             passed: false,
@@ -266,6 +271,30 @@ export class Validator implements ValidatorContract {
       }
     });
 
+    return result;
+  }
+
+  protected validateOptionChoises(): ValidationResult {
+    let result: ValidationResult = { passed: true };
+
+    this.app.commands.map((command: Command) => {
+      command.options.map((option: Option) => {
+        if (option.choises) {
+          for (const key in this.args.options) {
+            if (!option.choises.includes(this.args.options[key])) {
+              result = {
+                passed: false,
+                error: new Error(this.app.errors.OPTION_CHOISE),
+                command: `(${key})`,
+                rest: `Argument '${
+                  this.args.options[key]
+                }' is invalid. Allowed choices are: ${option.choises.toString()}`,
+              };
+            }
+          }
+        }
+      });
+    });
     return result;
   }
 

@@ -1,4 +1,5 @@
 import { assertEquals, assertThrows, test } from "../deps.ts";
+import { Option } from "./../mod.ts";
 import { Denomander } from "../src/Denomander.ts";
 
 test("validation_option_not_found_throws_error", function () {
@@ -57,5 +58,22 @@ test("validation_command_with_required_argument_throws_error", function () {
     },
     Error,
     program.errors.REQUIRED_VALUE_NOT_FOUND,
+  );
+});
+
+test("validation_option_choises", function () {
+  const program = new Denomander({ throw_errors: true });
+  const args = ["choose", "-c", "five"];
+  const customOption = new Option({
+    flags: "-c --choise",
+    description: "Choose one of the following",
+  }).choises(["one", "two", "three"]);
+
+  assertThrows(
+    () => {
+      program.command("choose").addOption(customOption).parse(args);
+    },
+    Error,
+    program.errors.OPTION_CHOISE,
   );
 });

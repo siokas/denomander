@@ -21,13 +21,13 @@ interfaces. It is inspired by [tj](https://github.com/tj)'s
 
 Using deno.land
 
-```javascript
+```typescript
 import Denomander from "https://deno.land/x/denomander/mod.ts";
 ```
 
 Using nest.land
 
-```javascript
+```typescript
 import Denomander from "https://x.nest.land/denomander@0.8.0/mod.ts";
 ```
 
@@ -37,7 +37,7 @@ First, in your deno script, create a _program_, optionally passing a name,
 description and version. If not you can change them afterwards by setting the
 **app_name**, **app_description** and **app_version** variables.
 
-```javascript
+```typescript
 const program = new Denomander({
   app_name: "My App Name",
   app_description: "My App Description",
@@ -54,7 +54,7 @@ To set an option just call the **option()** method passing the **short and long
 flags** separated by a space and the **description**. The value can be accessed
 as properties.
 
-```javascript
+```typescript
 program
   .command("serve", "Simple Server")
   .option("-a --address", "Define the address")
@@ -70,7 +70,7 @@ if (program.address) {
 You may define the option's short and long flags by separating them with a
 **space**, **comma** or **| (vertical bar or "pipe")**.
 
-```javascript
+```typescript
 program
   .command("serve", "Start up the server")
   .option("-a, --address", "Define the address")
@@ -85,7 +85,7 @@ console.log(`Server is running on ${program.address}:${program.port}`);
 The implementation of required option is exactly same as the optional option but
 you have to call the **requiredOption()** method instead.
 
-```javascript
+```typescript
 program
   .command("serve", "Start up the server")
   .requiredOption("-p --port", "Define the port")
@@ -103,19 +103,19 @@ You have the option to define options which belong to all commands (global
 option) and options which belong to no command (base command option ex.
 `--help`, `--version`).
 
-```javascript
+```typescript
 program
   .baseOption("-q --quiet", "Do not output any message")
   .globalOption("-c --color", "Define the output color")
   .parse(Deno.args);
 ```
 
-### Custom Option Processing
+#### Custom Option Processing
 
 You may specify a function to do custom processing of option values. The
 callback function receives a parameter of the pre-processed value.
 
-```javascript
+```typescript
 function parseInteger(value: string): number {
   return parseInt(value);
 }
@@ -140,7 +140,7 @@ program
   });
 ```
 
-### Default Option Value
+#### Default Option Value
 
 You may define a default value for options (in case no value is passed by the
 user, the app returns the specified default value as the value of the option)
@@ -151,6 +151,28 @@ program
   .option("-d --default", "Default Value", upercase, "bar")
   .action(() => {
     console.log(program.default);
+  });
+```
+
+#### Option choises
+
+You may define a list (array) of accepted choises for each option. If the user
+enters anything that is not in this list, a validation error
+(OPTION_CHOISE_ERROR) is throwned. To define accepted choises, you have to
+create a custom option object and call the `choises()` method passing the array
+of the accepted choises:
+
+```typescript
+const fruits = new Option({
+  flags: "-f --fruits",
+  description: "Choose one of accepted choises",
+}).choises(["apple", "banana", "orange"]);
+
+program
+  .command("choose")
+  .addOption(fruits)
+  .action(() => {
+    console.log(`You chose ${program.fruits}`);
   });
 ```
 
@@ -167,7 +189,7 @@ you may define them afterwards in their own methods). After the command you have
 the option to declare argument(s) inside brackets []. If you want a not required
 argument just append a question mark (?) after the name of the argument.
 
-```javascript
+```typescript
 program
   .command("mv [from] [to] [message?]", "Start the server")
   .action(({ from, to, message }: any) => {
@@ -189,7 +211,7 @@ program.parse(Deno.args);
 > destructure the object and take your variable which has the same name with
 > your command declaration!
 
-```javascript
+```typescript
 program
   .command("clone [foldername]")
   .description("clone a repo")
@@ -202,7 +224,7 @@ program.parse(Deno.args);
 
 #### Custom Implementation
 
-```javascript
+```typescript
 program.command("serve", "Start the server");
 
 if (program.serve) {
@@ -217,7 +239,7 @@ program.parse(Deno.args);
 After the command declaration you have the option to declare as many aliases as
 you want for this spesific command.
 
-```javascript
+```typescript
 program
   .command("serve", "Start the server")
   .alias("server", "start-server")
@@ -237,7 +259,7 @@ corresponding method. In case of help pass the command and the description but
 in case of version you may also pass the actual version of the app and after
 that the command and the description.
 
-```javascript
+```typescript
 program.setVersion("1.8.1", "-x --xversion", "Display the version of the app");
 
 program.parse(args);
@@ -251,7 +273,7 @@ in new `Denomander()` constructor (errors object) or you may call the
 
 1.
 
-```javascript
+```typescript
 const program = new Denomander({
   app_name: "My MY App",
   app_description: "My MY Description",
@@ -269,7 +291,7 @@ const program = new Denomander({
 
 2.
 
-```javascript
+```typescript
 program.errorMessages({
   INVALID_RULE: "Invalid Rule",
   OPTION_NOT_FOUND: "Option not found!",
@@ -287,7 +309,7 @@ outputs the error message in the console and exits the app. If you want to throw
 all the errors just pass the `throw_errors: true` option inside the AppDetails
 in Denomander constructor.
 
-```javascript
+```typescript
 const program = new Denomander({
   app_name: "My App Name",
   app_description: "My App Description",
@@ -295,16 +317,6 @@ const program = new Denomander({
   throw_errors: true,
 });
 ```
-
-## TODO
-
-- [x] Custom option processing
-- [ ] More examples
-- [ ] More tests
-- [x] Easy error customization
-- [ ] Documentation
-- [ ] Change `--help` default output
-- [x] Command with multiple arguments
 
 ## Used
 
