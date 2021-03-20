@@ -2,9 +2,9 @@ name: DenoCI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -14,6 +14,6 @@ jobs:
       - uses: actions/checkout@master
       - uses: denolib/setup-deno@master
         with:
-          deno-version: v1.7.5
+          deno-version: v1.8.1
       - run: deno fmt --check
       - run: deno test
