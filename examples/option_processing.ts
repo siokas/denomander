@@ -70,8 +70,8 @@ program.command("find").addOption(nameOption, ageOption).action(() =>
 
 const fruits = new Option({
   flags: "-f --fruits",
-  description: "Choose one of accepted choises",
-}).choises(["apple", "banana", "orange"]);
+  description: "Choose one of accepted choices",
+}).choices(["apple", "banana", "orange"]);
 
 program.command("choose").addOption(fruits).action(() => {
   console.log(`You choose ${program.fruits}`);

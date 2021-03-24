@@ -76,8 +76,8 @@ export class Validator implements ValidatorContract {
           return this.validateOnCommands();
         case ValidationRules.BASE_COMMAND_OPTIONS:
           return this.validateBaseCommandOptions();
-        case ValidationRules.OPTION_CHOISES:
-          return this.validateOptionChoises();
+        case ValidationRules.OPTION_CHOICES:
+          return this.validateOptionChoices();
         default:
           return {
             passed: false,
@@ -274,21 +274,20 @@ export class Validator implements ValidatorContract {
     return result;
   }
 
-  protected validateOptionChoises(): ValidationResult {
+  protected validateOptionChoices(): ValidationResult {
     let result: ValidationResult = { passed: true };
 
     this.app.commands.map((command: Command) => {
       command.options.map((option: Option) => {
-        if (option.choises) {
+        if (option.choices) {
           for (const key in this.args.options) {
-            if (!option.choises.includes(this.args.options[key])) {
+            if (!option.choices.includes(this.args.options[key])) {
               result = {
                 passed: false,
-                error: new Error(this.app.errors.OPTION_CHOISE),
+                error: new Error(this.app.errors.OPTION_CHOICE),
                 command: `(${key})`,
-                rest: `Argument '${
-                  this.args.options[key]
-                }' is invalid. Allowed choices are: ${option.choises.toString()}`,
+                rest: `Argument '${this.args.options[key]
+                  }' is invalid. Allowed choices are: ${option.choices.toString()}`,
               };
             }
           }

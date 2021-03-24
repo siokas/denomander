@@ -28,7 +28,7 @@ export class Option {
   /** Holds the default value if passed */
   public defaultValue?: any;
 
-  public choises?: Array<any>;
+  public choices?: Array<any>;
 
   /** Holds the short flag (-p). One letter command */
   protected _letter_option?: string;
@@ -53,8 +53,8 @@ export class Option {
       this.value = this.defaultValue;
     }
 
-    if (params.choises) {
-      this.choises = params.choises;
+    if (params.choices) {
+      this.choices = params.choices;
     }
 
     this.splitFlags();

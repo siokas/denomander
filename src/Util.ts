@@ -71,8 +71,8 @@ export class Util {
           helpText = helpText + `(default: ${option.defaultValue})`;
         }
 
-        if (option.choises) {
-          helpText = helpText + `(choises: ${option.choises.toString()})`;
+        if (option.choices) {
+          helpText = helpText + `(choices: ${option.choices.toString()})`;
         }
         console.log(helpText);
       });
@@ -88,8 +88,8 @@ export class Util {
           helpText = helpText + `(default: ${option.defaultValue})`;
         }
 
-        if (option.choises) {
-          helpText = helpText + `(choises: ${option.choises.toString()})`;
+        if (option.choices) {
+          helpText = helpText + `(choices: ${option.choices.toString()})`;
         }
         console.log(helpText);
       }

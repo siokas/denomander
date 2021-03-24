@@ -73,7 +73,7 @@ export type CommandOption = {
   isRequired?: boolean;
   callback?: Function;
   defaultValue?: any;
-  choises?: Array<any>;
+  choices?: Array<any>;
 };
 
 export type OptionParameters = {
@@ -83,7 +83,7 @@ export type OptionParameters = {
   isRequired?: boolean;
   callback?: Function;
   defaultValue?: any;
-  choises?: Array<any>;
+  choices?: Array<any>;
 };
 
 /** Defines the version setter */
@@ -117,7 +117,7 @@ export type DenomanderErrors = {
   REQUIRED_OPTION_NOT_FOUND: string;
   REQUIRED_VALUE_NOT_FOUND: string;
   TOO_MANY_PARAMS: string;
-  OPTION_CHOISE: string;
+  OPTION_CHOICE: string;
 };
 
 /* Enum containing the Validation Rules */
@@ -128,5 +128,5 @@ export enum ValidationRules {
   ON_COMMANDS,
   ACTIONS,
   BASE_COMMAND_OPTIONS,
-  OPTION_CHOISES,
+  OPTION_CHOICES,
 }

@@ -154,19 +154,19 @@ program
   });
 ```
 
-#### Option choises
+#### Option choices
 
-You may define a list (array) of accepted choises for each option. If the user
+You may define a list (array) of accepted choices for each option. If the user
 enters anything that is not in this list, a validation error
-(OPTION_CHOISE_ERROR) is throwned. To define accepted choises, you have to
-create a custom option object and call the `choises()` method passing the array
-of the accepted choises:
+(OPTION_CHOICE_ERROR) is throwned. To define accepted choices, you have to
+create a custom option object and call the `choices()` method passing the array
+of the accepted choices:
 
 ```typescript
 const fruits = new Option({
   flags: "-f --fruits",
-  description: "Choose one of accepted choises",
-}).choises(["apple", "banana", "orange"]);
+  description: "Choose one of accepted choices",
+}).choices(["apple", "banana", "orange"]);
 
 program
   .command("choose")
