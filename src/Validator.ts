@@ -286,8 +286,9 @@ export class Validator implements ValidatorContract {
                 passed: false,
                 error: new Error(this.app.errors.OPTION_CHOICE),
                 command: `(${key})`,
-                rest: `Argument '${this.args.options[key]
-                  }' is invalid. Allowed choices are: ${option.choices.toString()}`,
+                rest: `Argument '${
+                  this.args.options[key]
+                }' is invalid. Allowed choices are: ${option.choices.toString()}`,
               };
             }
           }

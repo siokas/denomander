@@ -36,7 +36,7 @@ export class Command {
   constructor(params: CommandParams) {
     this.params = Object.assign({
       description: "",
-      action: () => { },
+      action: () => {},
     }, params);
 
     this.addOption({
