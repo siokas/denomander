@@ -158,9 +158,9 @@ program
 
 You may define a list (array) of accepted choices for each option. If the user
 enters anything that is not in this list, a validation error
-(OPTION_CHOICE_ERROR) is thrown. To define accepted choices, you have to
-create a custom option object and call the `choices()` method passing the array
-of the accepted choices:
+(OPTION_CHOICE_ERROR) is thrown. To define accepted choices, you have to create
+a custom option object and call the `choices()` method passing the array of the
+accepted choices:
 
 ```typescript
 const fruits = new Option({
