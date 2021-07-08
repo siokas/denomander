@@ -1,9 +1,9 @@
 import { CommandOption } from "./types.ts";
 
 /**
-  * Class that only handles the custom option form the user 
+  * Class that only handles the custom option form the user
   * (it is not used but it reasign the proper Option object)
-  * 
+  *
   * @export
   * @class CustomOption
  */

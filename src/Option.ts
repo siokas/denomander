@@ -4,8 +4,8 @@ import { Command } from "./Command.ts";
 import { OptionParameters } from "./types.ts";
 
 /**
-  * Option class 
-  * 
+  * Option class
+  *
   * @export
   * @class Option
  */
