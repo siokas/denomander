@@ -13,6 +13,7 @@ const program = new Denomander(
       REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
       REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
       TOO_MANY_PARAMS: "You have passed too many parameters",
+      OPTION_CHOICE: "Invalid option choice!",
     },
   },
 );
