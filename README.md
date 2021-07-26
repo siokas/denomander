@@ -148,7 +148,7 @@ user, the app returns the specified default value as the value of the option)
 ```typescript
 program
   .command("foo", "Foo Test")
-  .option("-d --default", "Default Value", upercase, "bar")
+  .option("-d --default", "Default Value", uppercase, "bar")
   .action(() => {
     console.log(program.default);
   });
@@ -217,6 +217,31 @@ program
   .description("clone a repo")
   .action(({ foldername }: any) => {
     console.log("The repo is cloned into: " + foldername);
+  });
+
+program.parse(Deno.args);
+```
+
+#### Extra Parameters
+
+> Any options available in the program are passed to the callback function.
+
+```typescript
+program
+  .command("clone [foldername]")
+  .description("clone a repo")
+  .option("-b --branch", "Branch to clone")
+  .action(({ foldername }: any, { branch }: any) => {
+    console.log("Repo: " + foldername);
+    console.log("Branch: " + branch);
+  });
+
+program
+  .command("multiply", "Multiply x and y options")
+  .option("-x --xnumber", "First Number", parseInteger)
+  .option("-y --ynumber", "First Number", parseInteger)
+  .action(({ xnumber, ynumber }: any) => {
+    console.log(xnumber * ynumber);
   });
 
 program.parse(Deno.args);

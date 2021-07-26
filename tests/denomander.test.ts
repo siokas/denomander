@@ -46,19 +46,25 @@ test("app_on_command", function () {
 
 test("action_command", function () {
   const program = new Denomander();
-  const args = ["clone", "githubtest"];
+  const args = ["clone", "--branch=main", "githubtest"];
 
-  let result = "";
+  let result = {
+    foldername: "",
+    branch: ""
+  };
 
   program
     .command("clone [foldername]")
-    .action(({ foldername }: any) => {
-      result = foldername;
+    .option("-b --branch", "Branch to clone")
+    .action(({ foldername }: any, { branch }: any) => {
+      result.foldername = foldername;
+      result.branch = branch;
     });
 
   program.parse(args);
 
-  assertEquals(result, "githubtest");
+  assertEquals(result.foldername, "githubtest");
+  assertEquals(result.branch, "main");
 });
 
 test("option_processing", function () {

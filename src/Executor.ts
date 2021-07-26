@@ -2,7 +2,7 @@ import { Arguments } from "./Arguments.ts";
 import { Kernel } from "./Kernel.ts";
 import { Command } from "./Command.ts";
 import { Util } from "./Util.ts";
-import { CommandArgument, OnCommand, ValidationRules } from "./types.ts";
+import { CommandArgument, ValidationRules } from "./types.ts";
 import { Helper } from "./Helper.ts";
 import { Option } from "./Option.ts";
 import { Validator } from "./Validator.ts";
@@ -175,20 +175,20 @@ export class Executor {
     return this;
   }
 
-  /** It calls the .action() method calback function and passes the nessesery parameters */
+  /** It calls the .action() method calback function and passes the necessary parameters */
   public actionCommands(): Executor {
     this.app.available_actions.forEach((command: Command) => {
       if (this.args) {
         if (Util.isCommandInArgs(command, this.args)) {
           if (command.command_arguments.length == 0) {
-            command.action();
+            command.action(this.app);
           } else {
             let params: any = {};
             command.command_arguments.forEach((commandArg: CommandArgument) => {
               params[commandArg.argument] = commandArg.value;
             });
 
-            command.action(params);
+            command.action(params, this.app);
           }
         }
       }
