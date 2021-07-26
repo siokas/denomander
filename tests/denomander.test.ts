@@ -50,7 +50,7 @@ test("action_command", function () {
 
   let result = {
     foldername: "",
-    branch: ""
+    branch: "",
   };
 
   program
