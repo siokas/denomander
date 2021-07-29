@@ -89,10 +89,8 @@ export class Validator implements ValidatorContract {
 
   /** Validates if there are non decleared arguments */
   protected validateNonDeclearedArgs(): ValidationResult {
-    const commandArgs: ValidationResult = this
-      .nonDeclearedCommandArgs();
-    const optionArgs: ValidationResult = this
-      .nonDeclearedOptionArgs();
+    const commandArgs: ValidationResult = this.nonDeclearedCommandArgs();
+    const optionArgs: ValidationResult = this.nonDeclearedOptionArgs();
 
     if (commandArgs.error) {
       return {
@@ -153,9 +151,7 @@ export class Validator implements ValidatorContract {
 
         if (command && command.hasRequiredArguments()) {
           const commandRequiredArgs = command.requiredCommandArguments();
-          if (
-            commandRequiredArgs.length >= this.args.commands.length
-          ) {
+          if (commandRequiredArgs.length >= this.args.commands.length) {
             const command =
               commandRequiredArgs[commandRequiredArgs.length - 1].argument;
             result = {

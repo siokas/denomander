@@ -5,9 +5,10 @@ test("app_option", function () {
   const program = new Denomander();
   const args = ["serve", "--port=8080"];
 
-  program.command("serve").option("-p --port", "Define port number").parse(
-    args,
-  );
+  program
+    .command("serve")
+    .option("-p --port", "Define port number")
+    .parse(args);
 
   assertEquals(program.port, 8080);
 });
@@ -112,10 +113,9 @@ test("command_argument_parse_number_0", function () {
 
   let result = 1;
 
-  program.command("foo [bar]", "Foo")
-    .action(({ bar }: any) => {
-      result = bar;
-    });
+  program.command("foo [bar]", "Foo").action(({ bar }: any) => {
+    result = bar;
+  });
 
   program.parse(args);
 
@@ -128,9 +128,13 @@ test("default_option_value", function () {
   const argsNoOption = ["foo"];
   const argsWithOption = ["foo", "-d", "2"];
 
-  program1.command("foo").option("-d --default", "Default Value", undefined, 1)
+  program1
+    .command("foo")
+    .option("-d --default", "Default Value", undefined, 1)
     .parse(argsNoOption);
-  program2.command("foo").option("-d --default", "Default Value", undefined, 1)
+  program2
+    .command("foo")
+    .option("-d --default", "Default Value", undefined, 1)
     .parse(argsWithOption);
 
   assertEquals(program1.default, 1);
@@ -151,4 +155,20 @@ test("custom_option_object", function () {
   program.command("foo").addOption(messageOption).parse(args);
 
   assertEquals(program.message, "TEST");
+});
+
+test("command_has_rest_options", function () {
+  const program = new Denomander();
+  const args = ["file", "file1", "file2", "file3"];
+  let found: any = [];
+
+  program
+    .command("file [args...]")
+    .action(({ args }: any) => {
+      found = args;
+    })
+    .parse(args);
+
+  assertEquals(found.length, 3);
+  assertEquals(found, ["file1", "file2", "file3"]);
 });

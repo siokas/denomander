@@ -53,9 +53,12 @@ export class Denomander extends Kernel implements PublicAPI {
 
     if (command) {
       if (callback) {
-        command.addOption(
-          { flags: value, description, callback, isRequired: true },
-        );
+        command.addOption({
+          flags: value,
+          description,
+          callback,
+          isRequired: true,
+        });
       } else {
         command.addOption({ flags: value, description, isRequired: true });
       }

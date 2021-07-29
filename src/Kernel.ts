@@ -6,6 +6,7 @@ import { Util } from "./Util.ts";
 import {
   AliasCommandBuilder,
   AppDetails,
+  CommandArgument,
   CustomArgs,
   DenomanderErrors,
   KernelAppDetails,
@@ -16,8 +17,8 @@ import {
 import { Option } from "./Option.ts";
 
 /**
-  * It is the core of the app. It is responsible for almost everything.
-  * The executeProgram() is the starting point of the app.
+ * It is the core of the app. It is responsible for almost everything.
+ * The executeProgram() is the starting point of the app.
  */
 export abstract class Kernel {
   /**
@@ -63,9 +64,10 @@ export abstract class Kernel {
   public versionOption: Option;
 
   /** The base command is needed to hold the default options like --help, --version */
-  public BASE_COMMAND: Command = new Command(
-    { value: "_", description: "Base Command" },
-  );
+  public BASE_COMMAND: Command = new Command({
+    value: "_",
+    description: "Base Command",
+  });
 
   /** Arguments passed by the user during runtime */
   protected _args: CustomArgs = {};
@@ -98,9 +100,10 @@ export abstract class Kernel {
       }
     }
 
-    this.versionOption = this.BASE_COMMAND.addOption(
-      { flags: "-V --version", description: "Version" },
-    );
+    this.versionOption = this.BASE_COMMAND.addOption({
+      flags: "-V --version",
+      description: "Version",
+    });
   }
 
   /** Getter of the app name */
@@ -139,11 +142,11 @@ export abstract class Kernel {
 
   /** Do some necessary setup */
   protected setup(): Kernel {
-    return this
-      .detectEmptyArgs()
+    return this.detectEmptyArgs()
       .detectDefaultOptions()
       .detectBaseCommandOptions()
-      .setupGlobalOptions();
+      .setupGlobalOptions()
+      .detectSpreadOperator();
   }
 
   /** Executes default commands (--help, --version) */
@@ -203,16 +206,12 @@ export abstract class Kernel {
 
   protected detectBaseCommandOptions(): Kernel {
     if (this.args && this.args.commands.length == 0) {
-      new Validator(
-        {
-          app: this,
-          args: this.args,
-          rules: [
-            ValidationRules.BASE_COMMAND_OPTIONS,
-          ],
-          throw_errors: this.throw_errors,
-        },
-      ).validate();
+      new Validator({
+        app: this,
+        args: this.args,
+        rules: [ValidationRules.BASE_COMMAND_OPTIONS],
+        throw_errors: this.throw_errors,
+      }).validate();
 
       this.BASE_COMMAND.options.forEach((option) => {
         option.value = Util.setOptionValue(option, this.args!);
@@ -227,19 +226,29 @@ export abstract class Kernel {
   protected setupGlobalOptions(): Kernel {
     this.globalOptions.forEach((option: OptionBuilder) => {
       this.commands.forEach((command: Command) => {
-        command.addOption(
-          { flags: option.value, description: option.description },
-        );
+        command.addOption({
+          flags: option.value,
+          description: option.description,
+        });
       });
     });
 
     return this;
   }
 
+  protected detectSpreadOperator(): Kernel {
+    this.commands.map((command: Command) => {
+      command.command_arguments.forEach((commandArg: CommandArgument) => {
+        if (commandArg.argument.includes("...")) {
+          // console.log(command);
+        }
+      });
+    });
+    return this;
+  }
+
   /** The starting point of the program */
   protected run(): Kernel {
-    return this
-      .setup()
-      .execute();
+    return this.setup().execute();
   }
 }

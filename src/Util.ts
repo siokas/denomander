@@ -204,19 +204,13 @@ export class Util {
   }
 
   /** It detects if the given command is in the arguments */
-  public static isOptionInArgs(
-    command: Command,
-    args: CustomArgs,
-  ): Boolean {
+  public static isOptionInArgs(command: Command, args: CustomArgs): Boolean {
     let found = false;
 
     for (const key in args) {
       if (key === "length" || !args.hasOwnProperty(key)) continue;
 
-      if (
-        key != "" &&
-        (command.word_command === key)
-      ) {
+      if (key != "" && command.word_command === key) {
         found = true;
       }
     }

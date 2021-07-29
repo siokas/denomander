@@ -1,22 +1,20 @@
 import { blue, green, red } from "../deps.ts";
 import Denomander from "../mod.ts";
 
-const program = new Denomander(
-  {
-    app_name: "My MY App",
-    app_description: "My MY Description",
-    app_version: "1.0.1",
-    errors: {
-      INVALID_RULE: "Invalid Rule",
-      OPTION_NOT_FOUND: "Option not found!",
-      COMMAND_NOT_FOUND: "Command not found!",
-      REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
-      REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
-      TOO_MANY_PARAMS: "You have passed too many parameters",
-      OPTION_CHOICE: "Invalid option choice!",
-    },
+const program = new Denomander({
+  app_name: "My MY App",
+  app_description: "My MY Description",
+  app_version: "1.0.1",
+  errors: {
+    INVALID_RULE: "Invalid Rule",
+    OPTION_NOT_FOUND: "Option not found!",
+    COMMAND_NOT_FOUND: "Command not found!",
+    REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
+    REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
+    TOO_MANY_PARAMS: "You have passed too many parameters",
+    OPTION_CHOICE: "Invalid option choice!",
   },
-);
+});
 
 program
   .baseOption("-q --quiet", "Do not output any message")
@@ -34,7 +32,8 @@ program
   .command("clone [foldername]")
   .action(({ foldername }: any) => {
     colored_output("The repo is cloned into: " + foldername);
-  }).description("clone a repo");
+  })
+  .description("clone a repo");
 
 program
   .command("mv [from] [to] [message?]")
@@ -43,7 +42,16 @@ program
     if (message) {
       console.log(message);
     }
-  }).description("move file");
+  })
+  .description("move file");
+
+program
+  .command("find [args...]")
+  .action(({ args }: any) => {
+    console.log(`Files to find (${args.length}): `);
+    console.log(args);
+  })
+  .description("find file");
 
 program.on("quiet", () => {
   console.log("Enable Quiet Mode...");

@@ -54,9 +54,7 @@ export class Executor {
     new Validator({
       app: this.app,
       args: this.args,
-      rules: [
-        ValidationRules.REQUIRED_VALUES,
-      ],
+      rules: [ValidationRules.REQUIRED_VALUES],
       throw_errors: this.throw_errors,
     }).validate();
 
@@ -69,11 +67,18 @@ export class Executor {
         this.app[command.word_command] = true;
 
         command.command_arguments.forEach((commandArg: CommandArgument) => {
-          commandArg.value = this.args.commands[key + 1];
-          this.args.commands.splice(key + 1, 1);
+          if (commandArg.argument.includes("...")) {
+            commandArg.value = this.args.commands.splice(1);
+            if (commandArg.value) {
+              this.app[commandArg.argument] = commandArg.value;
+            }
+          } else {
+            commandArg.value = this.args.commands[key + 1];
+            this.args.commands.splice(key + 1, 1);
 
-          if (commandArg.value) {
-            this.app[commandArg.argument] = commandArg.value;
+            if (commandArg.value) {
+              this.app[commandArg.argument] = commandArg.value;
+            }
           }
         });
       }
@@ -139,9 +144,7 @@ export class Executor {
     new Validator({
       app: this.app,
       args: this.args,
-      rules: [
-        ValidationRules.ON_COMMANDS,
-      ],
+      rules: [ValidationRules.ON_COMMANDS],
       throw_errors: this.throw_errors,
     }).validate();
 
@@ -185,6 +188,13 @@ export class Executor {
           } else {
             let params: any = {};
             command.command_arguments.forEach((commandArg: CommandArgument) => {
+              if (commandArg.argument.includes("...")) {
+                const argument = commandArg.argument.substring(
+                  0,
+                  commandArg.argument.indexOf("..."),
+                );
+                params[argument] = commandArg.value;
+              }
               params[commandArg.argument] = commandArg.value;
             });
 

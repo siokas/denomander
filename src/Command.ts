@@ -34,10 +34,13 @@ export class Command {
 
   /** Constructor of Command object */
   constructor(params: CommandParams) {
-    this.params = Object.assign({
-      description: "",
-      action: () => {},
-    }, params);
+    this.params = Object.assign(
+      {
+        description: "",
+        action: () => {},
+      },
+      params,
+    );
 
     this.addOption({
       flags: "-h --help",
@@ -138,16 +141,15 @@ export class Command {
         if (Helper.containsBrackets(value)) {
           // Command Here
           if (Helper.containsQuestionMark(value)) {
-            this.command_arguments.push(
-              {
-                argument: Helper.stripBrackets(Helper.stripQuestionMark(value)),
-                isRequired: false,
-              },
-            );
+            this.command_arguments.push({
+              argument: Helper.stripBrackets(Helper.stripQuestionMark(value)),
+              isRequired: false,
+            });
           } else {
-            this.command_arguments.push(
-              { argument: Helper.stripBrackets(value), isRequired: true },
-            );
+            this.command_arguments.push({
+              argument: Helper.stripBrackets(value),
+              isRequired: true,
+            });
           }
         }
         if (Helper.containsCurlyBrackets(value)) {
