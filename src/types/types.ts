@@ -1,6 +1,6 @@
-import { Command } from "./Command.ts";
-import { Kernel } from "./Kernel.ts";
-import { Arguments } from "./Arguments.ts";
+import Command from "../Command.ts";
+import Kernel from "../Kernel.ts";
+import Arguments from "../Arguments.ts";
 
 /** Defines the app detail types. Applied only in Kernel constuctor */
 export type KernelAppDetails = {

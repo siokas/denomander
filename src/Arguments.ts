@@ -1,9 +1,9 @@
 import { parse } from "../deps.ts";
-import { ArgumentsContract } from "./interfaces.ts";
-import { CustomArgs } from "./types.ts";
+import { ArgumentsContract } from "./types/interfaces.ts";
+import { CustomArgs } from "./types/types.ts";
 
 /** It parses the arguments and splits them into commands and options */
-export class Arguments implements ArgumentsContract {
+export default class Arguments implements ArgumentsContract {
   /** Aruments from Deno.args (unparsed) */
   protected unparsed_args: Array<string>;
 

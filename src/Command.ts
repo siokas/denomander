@@ -1,15 +1,24 @@
-import { Helper } from "./Helper.ts";
+import {
+  removeBrackets,
+  removeDashes,
+  removeQuestionMark,
+} from "./utils/remove.ts";
+import {
+  itContainsBrackets,
+  itContainsCurlyBrackets,
+  itContainsQuestionMark,
+} from "./utils/detect.ts";
 import {
   CommandArgument,
   CommandOption,
   CommandParams,
   OptionParameters,
-} from "./types.ts";
-import { Option } from "./Option.ts";
-import { CustomOption } from "./CustomOption.ts";
+} from "./types/types.ts";
+import Option from "./Option.ts";
+import CustomOption from "./CustomOption.ts";
 
 /* Command class */
-export class Command {
+export default class Command {
   public declaration = "";
   /** If the command has a required value to be passed from the user*/
   public require_command_value = false;
@@ -133,26 +142,26 @@ export class Command {
     const splitedValue = this.params.value.split(" ");
 
     if (splitedValue.length == 1) {
-      this._word_command = Helper.stripDashes(splitedValue[0]);
+      this._word_command = removeDashes(splitedValue[0]);
     } else {
-      this._word_command = Helper.stripDashes(splitedValue[0]);
+      this._word_command = removeDashes(splitedValue[0]);
       splitedValue.splice(0, 1);
       splitedValue.forEach((value) => {
-        if (Helper.containsBrackets(value)) {
+        if (itContainsBrackets(value)) {
           // Command Here
-          if (Helper.containsQuestionMark(value)) {
+          if (itContainsQuestionMark(value)) {
             this.command_arguments.push({
-              argument: Helper.stripBrackets(Helper.stripQuestionMark(value)),
+              argument: removeBrackets(removeQuestionMark(value)),
               isRequired: false,
             });
           } else {
             this.command_arguments.push({
-              argument: Helper.stripBrackets(value),
+              argument: removeBrackets(value),
               isRequired: true,
             });
           }
         }
-        if (Helper.containsCurlyBrackets(value)) {
+        if (itContainsCurlyBrackets(value)) {
           // Options Here
         }
       });

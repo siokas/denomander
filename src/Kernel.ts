@@ -1,26 +1,27 @@
-import { Command } from "./Command.ts";
-import { Validator } from "./Validator.ts";
-import { Arguments } from "./Arguments.ts";
-import { Executor } from "./Executor.ts";
-import { Util } from "./Util.ts";
+import Command from "./Command.ts";
+import Validator from "./Validator.ts";
+import Arguments from "./Arguments.ts";
+import Executor from "./Executor.ts";
+import Option from "./Option.ts";
 import {
   AliasCommandBuilder,
   AppDetails,
-  CommandArgument,
   CustomArgs,
   DenomanderErrors,
   KernelAppDetails,
   OnCommand,
   OptionBuilder,
   ValidationRules,
-} from "./types.ts";
-import { Option } from "./Option.ts";
+} from "./types/types.ts";
+import { isEmptyArgs, isOptionInArgs } from "./utils/detect.ts";
+import { print_help } from "./utils/print.ts";
+import { setOptionValue } from "./utils/set.ts";
 
 /**
  * It is the core of the app. It is responsible for almost everything.
  * The executeProgram() is the starting point of the app.
  */
-export abstract class Kernel {
+abstract class Kernel {
   /**
    * Multiple variables that will be defined during runtime,
    * holding the values of the commands passed from the user
@@ -170,12 +171,12 @@ export abstract class Kernel {
       app_version: this.app_version,
     };
 
-    Util.print_help(app_details, this.commands, this.BASE_COMMAND);
+    print_help(app_details, this.commands, this.BASE_COMMAND);
   }
 
   /** Detects if there are no args and prints the help screen */
   protected detectEmptyArgs(): Kernel {
-    if (this.args && Util.emptyArgs(this.args)) {
+    if (this.args && isEmptyArgs(this.args)) {
       this.printDefaultHelp();
       Deno.exit(0);
     }
@@ -186,7 +187,7 @@ export abstract class Kernel {
   protected detectDefaultOptions(): Kernel {
     if (this.args && this.args.commands.length == 0) {
       this.BASE_COMMAND.options.forEach((option) => {
-        if (Util.optionIsInArgs(option, this.args!)) {
+        if (isOptionInArgs(option, this.args!)) {
           if (option.word_option == "help") {
             this.printDefaultHelp();
             Deno.exit(0);
@@ -213,7 +214,7 @@ export abstract class Kernel {
       }).validate();
 
       this.BASE_COMMAND.options.forEach((option) => {
-        option.value = Util.setOptionValue(option, this.args!);
+        option.value = setOptionValue(option, this.args!);
 
         this[option.word_option] = option.value;
       });
@@ -240,3 +241,5 @@ export abstract class Kernel {
     return this.setup().execute();
   }
 }
+
+export default Kernel;

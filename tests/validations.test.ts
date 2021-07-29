@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows, test } from "../deps.ts";
 import { Option } from "./../mod.ts";
-import { Denomander } from "../src/Denomander.ts";
+import Denomander from "../src/Denomander.ts";
 
 test("validation_option_not_found_throws_error", function () {
   const program = new Denomander({ throw_errors: true });
@@ -40,7 +40,9 @@ test("validation_required_option_throws_error", function () {
 
   assertThrows(
     () => {
-      program.command("serve").requiredOption("-a --address", "Define address")
+      program
+        .command("serve")
+        .requiredOption("-a --address", "Define address")
         .parse(args);
     },
     Error,
@@ -64,7 +66,7 @@ test("validation_command_with_required_argument_throws_error", function () {
 test("validation_option_choices", function () {
   const program = new Denomander({ throw_errors: true });
   const args = ["choose", "-c", "five"];
-  const customOption = new Option({
+  const customOption = new Option.default({
     flags: "-c --choice",
     description: "Choose one of the following",
   }).choices(["one", "two", "three"]);

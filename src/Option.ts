@@ -1,15 +1,15 @@
-import { Helper } from "./Helper.ts";
-import { Util } from "./Util.ts";
-import { Command } from "./Command.ts";
-import { OptionParameters } from "./types.ts";
+import Command from "./Command.ts";
+import { OptionParameters } from "./types/types.ts";
+import { splitValue } from "./utils/utils.ts";
+import { removeDashes, trimString } from "./utils/remove.ts";
 
 /**
-  * Option class
-  *
-  * @export
-  * @class Option
+ * Option class
+ *
+ * @export
+ * @class Option
  */
-export class Option {
+export default class Option {
   /** Holds the flags as defined (unparsed) */
   public flags: string;
 
@@ -78,36 +78,26 @@ export class Option {
    * and stores the word_option.
    */
   private splitFlags() {
-    const splitedValue: Array<string> = Util.splitValue(this.flags);
+    const splitedValue: Array<string> = splitValue(this.flags);
 
     switch (splitedValue.length) {
       case 1:
-        if (Helper.stripDashes(splitedValue[0]).length === 1) {
-          this._letter_option = Helper.stripDashes(splitedValue[0]);
+        if (removeDashes(splitedValue[0]).length === 1) {
+          this._letter_option = removeDashes(splitedValue[0]);
         } else {
-          this._word_option = Helper.stripDashes(splitedValue[0]);
+          this._word_option = removeDashes(splitedValue[0]);
         }
         break;
 
       case 2:
-        if (
-          Helper.stripDashes(Helper.trimString(splitedValue[0])).length === 1
-        ) {
-          this._letter_option = Helper.stripDashes(
-            Helper.trimString(splitedValue[0]),
-          );
+        if (removeDashes(trimString(splitedValue[0])).length === 1) {
+          this._letter_option = removeDashes(trimString(splitedValue[0]));
 
-          if (
-            Helper.stripDashes(Helper.trimString(splitedValue[1])).length > 1
-          ) {
-            this._word_option = Helper.stripDashes(
-              Helper.trimString(splitedValue[1]),
-            );
+          if (removeDashes(trimString(splitedValue[1])).length > 1) {
+            this._word_option = removeDashes(trimString(splitedValue[1]));
           }
         } else {
-          this._word_option = Helper.stripDashes(
-            Helper.trimString(splitedValue[0]),
-          );
+          this._word_option = removeDashes(trimString(splitedValue[0]));
         }
         break;
 

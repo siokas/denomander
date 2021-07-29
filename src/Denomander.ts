@@ -1,12 +1,12 @@
-import { Arguments } from "./Arguments.ts";
-import { Command } from "./Command.ts";
-import { Kernel } from "./Kernel.ts";
-import { PublicAPI } from "./interfaces.ts";
-import { CommandOption, VersionType } from "./types.ts";
-import { CustomOption } from "./CustomOption.ts";
+import Arguments from "./Arguments.ts";
+import Command from "./Command.ts";
+import Kernel from "./Kernel.ts";
+import CustomOption from "./CustomOption.ts";
+import { PublicAPI } from "./types/interfaces.ts";
+import { CommandOption, VersionType } from "./types/types.ts";
 
 /** The main class */
-export class Denomander extends Kernel implements PublicAPI {
+export default class Denomander extends Kernel implements PublicAPI {
   /** Parses the args*/
   public parse(args: Array<string>) {
     this.args = new Arguments(args);

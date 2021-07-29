@@ -1,13 +1,13 @@
-import { CommandOption } from "./types.ts";
+import { CommandOption } from "./types/types.ts";
 
 /**
-  * Class that only handles the custom option form the user
-  * (it is not used but it reasign the proper Option object)
-  *
-  * @export
-  * @class CustomOption
+ * Class that only handles the custom option form the user
+ * (it is not used but it reasign the proper Option object)
+ *
+ * @export
+ * @class CustomOption
  */
-export class CustomOption {
+export default class CustomOption {
   /** Holds the flags as defined (unparsed) */
   public _flags: string;
 

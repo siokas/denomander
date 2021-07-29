@@ -1,4 +1,4 @@
-import { Denomander } from "./Denomander.ts";
+import Denomander from "../Denomander.ts";
 
 /** The methods that must be implemented for public api */
 export interface PublicAPI {

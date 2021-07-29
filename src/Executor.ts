@@ -1,14 +1,17 @@
-import { Arguments } from "./Arguments.ts";
-import { Kernel } from "./Kernel.ts";
-import { Command } from "./Command.ts";
-import { Util } from "./Util.ts";
-import { CommandArgument, ValidationRules } from "./types.ts";
-import { Helper } from "./Helper.ts";
-import { Option } from "./Option.ts";
-import { Validator } from "./Validator.ts";
+import Arguments from "./Arguments.ts";
+import Kernel from "./Kernel.ts";
+import Command from "./Command.ts";
+import Option from "./Option.ts";
+import Validator from "./Validator.ts";
+import { CommandArgument, ValidationRules } from "./types/types.ts";
+import { isCommandInArgs, isOptionInArgs } from "./utils/detect.ts";
+import { findCommandFromArgs, findOptionFromArgs } from "./utils/find.ts";
+import { printCommandHelp } from "./utils/print.ts";
+import { setOptionValue } from "./utils/set.ts";
+import { trimDashesAndSpaces } from "./utils/remove.ts";
 
 /** It is responsible for generating the app variables and running the necessary callback functions */
-export class Executor {
+export default class Executor {
   /** User have the option to throw the errors */
   public throw_errors: boolean;
 
@@ -29,15 +32,15 @@ export class Executor {
   public defaultCommands(): Executor {
     if (this.args) {
       this.args.commands.forEach((argCommand) => {
-        const command = Util.findCommandFromArgs(this.app.commands, argCommand);
+        const command = findCommandFromArgs(this.app.commands, argCommand);
 
         if (command) {
           command.options.forEach((option: Option) => {
-            option.value = Util.setOptionValue(option, this.args!);
+            option.value = setOptionValue(option, this.args!);
 
-            if (Util.optionIsInArgs(option, this.args!)) {
+            if (isOptionInArgs(option, this.args!)) {
               if (option.word_option == "help") {
-                Util.printCommandHelp(command!);
+                printCommandHelp(command!);
                 Deno.exit(0);
               }
             }
@@ -59,7 +62,7 @@ export class Executor {
     }).validate();
 
     this.args.commands.forEach((arg: string, key: number) => {
-      const command: Command | undefined = Util.findCommandFromArgs(
+      const command: Command | undefined = findCommandFromArgs(
         this.app.commands,
         arg,
       );
@@ -100,7 +103,7 @@ export class Executor {
       throw_errors: this.throw_errors,
     }).validate();
     for (const key in this.args.options) {
-      const command: Command | undefined = Util.findCommandFromArgs(
+      const command: Command | undefined = findCommandFromArgs(
         this.app.commands,
         this.args.commands[0],
       );
@@ -149,14 +152,14 @@ export class Executor {
     }).validate();
 
     this.app.on_commands.forEach((onCommand) => {
-      const command: Command | undefined = Util.findCommandFromArgs(
+      const command: Command | undefined = findCommandFromArgs(
         this.app.commands,
         onCommand.arg,
       );
 
-      const option: Option | undefined = Util.findOptionFromArgs(
+      const option: Option | undefined = findOptionFromArgs(
         this.app.BASE_COMMAND.options,
-        Helper.noDashesTrimSpaces(onCommand.arg),
+        trimDashesAndSpaces(onCommand.arg),
       );
 
       if (command) {
@@ -164,7 +167,7 @@ export class Executor {
         this.app.available_actions.push(command);
       }
 
-      if (option && Util.optionIsInArgs(option, this.args)) {
+      if (option && isOptionInArgs(option, this.args)) {
         if (this.args.options[option.word_option]) {
           onCommand.callback(this.args.options[option.word_option]);
         }
@@ -182,7 +185,7 @@ export class Executor {
   public actionCommands(): Executor {
     this.app.available_actions.forEach((command: Command) => {
       if (this.args) {
-        if (Util.isCommandInArgs(command, this.args)) {
+        if (isCommandInArgs(command, this.args)) {
           if (command.command_arguments.length == 0) {
             command.action(this.app);
           } else {

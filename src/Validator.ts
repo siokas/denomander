@@ -1,21 +1,26 @@
-import { Util } from "./Util.ts";
-import { Arguments } from "./Arguments.ts";
-import { Kernel } from "./Kernel.ts";
-import { Command } from "./Command.ts";
-import { error_log } from "./Logger.ts";
-import { ValidatorContract } from "./interfaces.ts";
+import Arguments from "./Arguments.ts";
+import Kernel from "./Kernel.ts";
+import Command from "./Command.ts";
+import { ValidatorContract } from "./types/interfaces.ts";
+import Option from "./Option.ts";
 import {
   OnCommand,
-  TempOnCommand,
   ValidationResult,
   ValidationRules,
   ValidatorOptions,
-} from "./types.ts";
-import { Option } from "./Option.ts";
-import { Helper } from "./Helper.ts";
+} from "./types/types.ts";
+import { error_log } from "./utils/print.ts";
+import {
+  isArgInAvailableCommands,
+  isArgInAvailableOptions,
+  isCommandInArgs,
+  isOptionInArgs,
+} from "./utils/detect.ts";
+import { findCommandFromArgs, findOptionFromArgs } from "./utils/find.ts";
+import { trimDashesAndSpaces } from "./utils/remove.ts";
 
 /** It is responsible for validating the arguments and throw the related error */
-export class Validator implements ValidatorContract {
+export default class Validator implements ValidatorContract {
   /** Holds the app instance */
   public app: Kernel;
 
@@ -116,14 +121,14 @@ export class Validator implements ValidatorContract {
     let result: ValidationResult = { passed: true };
 
     this.args.commands.forEach((argCommand) => {
-      const command: Command | undefined = Util.findCommandFromArgs(
+      const command: Command | undefined = findCommandFromArgs(
         this.app.commands,
         argCommand,
       );
 
       if (command && command.hasRequiredOptions()) {
         const notFound = command.requiredOptions.filter((option: Option) => {
-          return !Util.optionIsInArgs(option, this.args);
+          return !isOptionInArgs(option, this.args);
         });
 
         if (notFound.length) {
@@ -144,7 +149,7 @@ export class Validator implements ValidatorContract {
     let result: ValidationResult = { passed: true };
     if (this.args.commands.length > 0) {
       this.args.commands.forEach((argCommand) => {
-        const command: Command | undefined = Util.findCommandFromArgs(
+        const command: Command | undefined = findCommandFromArgs(
           this.app.commands,
           argCommand,
         );
@@ -172,14 +177,14 @@ export class Validator implements ValidatorContract {
     let result: ValidationResult = { passed: true };
 
     this.app.on_commands.forEach((onCommand: OnCommand) => {
-      const command: Command | undefined = Util.findCommandFromArgs(
+      const command: Command | undefined = findCommandFromArgs(
         this.app.commands,
         onCommand.arg,
       );
 
-      const option: Option | undefined = Util.findOptionFromArgs(
+      const option: Option | undefined = findOptionFromArgs(
         this.app.BASE_COMMAND.options,
-        Helper.noDashesTrimSpaces(onCommand.arg),
+        trimDashesAndSpaces(onCommand.arg),
       );
 
       if (!command && !option) {
@@ -199,7 +204,7 @@ export class Validator implements ValidatorContract {
     let result: ValidationResult = { passed: true };
 
     this.app.available_actions.forEach((command: Command) => {
-      if (Util.isCommandInArgs(command, this.args)) {
+      if (isCommandInArgs(command, this.args)) {
         if (command.action.length == 0) {
           command.action();
         } else if (command.action.length == 1) {
@@ -223,7 +228,7 @@ export class Validator implements ValidatorContract {
     let result: ValidationResult = { passed: true };
 
     this.args.commands.forEach((arg: string) => {
-      const found = Util.argIsInAvailableCommands(this.app.commands, arg);
+      const found = isArgInAvailableCommands(this.app.commands, arg);
       if (!found) {
         result = {
           passed: false,
@@ -241,18 +246,18 @@ export class Validator implements ValidatorContract {
     let result: ValidationResult = { passed: true };
 
     this.args.commands.forEach((argCommand) => {
-      const command: Command | undefined = Util.findCommandFromArgs(
+      const command: Command | undefined = findCommandFromArgs(
         this.app.commands,
         argCommand,
       );
 
       if (command) {
         for (const key in this.args.options) {
-          const found_in_base_commands = Util.argIsInAvailableOptions(
+          const found_in_base_commands = isArgInAvailableOptions(
             this.app.BASE_COMMAND.options,
             key,
           );
-          const found_in_all_commands = Util.argIsInAvailableOptions(
+          const found_in_all_commands = isArgInAvailableOptions(
             command.options,
             key,
           );
@@ -298,7 +303,7 @@ export class Validator implements ValidatorContract {
     let result: ValidationResult = { passed: true };
 
     for (const key in this.args.options) {
-      const option: Option | undefined = Util.findOptionFromArgs(
+      const option: Option | undefined = findOptionFromArgs(
         this.app.BASE_COMMAND.options,
         key,
       );

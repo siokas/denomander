@@ -145,7 +145,7 @@ test("custom_option_object", function () {
   const program = new Denomander();
   const args = ["foo", "-m", "test"];
 
-  const messageOption = new Option({
+  const messageOption = new Option.default({
     flags: "-m --message",
     description: "A nice description!",
     isRequired: false,
