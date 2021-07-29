@@ -145,8 +145,7 @@ export abstract class Kernel {
     return this.detectEmptyArgs()
       .detectDefaultOptions()
       .detectBaseCommandOptions()
-      .setupGlobalOptions()
-      .detectSpreadOperator();
+      .setupGlobalOptions();
   }
 
   /** Executes default commands (--help, --version) */
@@ -233,17 +232,6 @@ export abstract class Kernel {
       });
     });
 
-    return this;
-  }
-
-  protected detectSpreadOperator(): Kernel {
-    this.commands.map((command: Command) => {
-      command.command_arguments.forEach((commandArg: CommandArgument) => {
-        if (commandArg.argument.includes("...")) {
-          // console.log(command);
-        }
-      });
-    });
     return this;
   }
 
