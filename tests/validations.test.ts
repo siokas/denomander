@@ -66,7 +66,7 @@ test("validation_command_with_required_argument_throws_error", function () {
 test("validation_option_choices", function () {
   const program = new Denomander({ throw_errors: true });
   const args = ["choose", "-c", "five"];
-  const customOption = new Option.default({
+  const customOption = new Option({
     flags: "-c --choice",
     description: "Choose one of the following",
   }).choices(["one", "two", "three"]);
