@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows, test } from "../deps.ts";
+import { assertThrows, test } from "../deps.ts";
 import { Option } from "./../mod.ts";
 import Denomander from "../src/Denomander.ts";
 
@@ -77,5 +77,23 @@ test("validation_option_choices", function () {
     },
     Error,
     program.errors.OPTION_CHOICE,
+  );
+});
+
+test("validation_arg_description", function () {
+  const program = new Denomander({ throw_errors: true });
+  const args = ["mv . /"];
+
+  assertThrows(
+    () => {
+      program
+        .command("mv [from] [to]")
+        .argDescription("from", "Source Folder")
+        .argDescription("tos", "Destination Folder") // Deliberatly add a typo to throw an error
+        .parse(args);
+    },
+    Error,
+    "tos",
+    "You are trying to add a description for the argument tos which is not defined!",
   );
 });

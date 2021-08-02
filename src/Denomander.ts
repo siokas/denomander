@@ -151,4 +151,10 @@ export default class Denomander extends Kernel implements PublicAPI {
 
     return this;
   }
+
+  public argDescription(arg: string, description: string): Denomander {
+    const command: Command = this.commands.slice(-1)[0];
+    command.setArgDescription(arg, description);
+    return this;
+  }
 }

@@ -108,6 +108,12 @@ export type CommandArgument = {
   argument: string;
   value?: any;
   isRequired: boolean;
+  description?: string;
+};
+
+export type CommandError = {
+  description: string;
+  exit: boolean;
 };
 
 export type DenomanderErrors = {
@@ -129,4 +135,5 @@ export enum ValidationRules {
   ACTIONS,
   BASE_COMMAND_OPTIONS,
   OPTION_CHOICES,
+  COMMAND_HAS_NO_ERRORS,
 }

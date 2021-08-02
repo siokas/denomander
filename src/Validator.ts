@@ -71,6 +71,8 @@ export default class Validator implements ValidatorContract {
   protected runValidations(): Array<ValidationResult> {
     return this.rules.map((rule: ValidationRules) => {
       switch (rule) {
+        case ValidationRules.COMMAND_HAS_NO_ERRORS:
+          return this.validateCommandsHasNoErrors();
         case ValidationRules.NON_DECLEARED_ARGS:
           return this.validateNonDeclearedArgs();
         case ValidationRules.REQUIRED_OPTIONS:
@@ -90,6 +92,21 @@ export default class Validator implements ValidatorContract {
           };
       }
     });
+  }
+
+  protected validateCommandsHasNoErrors(): ValidationResult {
+    let result: ValidationResult = { passed: true };
+
+    this.app.commands.map((command: Command) => {
+      if (command.errors.length > 0) {
+        result = {
+          passed: false,
+          error: new Error(command.errors[0].description),
+        };
+      }
+    });
+
+    return result;
   }
 
   /** Validates if there are non decleared arguments */

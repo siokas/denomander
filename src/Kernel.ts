@@ -180,6 +180,7 @@ abstract class Kernel {
       this.printDefaultHelp();
       Deno.exit(0);
     }
+
     return this;
   }
 

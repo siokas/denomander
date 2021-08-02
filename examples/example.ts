@@ -37,6 +37,9 @@ program
 
 program
   .command("mv [from] [to] [message?]")
+  .argDescription("from", "Source folder")
+  .argDescription("to", "Target folder")
+  .argDescription("message", "Message (Optional)")
   .action(({ from, to, message }: any) => {
     colored_output(`File is moved from ${from} to ${to}`);
     if (message) {

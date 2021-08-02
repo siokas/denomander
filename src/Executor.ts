@@ -30,6 +30,13 @@ export default class Executor {
 
   /** It prints the help screen and creates public app properties based on the name of the option */
   public defaultCommands(): Executor {
+    new Validator({
+      app: this.app,
+      args: this.args,
+      rules: [ValidationRules.COMMAND_HAS_NO_ERRORS],
+      throw_errors: this.throw_errors,
+    }).validate();
+
     if (this.args) {
       this.args.commands.forEach((argCommand) => {
         const command = findCommandFromArgs(this.app.commands, argCommand);

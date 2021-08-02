@@ -10,6 +10,7 @@ import {
 } from "./utils/detect.ts";
 import {
   CommandArgument,
+  CommandError,
   CommandOption,
   CommandParams,
   OptionParameters,
@@ -40,6 +41,9 @@ export default class Command {
 
   /** Holds the object's options initiated in constructor */
   private params: CommandParams;
+
+  /** Array of all command errors */
+  private _errors: Array<CommandError> = [];
 
   /** Constructor of Command object */
   constructor(params: CommandParams) {
@@ -168,6 +172,21 @@ export default class Command {
     }
   }
 
+  public setArgDescription(arg: string, description: string) {
+    const argument = this.command_arguments.find(
+      (command) => command.argument === arg,
+    );
+    if (argument) {
+      argument.description = description;
+    } else {
+      this._errors.push({
+        description:
+          `You are trying to add a description for the argument "${arg}" which is not defined!`,
+        exit: true,
+      });
+    }
+  }
+
   /** Gets the usage of the command (used in help screen) */
   get usage(): string {
     let text = "";
@@ -215,5 +234,9 @@ export default class Command {
   /** Setter of the command action (callback function) */
   set action(callback: Function) {
     this.params.action = callback;
+  }
+
+  get errors(): Array<CommandError> {
+    return this._errors;
   }
 }

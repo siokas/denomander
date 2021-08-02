@@ -64,9 +64,15 @@ export function printCommandHelp(command: Command) {
   if (command.command_arguments.length > 0) {
     console.log(yellow(bold("Arguments:")));
     command.command_arguments.forEach((commandArg: CommandArgument) => {
-      console.log(
-        green(`${commandArg.argument}${commandArg.isRequired ? "" : "?"}`),
+      let helpText = green(
+        `${commandArg.argument}${commandArg.isRequired ? "" : "?"}`,
       );
+
+      if (commandArg.description) {
+        helpText = helpText + " \t" + commandArg.description;
+      }
+
+      console.log(helpText);
     });
     console.log();
   }
