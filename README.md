@@ -205,6 +205,29 @@ program.parse(Deno.args);
 // Command action calback is called in all 3 command names (actual command and two aliases)
 ```
 
+#### Parse args with spread operator
+
+You have to option to catch the rest of the args passed from the user (in an
+array)
+
+```typescript
+program
+  .command("find [args...]")
+  .action(({ args }: any) => {
+    console.log(`Files to find (${args.length}): `);
+    console.log(args);
+  })
+  .description("find file");
+
+program.parse(Deno.args);
+
+// Command example:
+
+// > find file1 file2 file3
+// Files to find (3):
+// [ "file1", "file2", "file3" ]
+```
+
 #### Action Handler
 
 > The argument(s) passed in the callback function is now an object so you may
@@ -275,6 +298,31 @@ program
 program.parse(Deno.args);
 
 // Command action calback is called in all 3 command names (actual command and two aliases)
+```
+
+### Sub Commands
+
+After the command declaration you have the option to declare as many sub-command
+as you want. You may add an action and description for each one.
+
+```typescript
+const parent = program.command("parent");
+
+parent
+  .subCommand("child1", "test")
+  .action(() => {
+    console.log("parent + child 1 commands");
+  })
+  .description("Sub Command Implementation");
+
+parent
+  .subCommand("child2", "test")
+  .action(() => {
+    console.log("parent + child 2 commands");
+  })
+  .description("Another Sub Command Implementation");
+
+program.parse(Deno.args);
 ```
 
 ### Option to Change Default Commands (help, version)

@@ -45,6 +45,10 @@ export default class Command {
   /** Array of all command errors */
   private _errors: Array<CommandError> = [];
 
+  private _parentCommand?: Command;
+
+  private _subCommands: Array<Command> = [];
+
   /** Constructor of Command object */
   constructor(params: CommandParams) {
     this.params = Object.assign(
@@ -62,6 +66,11 @@ export default class Command {
 
     if (!this.params.value) {
       throw new ReferenceError("You have to specify the command");
+    }
+
+    if (this.params.subCommand) {
+      this._parentCommand = this.params.subCommand.parent;
+      this.params.subCommand.parent.addSubCommand(this);
     }
 
     this.declaration = this.params.value;
@@ -110,6 +119,10 @@ export default class Command {
     this.aliases.push(alias);
 
     return this;
+  }
+
+  public addSubCommand(command: Command) {
+    this._subCommands.push(command);
   }
 
   public hasOptions(): boolean {
@@ -187,6 +200,14 @@ export default class Command {
     }
   }
 
+  public hasSubCommands() {
+    return this._subCommands.length > 0;
+  }
+
+  public isSubCommand() {
+    return this.parentCommand ? true : false;
+  }
+
   /** Gets the usage of the command (used in help screen) */
   get usage(): string {
     let text = "";
@@ -238,5 +259,13 @@ export default class Command {
 
   get errors(): Array<CommandError> {
     return this._errors;
+  }
+
+  get subCommands(): Array<Command> {
+    return this._subCommands;
+  }
+
+  get parentCommand(): Command | undefined {
+    return this._parentCommand;
   }
 }

@@ -56,6 +56,22 @@ program
   })
   .description("find file");
 
+const parent = program.command("parent");
+
+parent
+  .subCommand("child1", "test")
+  .action(() => {
+    console.log("parent + child 1 commands");
+  })
+  .description("Sub Command Implementation");
+
+parent
+  .subCommand("child2", "test")
+  .action(() => {
+    console.log("parent + child 2 commands");
+  })
+  .description("Another Sub Command Implementation");
+
 program.on("quiet", () => {
   console.log("Enable Quiet Mode...");
 });

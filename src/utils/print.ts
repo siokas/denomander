@@ -1,4 +1,4 @@
-import { bold, green, red, yellow } from "../../deps.ts";
+import { blue, bold, green, red, yellow } from "../../deps.ts";
 import Command from "../Command.ts";
 import { AppDetails, CommandArgument } from "../types/types.ts";
 
@@ -48,13 +48,27 @@ export function print_help(
 /** Print the help screen for a specific command */
 export function printCommandHelp(command: Command) {
   console.log();
+  if (command.hasSubCommands()) {
+    console.log(yellow(bold("Subcommands:")));
+    command.subCommands.map((subCommand: Command) => {
+      console.log(subCommand.word_command);
+    });
+    console.log();
+  }
+  if (command.isSubCommand()) {
+    console.log(yellow(bold("Parent Command:")));
+    console.log(command.parentCommand?.word_command);
+    console.log();
+  }
   if (command.description) {
     console.log(yellow(bold("Description:")));
     console.log(command.description);
     console.log();
   }
   console.log(yellow(bold("Command Usage:")));
-  if (command.hasOptions()) {
+  if (command.hasSubCommands()) {
+    console.log(command.usage + " {Subcommand}");
+  } else if (command.hasOptions()) {
     console.log(command.usage + " {Options}");
   } else {
     console.log(command.usage);

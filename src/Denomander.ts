@@ -7,6 +7,8 @@ import { CommandOption, VersionType } from "./types/types.ts";
 
 /** The main class */
 export default class Denomander extends Kernel implements PublicAPI {
+  public lastCommand?: Command;
+
   /** Parses the args*/
   public parse(args: Array<string>) {
     this.args = new Arguments(args);
@@ -97,6 +99,31 @@ export default class Denomander extends Kernel implements PublicAPI {
 
     if (action) {
       this.action(action);
+    }
+
+    this.lastCommand = new_command;
+
+    return this;
+  }
+
+  /** Implements the option command */
+  public subCommand(
+    value: string,
+    description?: string,
+    action?: Function,
+  ): Denomander {
+    if (this.lastCommand) {
+      const parentCommand: Command = this.lastCommand;
+      const new_command: Command = new Command({
+        value,
+        description,
+        subCommand: { parent: parentCommand },
+      });
+      this.commands.push(new_command);
+
+      if (action) {
+        this.action(action);
+      }
     }
 
     return this;

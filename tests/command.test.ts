@@ -57,3 +57,15 @@ test("command_alias", function () {
   assertEquals(command.hasAlias(), true);
   assertEquals(command.aliases, ["alias1", "alias2"]);
 });
+
+test("sub_commands", function () {
+  const parent_command = new Command({ value: "parent" });
+  const sub_command = new Command({
+    value: "child",
+    subCommand: { parent: parent_command },
+  });
+
+  assertEquals(parent_command.hasSubCommands(), true);
+  assertEquals(parent_command.subCommands.includes(sub_command), true);
+  assertEquals(sub_command.parentCommand, parent_command);
+});

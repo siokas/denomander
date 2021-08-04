@@ -37,6 +37,7 @@ export type CommandParams = {
   value: string;
   description?: string;
   action?: Function;
+  subCommand?: { parent: Command };
 };
 
 /** Defines the args */
