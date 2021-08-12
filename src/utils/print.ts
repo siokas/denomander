@@ -38,11 +38,13 @@ export function printHelp(
 
   console.log();
 
-  console.log(yellow(bold("Commands:")));
-  commands.forEach((command) => {
-    console.log(command.value + " \t " + command.description);
-  });
-  console.log();
+  if (commands) {
+    console.log(yellow(bold("Commands:")));
+    commands.forEach((command) => {
+      console.log(command.value + " \t " + command.description);
+    });
+    console.log();
+  }
 }
 
 /** The help screen. */
