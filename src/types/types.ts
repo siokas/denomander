@@ -2,11 +2,21 @@ import Command from "../Command.ts";
 import Kernel from "../Kernel.ts";
 import Arguments from "../Arguments.ts";
 
+/** Help message formats. */
+export type HelpMode = "default" | "denomander" | "classic";
+
+/** Defines extra options for the constructor. */
+export type AppOptions = {
+  /** Help message format. */
+  help: HelpMode;
+};
+
 /** Defines the app detail types */
 export type AppDetails = {
   app_name: string;
   app_description: string;
   app_version: string;
+  options?: AppOptions;
   errors?: DenomanderErrors;
   throw_errors?: boolean;
 };

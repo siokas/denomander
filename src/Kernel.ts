@@ -6,6 +6,7 @@ import Option from "./Option.ts";
 import {
   AliasCommandBuilder,
   AppDetails,
+  AppOptions,
   CustomArgs,
   DenomanderErrors,
   KernelAppDetails,
@@ -14,7 +15,7 @@ import {
   ValidationRules,
 } from "./types/types.ts";
 import { isEmptyArgs, isOptionInArgs } from "./utils/detect.ts";
-import { print_help } from "./utils/print.ts";
+import { printHelp, printHelpClassic } from "./utils/print.ts";
 import { setOptionValue } from "./utils/set.ts";
 
 /**
@@ -64,6 +65,8 @@ abstract class Kernel {
   /** The version Option instance */
   public versionOption: Option;
 
+  public appOptions: AppOptions = { help: "default" };
+
   /** The base command is needed to hold the default options like --help, --version */
   public BASE_COMMAND: Command = new Command({
     value: "_",
@@ -99,6 +102,13 @@ abstract class Kernel {
       if (app_details.throw_errors) {
         this.throw_errors = app_details.throw_errors;
       }
+      if (app_details.options) {
+        this.appOptions = {
+          ...this.appOptions,
+          ...app_details.options
+        };
+      }
+
     }
 
     this.versionOption = this.BASE_COMMAND.addOption({
@@ -152,7 +162,7 @@ abstract class Kernel {
   /** Executes default commands (--help, --version) */
   protected execute(): Kernel {
     if (this.args) {
-      new Executor(this, this.args, this.throw_errors)
+      new Executor(this, this.args, this.throw_errors, this.appOptions.help)
         .onCommands()
         .defaultCommands()
         .commandValues()
@@ -171,7 +181,16 @@ abstract class Kernel {
       app_version: this.app_version,
     };
 
-    print_help(app_details, this.commands, this.BASE_COMMAND);
+    switch (this.appOptions.help) {
+      case "classic":
+        printHelpClassic(app_details, this.commands, this.BASE_COMMAND);
+        break;
+      case "denomander":
+      case "default":
+      default:
+        printHelp(app_details, this.commands, this.BASE_COMMAND);
+        break;
+    }
   }
 
   /** Detects if there are no args and prints the help screen */
