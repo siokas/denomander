@@ -2,15 +2,6 @@ import Command from "../Command.ts";
 import Kernel from "../Kernel.ts";
 import Arguments from "../Arguments.ts";
 
-/** Defines the app detail types. Applied only in Kernel constuctor */
-export type KernelAppDetails = {
-  app_name?: string;
-  app_description?: string;
-  app_version?: string;
-  errors?: DenomanderErrors;
-  throw_errors?: boolean;
-};
-
 /** Defines the app detail types */
 export type AppDetails = {
   app_name: string;
@@ -19,6 +10,9 @@ export type AppDetails = {
   errors?: DenomanderErrors;
   throw_errors?: boolean;
 };
+
+/** Defines the app detail types. Applied only in Kernel constuctor */
+export type KernelAppDetails = Partial<AppDetails>;
 
 /** Defines the .on() command options */
 export type OnCommand = {
