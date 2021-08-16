@@ -14,6 +14,6 @@ jobs:
       - uses: actions/checkout@master
       - uses: denolib/setup-deno@master
         with:
-          deno-version: v1.12.0
+          deno-version: v1.13.0
       - run: deno fmt --check
       - run: deno test
