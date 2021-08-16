@@ -25,7 +25,12 @@ export default class Executor {
   protected helpMode: HelpMode;
 
   /** Constructor of Executor object. */
-  constructor(app: Kernel, args: Arguments, throw_errors: boolean, helpMode: HelpMode = "default") {
+  constructor(
+    app: Kernel,
+    args: Arguments,
+    throw_errors: boolean,
+    helpMode: HelpMode = "default",
+  ) {
     this.app = app;
     this.args = args;
     this.throw_errors = throw_errors;
@@ -39,6 +44,7 @@ export default class Executor {
       args: this.args,
       rules: [ValidationRules.COMMAND_HAS_NO_ERRORS],
       throw_errors: this.throw_errors,
+      isClassic: this.app.isClassic,
     }).validate();
 
     if (this.args) {
@@ -66,12 +72,13 @@ export default class Executor {
   private printCommand(command: Command) {
     switch (this.helpMode) {
       case "classic":
-        printCommandHelpClassic(command!);
+        // this.app.BASE_COMMAND
+        printCommandHelpClassic(command!, this.app.BASE_COMMAND);
         break;
       case "default":
       case "denomander":
       default:
-        printCommandHelp(command!);
+        printCommandHelp(command!, this.app.BASE_COMMAND);
         break;
     }
   }
@@ -83,6 +90,7 @@ export default class Executor {
       args: this.args,
       rules: [ValidationRules.REQUIRED_VALUES],
       throw_errors: this.throw_errors,
+      isClassic: this.app.isClassic,
     }).validate();
 
     this.args.commands.forEach((arg: string, key: number) => {
@@ -125,6 +133,7 @@ export default class Executor {
         ValidationRules.OPTION_CHOICES,
       ],
       throw_errors: this.throw_errors,
+      isClassic: this.app.isClassic,
     }).validate();
     for (const key in this.args.options) {
       const command: Command | undefined = findCommandFromArgs(
@@ -173,6 +182,7 @@ export default class Executor {
       args: this.args,
       rules: [ValidationRules.ON_COMMANDS],
       throw_errors: this.throw_errors,
+      isClassic: this.app.isClassic,
     }).validate();
 
     this.app.on_commands.forEach((onCommand) => {

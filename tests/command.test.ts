@@ -58,6 +58,17 @@ test("command_alias", function () {
   assertEquals(command.aliases, ["alias1", "alias2"]);
 });
 
+test("default_command", function () {
+  const command = new Command({
+    value: "[msg]",
+    description: "Print a message",
+    isDefault: true,
+  });
+
+  assertEquals(command.isDefault, true);
+  assertEquals(command.word_command, "[msg]"); // Command name is still the first parameter
+});
+
 test("sub_commands", function () {
   const parent_command = new Command({ value: "parent" });
   const sub_command = new Command({

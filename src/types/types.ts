@@ -39,9 +39,11 @@ export type TempOnCommand = {
 /* Defines the Command constructor options */
 export type CommandParams = {
   value: string;
+  default?: boolean;
   description?: string;
   action?: Function;
   subCommand?: { parent: Command };
+  isDefault?: boolean;
 };
 
 /** Defines the args */
@@ -69,9 +71,10 @@ export type ValidatorOptions = {
   args: Arguments;
   rules: Array<ValidationRules>;
   throw_errors: boolean;
+  isClassic?: boolean;
 };
 
-/** Defines the Command constactor options */
+/** Defines the Command constructor options */
 export type CommandOption = {
   flags: string;
   description: string;
@@ -127,8 +130,10 @@ export type DenomanderErrors = {
   COMMAND_NOT_FOUND: string;
   REQUIRED_OPTION_NOT_FOUND: string;
   REQUIRED_VALUE_NOT_FOUND: string;
+  REQUIRED_COMMAND_VALUE_NOT_FOUND: string;
   TOO_MANY_PARAMS: string;
   OPTION_CHOICE: string;
+  ONLY_ONE_COMMAND_ALLOWED: string;
 };
 
 /* Enum containing the Validation Rules */

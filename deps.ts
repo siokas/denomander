@@ -5,6 +5,7 @@ export {
   bold,
   green,
   red,
+  reset as resetColor,
   yellow,
 } from "https://deno.land/std@0.103.0/fmt/colors.ts";
 export {

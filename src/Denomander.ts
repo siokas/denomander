@@ -11,7 +11,19 @@ export default class Denomander extends Kernel implements PublicAPI {
 
   /** Parses the args*/
   public parse(args: Array<string>) {
-    this.args = new Arguments(args);
+    // If a default command was given, add it in order to execute it.
+    const appName = this._app_name || "__DEFAULT__";
+    const hasDefault =
+      this.commands.map(({ isDefault }) => isDefault).includes(true) &&
+      args[0] !== appName;
+    let argsList = hasDefault ? [appName, ...args] : args;
+
+    // Prevent "" from messing up arg counting
+    argsList = argsList.filter((str) => str.length > 0);
+
+    // TODO: Might need to throw error if no app_name was given.
+
+    this.args = new Arguments(argsList);
     this.args.parse();
 
     this.run();
@@ -125,6 +137,28 @@ export default class Denomander extends Kernel implements PublicAPI {
         this.action(action);
       }
     }
+
+    return this;
+  }
+
+  /** Implements the option command */
+  public defaultCommand(
+    value: string,
+    description?: string,
+    action?: Function,
+  ): Denomander {
+    const new_command: Command = new Command({
+      value: `${this._app_name} ${value}`,
+      description,
+      isDefault: true,
+    });
+    this.commands.push(new_command);
+
+    if (action) {
+      this.action(action);
+    }
+
+    this.lastCommand = new_command;
 
     return this;
   }

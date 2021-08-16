@@ -49,6 +49,12 @@ export default class Command {
 
   private _subCommands: Array<Command> = [];
 
+  private _isDefault: boolean = false;
+
+  get isDefault() {
+    return this._isDefault;
+  }
+
   /** Constructor of Command object */
   constructor(params: CommandParams) {
     this.params = Object.assign(
@@ -72,6 +78,9 @@ export default class Command {
       this._parentCommand = this.params.subCommand.parent;
       this.params.subCommand.parent.addSubCommand(this);
     }
+
+    //this._isDefault = this.params.value.startsWith("__DEFAULT__ ");
+    this._isDefault = this.params.isDefault || false;
 
     this.declaration = this.params.value;
     this.generateCommand();

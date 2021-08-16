@@ -12,7 +12,7 @@ function parseInteger(value: string): number {
   return parseInt(value);
 }
 
-function upercase(text: string): string {
+function uppercase(text: string): string {
   return text.toUpperCase();
 }
 

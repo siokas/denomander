@@ -67,6 +67,13 @@ abstract class Kernel {
 
   public appOptions: AppOptions = { help: "default" };
 
+  public get isClassic() {
+    if (this.appOptions.help && this.appOptions.help === "classic") {
+      return true;
+    }
+    return false;
+  }
+
   /** The base command is needed to hold the default options like --help, --version */
   public BASE_COMMAND: Command = new Command({
     value: "_",
@@ -82,9 +89,12 @@ abstract class Kernel {
     OPTION_NOT_FOUND: "Option not found!",
     COMMAND_NOT_FOUND: "Command not found!",
     REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
-    REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
+    REQUIRED_VALUE_NOT_FOUND: "Required value is not specified!",
+    REQUIRED_COMMAND_VALUE_NOT_FOUND:
+      "Required command value is not specified!",
     TOO_MANY_PARAMS: "You have passed too many parameters",
     OPTION_CHOICE: "Invalid option choice!",
+    ONLY_ONE_COMMAND_ALLOWED: "Only one command is allowed in default mode!",
   };
 
   /** User have the option to throw the errors. by default it is not enabled */
@@ -105,10 +115,9 @@ abstract class Kernel {
       if (app_details.options) {
         this.appOptions = {
           ...this.appOptions,
-          ...app_details.options
+          ...app_details.options,
         };
       }
-
     }
 
     this.versionOption = this.BASE_COMMAND.addOption({

@@ -33,12 +33,15 @@ export default class Validator implements ValidatorContract {
   /** User have the option to throw the errors */
   public throw_errors: boolean;
 
+  private _isClassic = false;
+
   /** Constructor of the Validator object */
   constructor(options: ValidatorOptions) {
     this.app = options.app;
     this.args = options.args;
     this.rules = options.rules;
     this.throw_errors = options.throw_errors;
+    this._isClassic = options.isClassic || false;
   }
 
   /** It starts the validation process and throws the first error */
@@ -51,8 +54,12 @@ export default class Validator implements ValidatorContract {
       const error_message = failed[0].error?.message || "";
       const error_command = failed[0].command;
       const error_rest_message = failed[0].rest || "";
+
       error_log(
-        `Error ${error_command}: ${error_message} ${error_rest_message}`,
+        `Error${
+          error_command ? ` ${error_command}` : ""
+        }: ${error_message} ${error_rest_message}`,
+        this._isClassic,
       );
       Deno.exit(1);
     }
@@ -165,6 +172,15 @@ export default class Validator implements ValidatorContract {
   protected validateRequiredValues(): ValidationResult {
     let result: ValidationResult = { passed: true };
     if (this.args.commands.length > 0) {
+      const hasDefault = this.app.commands.map(({ isDefault }) => isDefault)
+        .includes(true);
+      if (hasDefault && this.app.commands.length > 1) {
+        return {
+          passed: false,
+          error: new Error(this.app.errors.ONLY_ONE_COMMAND_ALLOWED),
+        };
+      }
+
       this.args.commands.forEach((argCommand) => {
         const command: Command | undefined = findCommandFromArgs(
           this.app.commands,
@@ -176,9 +192,12 @@ export default class Validator implements ValidatorContract {
           if (commandRequiredArgs.length >= this.args.commands.length) {
             const command =
               commandRequiredArgs[commandRequiredArgs.length - 1].argument;
+            const errStr = hasDefault
+              ? this.app.errors.REQUIRED_VALUE_NOT_FOUND
+              : this.app.errors.REQUIRED_COMMAND_VALUE_NOT_FOUND;
             result = {
               passed: false,
-              error: new Error(this.app.errors.REQUIRED_VALUE_NOT_FOUND),
+              error: new Error(errStr),
               command: `[${command}]`,
             };
           }
