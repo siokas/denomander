@@ -10,9 +10,12 @@ const program = new Denomander({
     OPTION_NOT_FOUND: "Option not found!",
     COMMAND_NOT_FOUND: "Command not found!",
     REQUIRED_OPTION_NOT_FOUND: "Required option is not specified!",
-    REQUIRED_VALUE_NOT_FOUND: "Required command value is not specified!",
+    REQUIRED_VALUE_NOT_FOUND: "Required value is not specified!",
     TOO_MANY_PARAMS: "You have passed too many parameters",
     OPTION_CHOICE: "Invalid option choice!",
+    REQUIRED_COMMAND_VALUE_NOT_FOUND:
+      "Required command value is not specified!",
+    ONLY_ONE_COMMAND_ALLOWED: "Only one command is allowed in default mode!",
   },
 });
 

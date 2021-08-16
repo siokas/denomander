@@ -59,6 +59,23 @@ test("validation_command_with_required_argument_throws_error", function () {
       program.command("clone [repo]", "Clone the repo").parse(args);
     },
     Error,
+    program.errors.REQUIRED_COMMAND_VALUE_NOT_FOUND,
+  );
+});
+
+test("validation_default_command_with_required_argument_throws_error", function () {
+  const args: string[] = [];
+
+  const program = new Denomander({
+    app_name: "myapp", // default command requires app_name.
+    throw_errors: true,
+  });
+
+  assertThrows(
+    () => {
+      program.defaultCommand("[from]").parse(args);
+    },
+    Error,
     program.errors.REQUIRED_VALUE_NOT_FOUND,
   );
 });

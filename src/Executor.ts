@@ -3,10 +3,10 @@ import Kernel from "./Kernel.ts";
 import Command from "./Command.ts";
 import Option from "./Option.ts";
 import Validator from "./Validator.ts";
-import { CommandArgument, ValidationRules } from "./types/types.ts";
+import { CommandArgument, HelpMode, ValidationRules } from "./types/types.ts";
 import { isCommandInArgs, isOptionInArgs } from "./utils/detect.ts";
 import { findCommandFromArgs, findOptionFromArgs } from "./utils/find.ts";
-import { printCommandHelp } from "./utils/print.ts";
+import { printCommandHelp, printCommandHelpClassic } from "./utils/print.ts";
 import { setOptionValue } from "./utils/set.ts";
 import { trimDashesAndSpaces } from "./utils/remove.ts";
 
@@ -21,11 +21,20 @@ export default class Executor {
   /** The instance of the main app */
   protected app: Kernel;
 
+  /** Help message format mode. */
+  protected helpMode: HelpMode;
+
   /** Constructor of Executor object. */
-  constructor(app: Kernel, args: Arguments, throw_errors: boolean) {
+  constructor(
+    app: Kernel,
+    args: Arguments,
+    throw_errors: boolean,
+    helpMode: HelpMode = "default",
+  ) {
     this.app = app;
     this.args = args;
     this.throw_errors = throw_errors;
+    this.helpMode = helpMode;
   }
 
   /** It prints the help screen and creates public app properties based on the name of the option */
@@ -35,6 +44,7 @@ export default class Executor {
       args: this.args,
       rules: [ValidationRules.COMMAND_HAS_NO_ERRORS],
       throw_errors: this.throw_errors,
+      isClassic: this.app.isClassic,
     }).validate();
 
     if (this.args) {
@@ -47,7 +57,7 @@ export default class Executor {
 
             if (isOptionInArgs(option, this.args!)) {
               if (option.word_option == "help") {
-                printCommandHelp(command!);
+                this.printCommand(command!);
                 Deno.exit(0);
               }
             }
@@ -59,6 +69,20 @@ export default class Executor {
     return this;
   }
 
+  private printCommand(command: Command) {
+    switch (this.helpMode) {
+      case "classic":
+        // this.app.BASE_COMMAND
+        printCommandHelpClassic(command!, this.app.BASE_COMMAND);
+        break;
+      case "default":
+      case "denomander":
+      default:
+        printCommandHelp(command!, this.app.BASE_COMMAND);
+        break;
+    }
+  }
+
   /** It generates the command app variables (ex. program.clone="url...") */
   public commandValues(): Executor {
     new Validator({
@@ -66,6 +90,7 @@ export default class Executor {
       args: this.args,
       rules: [ValidationRules.REQUIRED_VALUES],
       throw_errors: this.throw_errors,
+      isClassic: this.app.isClassic,
     }).validate();
 
     this.args.commands.forEach((arg: string, key: number) => {
@@ -108,6 +133,7 @@ export default class Executor {
         ValidationRules.OPTION_CHOICES,
       ],
       throw_errors: this.throw_errors,
+      isClassic: this.app.isClassic,
     }).validate();
     for (const key in this.args.options) {
       const command: Command | undefined = findCommandFromArgs(
@@ -156,6 +182,7 @@ export default class Executor {
       args: this.args,
       rules: [ValidationRules.ON_COMMANDS],
       throw_errors: this.throw_errors,
+      isClassic: this.app.isClassic,
     }).validate();
 
     this.app.on_commands.forEach((onCommand) => {

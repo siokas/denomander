@@ -2,13 +2,13 @@ import Command from "../Command.ts";
 import Kernel from "../Kernel.ts";
 import Arguments from "../Arguments.ts";
 
-/** Defines the app detail types. Applied only in Kernel constuctor */
-export type KernelAppDetails = {
-  app_name?: string;
-  app_description?: string;
-  app_version?: string;
-  errors?: DenomanderErrors;
-  throw_errors?: boolean;
+/** Help message formats. */
+export type HelpMode = "default" | "denomander" | "classic";
+
+/** Defines extra options for the constructor. */
+export type AppOptions = {
+  /** Help message format. */
+  help: HelpMode;
 };
 
 /** Defines the app detail types */
@@ -16,9 +16,13 @@ export type AppDetails = {
   app_name: string;
   app_description: string;
   app_version: string;
+  options?: AppOptions;
   errors?: DenomanderErrors;
   throw_errors?: boolean;
 };
+
+/** Defines the app detail types. Applied only in Kernel constuctor */
+export type KernelAppDetails = Partial<AppDetails>;
 
 /** Defines the .on() command options */
 export type OnCommand = {
@@ -35,9 +39,11 @@ export type TempOnCommand = {
 /* Defines the Command constructor options */
 export type CommandParams = {
   value: string;
+  default?: boolean;
   description?: string;
   action?: Function;
   subCommand?: { parent: Command };
+  isDefault?: boolean;
 };
 
 /** Defines the args */
@@ -65,9 +71,10 @@ export type ValidatorOptions = {
   args: Arguments;
   rules: Array<ValidationRules>;
   throw_errors: boolean;
+  isClassic?: boolean;
 };
 
-/** Defines the Command constactor options */
+/** Defines the Command constructor options */
 export type CommandOption = {
   flags: string;
   description: string;
@@ -123,8 +130,10 @@ export type DenomanderErrors = {
   COMMAND_NOT_FOUND: string;
   REQUIRED_OPTION_NOT_FOUND: string;
   REQUIRED_VALUE_NOT_FOUND: string;
+  REQUIRED_COMMAND_VALUE_NOT_FOUND: string;
   TOO_MANY_PARAMS: string;
   OPTION_CHOICE: string;
+  ONLY_ONE_COMMAND_ALLOWED: string;
 };
 
 /* Enum containing the Validation Rules */
