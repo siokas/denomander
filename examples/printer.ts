@@ -22,6 +22,18 @@ program
   .command("warning", "Just a warning")
   .action(() => program.print().warning("This is a warning message"));
 
+program
+  .command("lighttheme", "Simple theme print commant")
+  .action(() => program.print().lightMode("This is the light mode"));
+
+program
+  .command("darktheme", "Simple theme print commant")
+  .action(() => program.print().darkMode("This is the dark mode"));
+
+program
+  .command("goldentheme", "Simple theme print commant")
+  .action(() => program.print().goldenMode("This is the golden mode"));
+
 try {
   program.parse(Deno.args);
 } catch (error) {

@@ -5,12 +5,11 @@
   "homepage": "https://github.com/siokas/denomander",
   "unstable": true,
   "unlisted": false,
-  "version": "0.9.1",
+  "version": "0.9.2",
   "releaseType": "patch",
   "files": [
     "./mod.ts",
     "./deps.ts",
-    "./bootstrap.ts",
     "./src/**/*",
     "./README.md"
   ],
