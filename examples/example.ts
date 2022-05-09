@@ -32,6 +32,10 @@ program
   });
 
 program
+  .command("info", "Just an info")
+  .action(() => program.print().info("This is an info"));
+
+program
   .command("clone [foldername]")
   .action(({ foldername }: any) => {
     colored_output("The repo is cloned into: " + foldername);

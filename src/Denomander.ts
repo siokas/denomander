@@ -4,6 +4,7 @@ import Kernel from "./Kernel.ts";
 import CustomOption from "./CustomOption.ts";
 import { PublicAPI } from "./types/interfaces.ts";
 import { CommandOption, VersionType } from "./types/types.ts";
+import Printer from "./printer/Printer.ts";
 
 /** The main class */
 export default class Denomander extends Kernel implements PublicAPI {
@@ -217,5 +218,9 @@ export default class Denomander extends Kernel implements PublicAPI {
     const command: Command = this.commands.slice(-1)[0];
     command.setArgDescription(arg, description);
     return this;
+  }
+
+  public print() {
+    return new Printer();
   }
 }
