@@ -1,15 +1,15 @@
 {
-    "name": "Deno",
-    "dockerFile": "Dockerfile",
-    "settings": {
-        "deno.enable": true,
-        "editor.formatOnSave": true,
-        "deno.suggest.imports.hosts": {
-            "https://deno.land": false
-        }
-    },
-    "extensions": [
-        "denoland.vscode-deno"
-    ],
-    "remoteUser": "vscode"
+  "name": "Deno",
+  "dockerFile": "Dockerfile",
+  "settings": {
+    "deno.enable": true,
+    "editor.formatOnSave": true,
+    "deno.suggest.imports.hosts": {
+      "https://deno.land": false
+    }
+  },
+  "extensions": [
+    "denoland.vscode-deno"
+  ],
+  "remoteUser": "vscode"
 }
