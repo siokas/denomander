@@ -2,6 +2,24 @@
   "name": "Deno",
   "dockerFile": "Dockerfile",
   "settings": {
+    "editor.lineNumbers": "off",
+    "editor.fontWeight": "400",
+    "editor.fontSize": 18,
+    "editor.minimap.enabled": false,
+    "workbench.statusBar.visible": false,
+    "explorer.openEditors.visible": 0,
+    "workbench.activityBar.visible": false,
+    "editor.tabCompletion": "on",
+    "jsannotations.enabled": true,
+    "jsannotations.fontWeight": "500",
+    "jsannotations.showFirstSpace": true,
+    "stylelint.enable": true,
+    "editor.lineHeight": 50,
+    "editor.scrollBeyondLastLine": false,
+    "editor.cursorStyle": "line-thin",
+    "workbench.sideBar.location": "right",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Operator Mono Dark Theme",
     "deno.enable": true,
     "editor.formatOnSave": true,
     "deno.suggest.imports.hosts": {
@@ -9,7 +27,9 @@
     }
   },
   "extensions": [
-    "denoland.vscode-deno"
+    "denoland.vscode-deno",
+    "Valiantsin.operatormonodarktheme",
+    "PKief.material-icon-theme"
   ],
   "remoteUser": "vscode"
 }
