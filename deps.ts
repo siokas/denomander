@@ -1,5 +1,5 @@
 export const test = Deno.test;
-export { parse } from "https://deno.land/std@0.138.0/flags/mod.ts";
+export { parse } from "https://deno.land/std@0.142.0/flags/mod.ts";
 export {
   blue,
   bold,
@@ -7,9 +7,9 @@ export {
   red,
   reset as resetColor,
   yellow,
-} from "https://deno.land/std@0.138.0/fmt/colors.ts";
+} from "https://deno.land/std@0.142.0/fmt/colors.ts";
 export {
   assert,
   assertEquals,
   assertThrows,
-} from "https://deno.land/std@0.138.0/testing/asserts.ts";
+} from "https://deno.land/std@0.142.0/testing/asserts.ts";
