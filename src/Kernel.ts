@@ -28,7 +28,7 @@ abstract class Kernel {
    * holding the values of the commands passed from the user
    */
   // deno-lint-ignore no-explicit-any
-  [key: string]: any
+  [key: string]: any;
 
   /** Holds all the commands */
   public commands: Array<Command> = [];
